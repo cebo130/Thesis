@@ -13,14 +13,19 @@
 \usetikzlibrary{arrows.meta,positioning,calc}
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage[hidelinks,linktoc=all]{hyperref}
-\usepackage{bookmark}
 \usepackage{longtable}
 \usepackage{listings}
 \lstset{showstringspaces=false}
 
+% Combined package requirements for the new cover page
+\usepackage{xcolor}
+
+% Setup hyperref and bookmark cleanly
+\usepackage[hidelinks,linktoc=all]{hyperref}
+\usepackage{bookmark}
+
 % Canonical path first; debiased folder is a secondary override/source.
-\graphicspath{{outputs/figures/}{debiased_outputs/figures/}}
+\graphicspath{{outputs/figures/}{debiased_outputs/figures/}{frontmatter/fig/}}
 
 \title{Measuring Popularity Bias, Fairness for Users, and Feedback Loops in Recommender Systems}
 \author{Cebo Mkhwanazi}
@@ -32,8 +37,43 @@
   pdfauthor={Cebo Mkhwanazi}
 }
 
-\maketitle
+% ==========================================
+% NEW COVER PAGE (REPLACED)
+% ==========================================
+\begin{titlepage}
+    \begin{tikzpicture}[remember picture, overlay]
+        \node [opacity=1.0, anchor=center] at (current page.center) 
+        {\includegraphics[width=\paperwidth]{stb-thesis-frntp.pdf}};
+    \end{tikzpicture}
 
+    \begin{center}            
+        \vfill
+        \vfill
+        \vfill
+        {\bfseries \huge Measuring Popularity Bias, Fairness for Users, and Feedback Loops in Recommender Systems \par}
+        \vfill
+        {\large by \\[5pt]}
+        {\Large Cebo Mkhwanazi} \par
+        \vfill
+        \vfill
+
+        % Masters (Research) Template Note from target cover:
+        % {\large Thesis presented in fulfilment of the requirements for the degree of \\ Master of Engineering (Electronic) in the Faculty of Engineering at Stellenbosch University \par}
+        
+        \vfill
+        
+        {\large {Supervisor}: Prof M.V. Gwetu}\par
+        {\large {Co-supervisor}: Dr S.O Sunday}
+
+        \vfill
+        {\large June 2026}
+        \vfill
+    \end{center}
+\end{titlepage}
+
+% ==========================================
+% FRONT MATTER
+% ==========================================
 \chapter*{Declaration}
 \addcontentsline{toc}{chapter}{Declaration}
 Standard Stellenbosch University declaration of original work.
