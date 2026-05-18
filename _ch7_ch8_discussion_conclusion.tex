@@ -1,0 +1,60 @@
+\chapter{Discussion}
+\label{ch:discussion}
+
+This chapter steps back from the numerical tables in Chapters~\ref{ch:exp_a}--\ref{ch:exp_c} to interpret what they jointly imply. The organising idea is the \textbf{Bias Propagation Chain} introduced in Chapter~\ref{ch:lit_review}: MNAR training logs, algorithmic objectives, segment-level service quality, and feedback-generated logs are not independent ``bias types'' but successive links of one process. The discussion below traces how the empirical results attach to each link, where they align or appear to pull in different directions, and what caveats remain after Chapter~\ref{ch:methodology}'s validity inventory.
+
+\section{Synthesis across the bias propagation chain}
+Experiment~A established that several collaborative baselines, and especially implicit ALS, concentrate recommendation mass on small item supports while collapsing catalogue coverage, with the effect orders of magnitude harsher on Takealot than on MovieLens-style corpora (Chapter~\ref{ch:exp_a}). Experiment~B then asked whether that macro pathology coincides with \emph{unequal} service to users whose histories sit in the catalogue tail: $k$-NN and random forest exhibit positive $\Delta\mathrm{RMSE}$ on multiple benchmarks, while NDCG@10 gaps separate niche and mainstream tertiles even when RMSE is artefacted by mean fallbacks for several models (Chapter~\ref{ch:exp_b}). Experiment~C closed the loop by showing how synthetic retraining under a mixed relevance--popularity click rule shifts ARP and aggregate diversity over rounds, with MovieLens~1M under SVD providing the cleanest illustration of popularity creep and TF--IDF showing relative resilience in several regimes (Chapter~\ref{ch:exp_c}). Read together, the three experiments support the view that \textbf{architecture} (collaborative versus content signal, implicit versus explicit optimisation) and \textbf{sparsity regime} jointly determine where in the chain failures become visible first.
+
+\section{Integrating macro, user-centric, and longitudinal evidence}
+\textbf{Consistency.} On dense movie data, high macro Gini for SVD/ALS coexists with segment-level NDCG penalties for neighbourhood methods and with rising SVD ARP under feedback, which is the qualitative bundle one would expect if co-occurrence structure and popularity are mutually reinforcing \citep{abdollahpouri2019managing, mansoury2020feedback}.
+
+\textbf{Tension and path dependence.} The chain is not strictly monotone: Book-Crossing under feedback produced rising aggregate diversity for SVD even as ARP moved downward (Chapter~\ref{ch:exp_c}), and Last.fm produced a negative $\Delta\mathrm{RMSE}$ for SVD despite mainstreaminess stratification (Chapter~\ref{ch:exp_b}). Such cases caution against treating any single scalar, measured once, as a sufficient welfare statistic. They also illustrate why this thesis insists on \emph{multiple} lenses (Gini, coverage, ARP, Spearman, segment NDCG, $\Delta\mathrm{RMSE}$ where valid, and longitudinal AD/ARP).
+
+\section{Comparative reading of algorithmic families}
+\textbf{Implicit ALS} emerges as the most aggressive macro concentrator in the present pipeline, particularly on Takealot, but its segment RMSE is not meaningfully comparable to collaborative baselines that expose true rating predictors because of the global mean fallback (Chapter~\ref{ch:methodology}). Interpreting ALS therefore leans on NDCG, coverage, and the feedback trajectories rather than on $\Delta\mathrm{RMSE}$.
+
+\textbf{Biased SVD} couples strong accuracy on some benchmarks with high Spearman popularity tracking and, under feedback, with rising ARP on large movie corpora, positioning it as a useful \emph{diagnostic} baseline: accurate yet still capable of concentrating exposure.
+
+\textbf{User-based $k$-NN} transparently encodes neighbourhood sparsity costs, yielding some of the largest defensible niche taxes on RMSE where graphs are thin.
+
+\textbf{TF--IDF and per-user logistic regression} decouple ranking scores from raw interaction frequency to a greater extent; they expand coverage in Experiment~A and often narrow NDCG gaps in Experiment~B, at the price that RMSE-based cross-model comparisons are structurally biased by the fallback implementation.
+
+\textbf{Random forest on identifiers} behaves as a memorising surface: strong macro concentration on Takealot alongside interpretable segment RMSE, helping separate ``geometry of latent factors'' from ``pure co-occurrence memorisation'' explanations.
+
+\section{Domain stress: Takealot and dense benchmarks}
+Takealot is not merely an additional row in heatmaps. Its combination of extreme sparsity, heavy-tailed popularity, and proprietary scale stress-tests the \textbf{Sparsity Amplification} argument from Chapter~\ref{ch:lit_review}: MNAR effects bite harder when each additional interaction is rare, collaborative factors have little orthogonal signal, and niche users sit on even thinner local subgraphs. The Takealot results therefore function as a \emph{counterfactual} to MovieLens-dominated conclusions in the survey literature \citep{klimashevskaia2024survey}: they show how fragile ``reasonable-looking'' macro metrics on dense entertainment logs can be when the same code is applied to a retail graph.
+
+\section{Threats to validity in light of the empirical narrative}
+Chapter~\ref{ch:methodology} (Section~\ref{sec:method_threats}) already lists internal, external, construct, and statistical-conclusion threats. In the \emph{light of results}, three deserve emphasis. First, $k$-core filtering on public corpora removes the sparsest users, which likely \emph{understates} tail unfairness relative to a full-marketplace deployment. Second, ALS cold-start fallbacks can trivialise recommendations for users absent from the implicit matrix, mechanically worsening concentration; Takealot ALS should be read as a warning scenario, not a calibrated production model. Third, the feedback simulator is single-seeded and not calibrated to live click propensities, so Chapter~\ref{ch:exp_c} is illustrative dynamics, not predictive digital-twin inference.
+
+\section{Implications for platforms, vendors, and auditors}
+\textbf{For marketplace operators}, the results support treating \textbf{coverage and tail exposure} as first-class KPIs alongside accuracy, and treating implicit matrix factorisation on ultra-sparse retail logs as high-risk without additional exploration mechanisms (content sides, exploration bonuses, or calibrated reranking \citep{abdollahpouri2019managing, steck2018calibrated}).
+
+\textbf{For sellers in long-tail inventory}, macro catalog starvation is not a cosmetic fairness issue but an economic visibility problem: if recommendation logs never surface a SKU, downstream learning never receives corrective signal.
+
+\textbf{For auditors and reproducibility practice}, the unified pipeline philosophy responds directly to documented failures of comparability in recommender benchmarking \citep{ferrari2019progress}: publishing preprocessing, seeds, metric code paths, and known fallbacks matters as much as publishing headline RMSE.
+
+\chapter{Conclusion}
+\label{ch:conclusion_final}
+
+\section{Overview of contributions}
+This thesis contributes a \textbf{unified offline evaluation programme} spanning six classical baselines, five datasets spanning dense movies to sparse e-commerce, and three experiment families that map cleanly onto macro fairness, user-centric disparity, and longitudinal feedback (Chapters~\ref{ch:methodology}--\ref{ch:exp_c}). It contributes a \textbf{conceptual synthesis}, the Bias Propagation Chain, that treats those families as observational scales on one causal loop rather than as disconnected problems (Chapter~\ref{ch:lit_review}). It contributes \textbf{evidence of sparsity amplification}, most starkly the interaction between implicit ALS and the Takealot catalogue, and a \textbf{transparent articulation of metric artefacts} (mean-fallback RMSE) that disciplines which claims the empirical tables can support.
+
+\section{Answers to the research questions}
+\textbf{RQ1 (macro concentration).} Collaborative latent-factor and neighbourhood methods frequently exhibit high Gini, high ARP, and low catalogue coverage relative to content-based pipelines under identical top-$K$ evaluation; the gap widens dramatically on Takealot (Chapter~\ref{ch:exp_a}).
+
+\textbf{RQ2 (segment disparities).} Niche users often pay a measurable tax in RMSE for $k$-NN and random forest, and in NDCG@10 for multiple models; content models improve ranking equity on several benchmarks but cannot be compared on segment RMSE against latent-factor models without resolving the fallback issue (Chapter~\ref{ch:exp_b}).
+
+\textbf{RQ3 (longitudinal dynamics).} Under the implemented click blend, SVD on MovieLens~1M shows rising ARP with falling aggregate diversity, whereas TF--IDF increases diversity on several corpora with gentler ARP slopes; other domains show path dependence, reinforcing that feedback effects are not universal monotonicities (Chapter~\ref{ch:exp_c}).
+
+\section{Principal implications}
+The overarching implication is \textbf{evaluative pluralism}: offline accuracy is an incomplete contract when exposure and segment-level welfare are at stake. A second implication is \textbf{domain-aware model selection}: conclusions certified on MovieLens alone are insufficient for marketplace risk management when the same algorithms can induce catalog starvation elsewhere. A third implication is \textbf{methodological hygiene}: documenting fallbacks, seeds, and simulator assumptions is part of the scientific result, not an appendix nicety \citep{ferrari2019progress}.
+
+\section{Limitations and scope}
+The study remains \textbf{offline}; no online A/B or causal deployment data are analysed. \textbf{Temporal splitting} was sacrificed for cross-model protocol consistency where timestamps are uneven. \textbf{Hyperparameters} were pragmatic defaults rather than per-dataset sweeps. \textbf{Statistical testing} is partial (Mann--Whitney for segment metrics; no classical inference for single feedback trajectories). \textbf{Deep neural recommenders} were scoped out deliberately to preserve interpretability. Each limitation narrows the claims the thesis can make, but does not erase the directional evidence where multiple independent diagnostics align.
+
+\section{Future research directions}
+Promising extensions include: \textbf{(i)}~sensitivity analysis for the feedback simulator's $\alpha$ and for reranking $\lambda$; \textbf{(ii)}~per-dataset hyperparameter search with reporting standards from \citet{ferrari2019progress}; \textbf{(iii)}~temporal and leave-last-\textit{k}-out evaluation where timestamps permit; \textbf{(iv)}~item- and producer-side fairness metrics alongside consumer-centric ones \citep{burke2017multisided}; \textbf{(v)}~replacing mean-fallback RMSE with a properly calibrated rating head for content models so segment errors become commensurable; and \textbf{(vi)}~field studies or logged-bandit analyses to test whether offline diversity gains survive contact with real exploration--exploitation policies.
+
+The empirical programme in this thesis is best understood as a \textbf{necessary} step toward those richer evaluations: it maps where classical baselines break, for whom, and under what simplified dynamics, so that future work does not mistake benchmark comfort for marketplace safety.

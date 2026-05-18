@@ -1,0 +1,65 @@
+\chapter{Introduction}
+\label{ch:introduction}
+
+\section{Context and motivation}
+Personalised recommender systems are the primary mechanisms through which users discover products and media on large digital platforms, from streaming catalogues to e-commerce marketplaces. They learn from historical interactions. Because engagement is typically heavy-tailed, a small fraction of items attracts most events, and algorithms trained on those logs inherit a structural skew: they risk becoming \textbf{popularity amplifiers} that surface head items at the expense of the long tail \citep{abdollahpouri2019managing, steck2011itempopularity}. The resulting \textbf{exposure inequality} matters not only as a statistical curiosity but as a question of \emph{who} receives discovery, \emph{which} inventory obtains visibility, and \emph{how} feedback retrains the system over time.
+
+\subsection{Technical, social, and economic imperatives}
+From a \textbf{technical} perspective, optimising solely for retrospective fit (e.g.\ RMSE on observed ratings) is a weak proxy for discovery when observations are missing not at random (MNAR): users cannot rate items they never see \citep{marlin2009mnar, steck2010training}. Systems that collapse to a handful of SKUs exhibit \textbf{catalogue starvation}, exposing only a vanishing share of inventory despite nominally acceptable accuracy.
+
+From a \textbf{social} perspective, concentrated recommendations interact with concerns about filter bubbles and unequal service to users whose tastes sit off the mainstream mass \citep{pariser2011filterbubble, abdollahpouri2021usercentered}. Fairness here is treated in the \emph{consumer-segment} sense adopted later in this thesis: do niche and mainstream cohorts receive comparable ranking quality under the same protocol?
+
+From an \textbf{economic} perspective, marketplaces depend on long-tail vendors as well as blockbuster brands \citep{anderson2004long, brynjolfsson2006niches}. If recommendations never surface niche inventory, small sellers lose algorithmic visibility, and the platform's ecosystem resilience weakens.
+
+\section{Problem statement}
+Although popularity and exposure bias are widely discussed, three interlocking gaps motivate the empirical programme of this thesis:
+
+\textbf{(1) Comparative architecture across sparsity regimes.} Much work foregrounds a single family (often collaborative filtering) on dense entertainment benchmarks \citep{klimashevskaia2024survey}. There is less controlled evidence placing memory-based $k$-NN, biased matrix factorisation (SVD), implicit alternating least squares (ALS), and multiple content-based pipelines side-by-side under \emph{identical} preprocessing and evaluation rules, then repeating the comparison on an ultra-sparse proprietary retail graph.
+
+\textbf{(2) Split metrics between macro and user views.} Macro-level concentration (Gini, coverage, average recommendation popularity) and user-centric segment analyses frequently appear in different papers. This thesis evaluates both on the \emph{same} model list and datasets so that catalogue-level failure modes can be read alongside mainstream-versus-niche disparities \citep{abdollahpouri2019unfairness, leonhardt2018userfairness}.
+
+\textbf{(3) Dynamics under feedback.} Static snapshots cannot reveal whether concentration worsens when logs are repeatedly replenished from a system's own recommendations \citep{chaney2018algorithmic, mansoury2020feedback}. A stylised but explicit feedback simulator is required to contrast collaborative and content trajectories under one click rule.
+
+\section{Conceptual lens}
+Chapter~\ref{ch:lit_review} makes explicit a single organising model, the \textbf{Bias Propagation Chain}: MNAR training data and exposure-coupled objectives yield macro-level concentration; the same mechanism manifests as segment-level service gaps; retraining on system-produced logs closes a longitudinal loop. The introduction previews that structure: the empirical chapters are not three unrelated studies but three observational scales on one chain.
+
+\section{Research objectives and questions}
+The study is organised around three quantitative questions:
+
+\begin{itemize}
+  \item \textbf{RQ1:} How concentrated are recommendations across items under different algorithmic paradigms?
+  \item \textbf{RQ2:} How do accuracy and ranking metrics \emph{differ} across user segments, specifically mainstream versus niche users?
+  \item \textbf{RQ3:} Under a stylised longitudinal feedback process, how do diversity and popularity-related metrics evolve?
+\end{itemize}
+
+\noindent Directional expectations are stated as \textbf{H1--H3} in Chapter~\ref{ch:lit_review}; Chapter~\ref{ch:methodology} specifies metrics, baselines, and statistical procedures that operationalise each question.
+
+\section{Scope and limitations}
+\subsection{Focus area}
+The thesis studies \textbf{popularity bias} and \textbf{exposure bias} in offline recommender evaluation with explicit and implicit-style signals (including binned implicit feedback for Last.fm). It reports macro diagnostics (Chapter~\ref{ch:exp_a}), user-centric tertile analysis (Chapter~\ref{ch:exp_b}), and a five-round feedback simulation for SVD versus TF--IDF (Chapter~\ref{ch:exp_c}). It does \textbf{not} address demographic parity on protected attributes, producer-side revenue sharing, or live A/B tests.
+
+\subsection{Algorithms and data}
+Six interpretable baselines ($k$-NN, SVD, ALS, TF--IDF profiles, per-user logistic regression on text, random forest on identifiers) are compared on MovieLens~100K, MovieLens~1M, Last.fm~2K, Book-Crossing, and a proprietary Takealot reviews-derived corpus. Deep neural recommenders are out of scope so that failures can be traced to identifiable components \citep{ferrari2019progress, he2020lightgcn}.
+
+\subsection{Methodological boundaries}
+Offline metrics approximate, but do not replace, deployed behaviour. The feedback simulator uses a fixed Bernoulli click blend (Chapter~\ref{ch:methodology}); it is a laboratory model, not a calibrated digital twin. RMSE for several content pipelines uses a global mean fallback, which limits cross-model segment RMSE comparisons; NDCG@10 is the primary ranking-fairness metric for those models. These constraints are documented upfront because reproducibility and honest construct validity are part of the contribution \citep{ferrari2019progress}.
+
+\section{Contributions}
+This thesis makes four main contributions:
+\begin{enumerate}
+  \item \textbf{Unified evaluation protocol.} A single codebase (\texttt{run\_all.py}; \texttt{run\_takealot\_full.py} for Takealot) applies matched splitting, $k$-core rules on public corpora, top-$K$ generation, metric computation, and (where exported) non-parametric tests, responding to reproducibility concerns in recommender benchmarking \citep{ferrari2019progress}.
+  \item \textbf{Cross-domain evidence with a sparsity stress test.} Pairing four public benchmarks with Takealot isolates how the \emph{same} algorithms behave when bipartite density falls by orders of magnitude, documenting extreme concentration for implicit ALS alongside comparatively dispersed content-based rankings.
+  \item \textbf{Integrated macro, user-centric, and longitudinal analysis.} The three experiments are designed as successive links of one bias chain (Chapter~\ref{ch:lit_review}), enabling readers to connect catalogue starvation, niche taxes, and simulated popularity creep within one narrative.
+  \item \textbf{Explicit mitigation and artefact analysis.} A popularity-aware SVD re-ranker illustrates post-processing without retraining, and the thesis states which fairness conclusions are invalidated by mean-fallback RMSE so that later chapters are not over-interpreted.
+\end{enumerate}
+
+\section{Organisation of the thesis}
+\begin{itemize}
+  \item \textbf{Chapter~\ref{ch:lit_review}} reviews collaborative and content paradigms, MNAR foundations, macro bias metrics, user-centric fairness, feedback models, mitigations, and the research gap; it introduces the Bias Propagation Chain, formal construct definitions, hypotheses H1--H3, and the sparsity amplification conjecture.
+  \item \textbf{Chapter~\ref{ch:methodology}} states the positivist empirical design, datasets, preprocessing ($k$-core, splits), the six baselines, metric definitions mapped to RQ1--RQ3, the stochastic click model, statistical testing, threats to validity, and reproducibility commitments.
+  \item \textbf{Chapter~\ref{ch:exp_a}} answers RQ1 with Gini, coverage, ARP, Spearman diagnostics, and Takealot contrasts, including an SVD re-ranking intervention.
+  \item \textbf{Chapter~\ref{ch:exp_b}} answers RQ2 with mainstreaminess tertiles, $\Delta$RMSE (where valid), NDCG@10, and illustrative significance checks.
+  \item \textbf{Chapter~\ref{ch:exp_c}} answers RQ3 with five-round SVD versus TF--IDF trajectories in aggregate diversity and ARP.
+  \item \textbf{Chapter~\ref{ch:discussion}} synthesises cross-experiment findings, domain implications, and validity lessons.
+  \item \textbf{Chapter~\ref{ch:conclusion_final}} summarises contributions, restates answers to RQ1--RQ3, and outlines future work.
+\end{itemize}

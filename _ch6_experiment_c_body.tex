@@ -1,0 +1,71 @@
+\chapter{Experiment C: Longitudinal Feedback Dynamics}
+\label{ch:exp_c}
+
+\section{Purpose and alignment with the research design}
+Experiment~C addresses \textbf{RQ3}: how popularity- and diversity-related metrics evolve when a recommender is repeatedly retrained on logs that are themselves produced by the system. It tests \textbf{Hypothesis~H3} from Chapter~\ref{ch:lit_review}: under iterative retraining with synthetic clicks drawn from a mixed relevance--popularity rule, collaborative trajectories should exhibit \emph{rising} ARP and \emph{contracting} aggregate diversity, whereas TF--IDF trajectories should be flatter or recovering because item--text similarity does not require dense co-occurrence refresh \citep{chaney2018algorithmic, mansoury2020feedback}. Metrics and the click model are defined in Chapter~\ref{ch:methodology}, Sections~\ref{sec:method_metrics_rq3} and~\ref{sec:method_click}. As noted there, findings are \textbf{descriptive}: each model--dataset path is a single realised trajectory, not a distribution over seeds.
+
+\section{Simulation protocol}
+The implementation in \texttt{run\_all.py} proceeds as follows (see also Chapter~\ref{ch:methodology} for notation):
+\begin{enumerate}
+  \item \textbf{Initial log.} Starting from the $k$-core filtered corpus (Chapter~\ref{ch:methodology}), an \textbf{80\%} pseudo-random subsample of all interaction rows forms $\mathcal{D}_0$ for both arms (\texttt{train\_test\_split(..., test\_size=0.2, random\_state=42)} on the full rating table; the held-out $20\%$ is not consumed inside the loop). The same user set is threaded through all rounds.
+  \item \textbf{Models.} Only \textbf{SVD} (biased matrix factorisation via Surprise) and \textbf{TF--IDF} profile recommendations are simulated, trained afresh on the current log each round.
+  \item \textbf{Recommendations.} Each active user receives the top-\textbf{five} unseen items under the model's scoring rule; SVD uses min--max normalised predicted ratings as relevance, TF--IDF uses cosine scores on TF--IDF vectors built from the current training catalogue.
+  \item \textbf{Clicks.} For each recommended slot, a Bernoulli draw uses $\mathrm{clip}(0.7\,\mathrm{Rel}+0.3\,\tilde{P},[0,1])$ with $\tilde{P}$ the min--max normalised training popularity in the \emph{current} log (Section~\ref{sec:method_click}). Accepted clicks append a rating of $5.0$; duplicate $(u,i)$ pairs keep the latest event.
+  \item \textbf{Horizon.} Rounds $t=1,\ldots,5$ repeat training $\rightarrow$ recommendation $\rightarrow$ augmentation for each model on its own growing log.
+\end{enumerate}
+Public datasets use the shared loaders; Takealot uses the reviews-derived split with the same code path via \texttt{run\_takealot\_full.py}.
+
+\section{Aggregate diversity and ARP across rounds}
+Let $\mathrm{AD}_t$ denote aggregate diversity (the number of distinct items appearing in all top-$5$ lists at round $t$) and $\mathrm{ARP}_t$ the average training popularity of recommended items at that round (Section~\ref{sec:method_metrics_rq3}). Figure~\ref{fig:feedback-diversity} overlays $\mathrm{AD}_t$ and $\mathrm{ARP}_t$ for both models across corpora.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{combined_feedback_diversity_decay.png}
+  \caption{Longitudinal feedback simulation: aggregate diversity (unique recommended items across users) and ARP by iteration, model, and dataset. Lines are traced from \texttt{combined\_feedback\_simulation\_metrics.csv} plus the Takealot export.}
+  \label{fig:feedback-diversity}
+\end{figure}
+
+Table~\ref{tab:feedback-endpoints} compresses the endpoints (iteration~1 vs.\ iteration~5) for each dataset and model; values are rounded from the pipeline CSVs.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Aggregate diversity ($\mathrm{AD}_t$) and ARP at iterations $t=1$ and $t=5$. Takealot rows are from \texttt{feedback\_simulation\_metrics\_take-a-lot-dataset.csv}; other datasets from the combined batch file.}
+  \label{tab:feedback-endpoints}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}l l rr rr@{}}
+    \toprule
+    & & \multicolumn{2}{c}{$\mathrm{AD}_1 \;\rightarrow\; \mathrm{AD}_5$} & \multicolumn{2}{c}{$\mathrm{ARP}_1 \;\rightarrow\; \mathrm{ARP}_5$} \\
+    \cmidrule(lr){3-4}\cmidrule(lr){5-6}
+    \textbf{Dataset} & \textbf{Model} & \multicolumn{2}{c}{unique items} & \multicolumn{2}{c}{mean train popularity} \\
+    \midrule
+    MovieLens 100K & SVD       & 174 & 162 & 165 & 406 \\
+    MovieLens 100K & TF--IDF  & 235 & 394 & 68  & 116 \\
+    MovieLens 1M   & SVD       & 649 & 529 & 893 & 1997 \\
+    MovieLens 1M   & TF--IDF  & 805 & 1278 & 348 & 584 \\
+    Last.fm 2K     & SVD       & 170 & 166 & 177 & 700 \\
+    Last.fm 2K     & TF--IDF  & 492 & 538 & 150 & 203 \\
+    Book-Crossing  & SVD       & 134 & 715 & 33  & 24 \\
+    Book-Crossing  & TF--IDF  & 1264 & 1404 & 21 & 32 \\
+    Takealot       & SVD       & 3196 & 4825 & 12 & 414 \\
+    Takealot       & TF--IDF  & 16693 & 16376 & 3.2 & 6.1 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+\section{Empirical patterns}
+\textbf{MovieLens 1M (SVD).} The clearest illustration of H3 is MovieLens~1M under SVD: $\mathrm{ARP}$ climbs from $\approx 893$ to $\approx 1997$ while aggregate diversity \emph{falls} from $649$ to $529$ unique items despite the log growing---the recommender concentrates on an ever-smaller effective support even as synthetic clicks accumulate. TF--IDF on the same corpus moves in the opposite direction on diversity ($805 \rightarrow 1278$) while ARP rises more modestly ($348 \rightarrow 584$), consistent with metadata-driven exploration that is less tightly coupled to co-occurrence frequency alone.
+
+\textbf{MovieLens 100K.} SVD's ARP still rises strongly ($165 \rightarrow 406$) with modest oscillation in $\mathrm{AD}_t$; TF--IDF increases both ARP and diversity ($235 \rightarrow 394$), matching the ``resilience'' pattern posited in H3 at this density.
+
+\textbf{Last.fm 2K.} SVD shows a dramatic ARP increase ($\approx 177 \rightarrow 700$) with only a small net change in aggregate diversity ($170 \rightarrow 166$), indicating that popularity mass shifts without a large change in the count of distinct surfaced items. TF--IDF grows both metrics moderately, reflecting the binned implicit--to--explicit ratings and artist-tag signal.
+
+\textbf{Book-Crossing.} SVD \emph{expands} aggregate diversity ($134 \rightarrow 715$) while \emph{reducing} ARP ($33 \rightarrow 24$). This configuration shows that the feedback loop is not a universal monotonicity machine: when the initial log is extremely sparse and head-heavy, additional clicks can reintroduce long-tail mass into the training graph and temporarily diversify recommendations even as mean popularity drifts downward. TF--IDF instead follows the more familiar pattern of rising diversity and ARP.
+
+\textbf{Takealot.} On the proprietary graph, SVD's ARP explodes from $\approx 12$ to $\approx 414$ over five rounds while aggregate diversity still increases ($3196 \rightarrow 4825$) because the absolute number of unique recommendations grows with the augmented log; interpreted alongside Experiment~A's near-degenerate one-shot ALS coverage, the ARP path is the stronger signature of popularity creep. TF--IDF keeps ARP in single digits through round~5 ($\approx 6$) with nearly flat diversity ($\approx 1.67\times 10^{4}$ items), indicating that textual similarity anchors exploration even as clicks accrete.
+
+\section{Limitations and non-inferential status}
+The simulator uses a single random seed, a fixed $\alpha=0.7$ click blend, and a five-round horizon. Chapter~\ref{ch:methodology} therefore treats trajectories as \textbf{case studies} rather than samples from a generative process: no $p$-values are attached to slopes. Sensitivity to $\alpha$, to the top-$K$ choice (five slots per user per round), and to alternative click rules (e.g.\ purely propensity-thresholded acceptance) remains open work.
+
+\section{Discussion and answer to RQ3}
+\textbf{RQ3---longitudinal dynamics:} On the densest movie benchmark (MovieLens~1M), SVD exhibits the canonical pattern of rising ARP with falling aggregate diversity under synthetic feedback, whereas TF--IDF increases diversity with a gentler ARP slope, supporting H3 in the regime where collaborative co-occurrence signal is abundant. Smaller corpora and the music domain show mixed monotonicity, and Book-Crossing under SVD inverts the diversity trend, underscoring that feedback effects are \emph{path-dependent}. Takealot highlights ARP growth under SVD even when diversity counts rise, motivating joint reading of Chapters~\ref{ch:exp_a}--\ref{ch:exp_c} for e-commerce stress tests.

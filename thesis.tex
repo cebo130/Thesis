@@ -1,0 +1,707 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,bm}
+\newcommand{\R}{\mathbb{R}}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[hidelinks,linktoc=all]{hyperref}
+\usepackage{bookmark}
+\usepackage{longtable}
+\usepackage{listings}
+\lstset{showstringspaces=false}
+
+% Canonical path first; debiased folder is a secondary override/source.
+\graphicspath{{outputs/figures/}{debiased_outputs/figures/}}
+
+\title{Measuring Popularity Bias, Fairness for Users, and Feedback Loops in Recommender Systems}
+\author{Cebo Mkhwanazi}
+\date{March 2026}
+
+\begin{document}
+\hypersetup{
+  pdftitle={Measuring Popularity Bias, Fairness for Users, and Feedback Loops in Recommender Systems},
+  pdfauthor={Cebo Mkhwanazi}
+}
+
+\maketitle
+
+\chapter*{Declaration}
+\addcontentsline{toc}{chapter}{Declaration}
+Standard Stellenbosch University declaration of original work.
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+Recommender Systems (RS) are critical tools for content discovery, yet many algorithms fail to promote diverse content, instead exhibiting a measurable popularity bias—the disproportionate recommendation of already popular items. This phenomenon leads to significant exposure disparity, reinforcing market imbalances and restricting user access to niche content. This thesis presents a rigorous empirical study that detects and quantifies inherent popularity and exposure bias across classical Collaborative Filtering (CF) architectures and Content-Based models. 
+
+Using standard benchmark datasets (MovieLens, Last.fm, Book-Crossing) alongside a proprietary, highly sparse e-commerce dataset from Takealot, the study implements a unified, three-phase evaluation framework. \textbf{Experiment A} measures macro-level exposure bias, revealing that Matrix Factorization models (SVD, ALS) act as extreme popularity amplifiers, exhibiting near-perfect Gini coefficients and collapsing catalog coverage on sparse data. \textbf{Experiment B} investigates user-centric fairness, quantifying a "niche tax" where models significantly degrade in ranking quality (NDCG@10) and predictive accuracy (RMSE) for users with non-mainstream tastes. \textbf{Experiment C} employs a longitudinal feedback simulation to demonstrate how CF models drive diversity decay over time, while content-based models show resilience against filter bubbles.
+
+The results provide quantitative evidence that architectural differences significantly contribute to bias amplification, independent of the underlying data distribution. The severe exacerbation of these biases in the sparse Takealot environment highlights the danger of relying solely on dense academic benchmarks for model selection. These findings underscore the necessity of adopting holistic evaluation metrics beyond traditional accuracy, and demonstrate that mitigating algorithmic concentration is essential to ensure long-term ecosystem health and fairness in digital platforms.
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+Thanking supervisors, funding bodies, and Takealot.
+
+\tableofcontents
+\newpage
+\listoffigures
+\listoftables
+
+\chapter*{List of Abbreviations}
+\addcontentsline{toc}{chapter}{List of Abbreviations}
+Crucial addition for CS/Data Science: Define NDCG, RMSE, SVD, ALS, TF-IDF, ARP, etc., here so you don't clutter the main text.
+
+\newpage
+
+\chapter{Introduction}
+\label{ch:introduction}
+% Sets the stage, formally states the problem, and outlines exactly what this thesis contributes.
+
+\section{Context and Motivation}
+% The explosive growth of recommender systems in digital platforms.
+Personalized recommender systems are the primary mechanisms through which users discover new content on modern digital platforms, from streaming services to large-scale e-commerce marketplaces. These systems operate by learning from historical user interactions. Because historical engagement naturally exhibits a skew where a small fraction of items receives the majority of attention, recommendation algorithms tend to learn and amplify this pattern. This phenomenon, known as popularity bias, causes systems to disproportionately recommend blockbuster items while systematically under-representing the "long tail" of the catalog.
+
+\subsection{Technical, Social, and Economic Imperatives}
+Addressing this bias is not merely a theoretical computer science problem; it is driven by critical technical, social, and economic imperatives. 
+
+From a \textbf{technical perspective}, optimizing purely for historical "accuracy" (e.g., minimizing error on past clicks) is fundamentally flawed. When algorithms act as popularity amplifiers, they fail at their primary goal of \textit{discovery}. A system that only recommends items a user would have easily found anyway provides little technical utility and suffers from catalog starvation, exposing only a fraction of the available inventory.
+
+From a \textbf{social perspective}, unchecked algorithmic bias creates profound real-world consequences, most notably the creation of "filter bubbles." When recommendation engines consistently narrow the scope of content shown to users, they limit diverse viewpoints, homogenize user experiences, and systematically disadvantage users who have unique or niche preferences. The social imperative demands systems that are fair not just to the mainstream majority, but to all consumer segments.
+
+Finally, the \textbf{economic imperative} is perhaps the most urgent for digital marketplaces. Platforms like Takealot rely on a vast ecosystem of third-party vendors. When popularity bias dictates visibility, it creates a "winner-takes-all" economy \citep{anderson2004long}. Niche vendors and emerging products are algorithmically suppressed, driving them out of the marketplace. For the platform, this reduces long-term resilience, as a healthy e-commerce ecosystem requires a thriving long tail, not just a dominant top tier.
+
+\section{Problem Statement}
+While the existence of popularity and exposure bias is documented, significant gaps remain regarding their comparative manifestation across different algorithmic families and dataset sparsity levels. The core problem explored in this research is the lack of a standardized baseline to characterize how specific architectures amplify these biases, particularly when transitioning from dense academic datasets to sparse, real-world e-commerce environments. This study addresses the following critical gaps:
+
+\begin{enumerate}
+    \item \textbf{The Matthew Effect in algorithmic cycles:} Popularity bias creates self-reinforcing cycles where mainstream dominance is reinforced at the expense of content diversity.
+    \item \textbf{Incomplete characterization across algorithms:} There is a lack of comparative analysis examining how bias propagation differs between memory-based methods ($k$-NN), model-based systems (SVD/ALS), and content-based approaches (TF-IDF, Logistic Regression).
+    \item \textbf{Insufficient user-centric analysis:} System-level statistics often overlook how different user segments (e.g., niche-focused vs. mainstream-focused) are differentially impacted, leading to an unfair "niche tax."
+    \item \textbf{Quality-bias trade-offs:} The relationship between ranking quality (e.g., NDCG) and fairness remains poorly understood in unmitigated environments.
+\end{enumerate}
+
+\section{Research Objectives and Questions}
+% * RQ1: How concentrated are recommendations across items under different algorithmic paradigms? (Maps to Chapter 4)
+% RQ2: How do accuracy and ranking metrics disparate across varying user segments, specifically mainstream vs. niche users? (Maps to Chapter 5)
+% RQ3: Under a stylized longitudinal feedback process, how do diversity and popularity-related metrics evolve? (Maps to Chapter 6)
+This study breaks them down into three main questions about what items get shown, how fair the system is to individuals, and what happens over time:
+
+\begin{itemize}
+    \item \textbf{RQ1:} How concentrated are recommendations across items under different algorithmic paradigms?
+    \item \textbf{RQ2:} How do accuracy and ranking metrics disparate across varying user segments, specifically mainstream vs. niche users?
+    \item \textbf{RQ3:} Under a stylized longitudinal feedback process, how do diversity and popularity-related metrics evolve?
+\end{itemize}
+
+\section{Scope and Limitations}
+
+\subsection{Focus Area}
+This research is scoped to focus specifically on popularity bias and exposure bias in the context of both explicit and implicit feedback recommender systems. The study explores how these biases manifest at the macro-level (catalog coverage), micro-level (user fairness), and longitudinally over time. It specifically investigates whether architectural design choices—rather than just the data—drive bias amplification.
+
+The research does \textbf{not} cover demographic or representation bias (e.g., based on gender or ethnicity), nor does it evaluate online A/B testing in live production environments, as all evaluations are conducted offline using historical datasets and simulations.
+
+\subsection{System Scale and Constraints}
+To ensure methodological rigor while maintaining feasibility, this study focuses on:
+\begin{itemize}
+    \item \textbf{Algorithms:} Well-established baseline, neighborhood, matrix factorization, and content-based algorithms. Deep learning approaches (e.g., NeuMF) requiring extensive computational resources are excluded to allow for controlled, isolated testing of foundational bias mechanisms.
+    \item \textbf{Datasets:} A mix of publicly available dense benchmarks (MovieLens, Last.fm, Book-Crossing) and a proprietary, ultra-sparse e-commerce dataset (Takealot), limiting generalizability strictly to these specific sparsity profiles.
+\end{itemize}
+
+\subsection{Methodological Limitations}
+Offline metrics are imperfect proxies for online performance and may not fully capture real-world user satisfaction. Furthermore, the longitudinal feedback loop simulation (Experiment C) relies on a stochastic user choice model; while grounded in theoretical probabilities, it cannot perfectly capture dynamic human responses. Finally, the evaluation of content-based models via RMSE introduces methodological artifacts due to the necessity of mean-fallback placeholders for unpredicted items.
+
+\section{Key Contributions}
+% Highlight the unified evaluation protocol, the contrast between public dense datasets and the sparse proprietary Takealot dataset, and the testing of debiasing interventions.
+Most research on recommender systems only looks at very dense and clean datasets, like the MovieLens movie ratings. These datasets do not look like real, messy, and very large online stores. The main new idea in this research is comparing different types of data. This thesis directly compares four standard public datasets with a huge, very sparse e-commerce dataset from the Takealot store. By comparing these, this research finds that matrix factorization models fail completely in sparse datasets, mostly showing nothing but the top few items. It also proves that content-based models naturally avoid getting trapped in filter bubbles over time.
+
+\section{Thesis Outline}
+% A brief roadmap of the remaining chapters.
+
+\chapter{Literature Review}
+\label{ch:lit_review}
+This chapter surveys recommender-system paradigms, the statistical foundations of biased feedback, the propagation of popularity and exposure bias, user-centric fairness, longitudinal dynamics, and post-processing mitigation. Throughout, the objective is not encyclopaedic coverage but to establish an intellectual corridor: each strand of prior work clarifies why a \emph{unified} evaluation of macro-level exposure, segment-level disparities, and feedback dynamics, especially under extreme catalogue sparsity, remains insufficiently evidenced in the literature that this thesis addresses.
+
+\section{Recommender systems paradigms}
+\label{sec:lit_paradigms}
+Recommender systems can be organised by the signals they exploit and the inductive biases they impose. Collaborative filtering (CF) predicts preferences from patterns of user--item interactions alone. Its earliest large-scale architecture, GroupLens for Usenet news, established the collaborative paradigm in operational form \citep{resnick1994grouplens}. Item-based $k$-nearest neighbours ($k$-NN) later scaled CF by exploiting local item--item similarity structure rather than dense user--user neighbourhoods \citep{sarwar2001item}; neighbourhood methods remain standard baselines because their predictions are transparently tied to co-occurrence statistics.
+
+Model-based CF replaces explicit similarity tables with compact latent representations. Matrix factorisation (MF) techniques, popularised through the Netflix Prize context \citep{koren2009matrix}, factorise partially observed rating matrices into low-dimensional user and item embeddings. Alternating least squares (ALS) on implicit feedback matrices \citep{hu2008collaborative} targets settings where only positive events are observed and unlabelled user--item pairs carry information through absence; the distinction between explicit ratings and implicit counts is therefore not merely representational but affects optimisation geometry and what ``missing'' means statistically.
+
+Content-based systems score items from descriptions or metadata, typically via vector-space models and similarity in feature space \citep{lops2011contentbased}. Linear classifiers on bag-of-words or TF--IDF features, and tree ensembles on tabular features, instantiate the same paradigm at different complexity levels. Hybrid systems combine collaborative and content signals \citep{adomavicius2005toward}; the present thesis instead treats families side-by-side so that architectural differences in bias amplification can be isolated.
+
+\textbf{Architectural assumptions and historical skew.}
+The architectural assumptions embedded in each paradigm have direct consequences for how algorithms encode and propagate the statistical properties of historical data, including its skew. Latent-factor models compress co-occurrence structure into smooth subspaces that favour frequent items with dense support; $k$-NN propagates support from local neighbourhoods whose effective radius shrinks in sparse graphs; content models condition on text similarity and can decouple ranking from global popularity when metadata is informative. These distinctions motivate the six baseline families evaluated empirically later: user-based $k$-NN, biased MF (SVD), implicit ALS, TF--IDF profiling, per-user logistic regression on text, and a popularity-memorising random forest on identifiers.
+
+\textbf{Deep learning and graph models (scope boundary).}
+Neural collaborative filtering \citep{he2017ncf}, neural graph collaborative filtering \citep{wang2019ngcf}, and simplified graph convolutions such as LightGCN \citep{he2020lightgcn} achieve strong accuracy on academic benchmarks. Recent work nevertheless shows that graph convolutional recommenders can \emph{amplify} popularity bias relative to simpler baselines \citep{chen2024gcnamplifypopularity}. For the present thesis, deep architectures are set aside deliberately: isolating bias mechanisms and interpreting distributional metrics requires controlled, interpretable baselines whose failure modes (e.g., collapse to a handful of items under sparsity) can be traced to identifiable components of the pipeline. The empirical contribution is therefore orthogonal to chasing state-of-the-art accuracy on dense leaderboards.
+
+While the mechanisms of collaborative and content-based scoring are well understood in isolation, far less work positions them \emph{jointly} under identical macro-, segment-, and longitudinal protocols on the same sparse e-commerce stress test; Section~\ref{sec:lit_gap} addresses that gap.
+
+\section{Theoretical foundations of bias}
+\label{sec:lit_mnar}
+Interaction logs are not a random sample of user preferences. \citet{marlin2009mnar} formalised collaborative prediction under non-random missingness, showing that missing ratings carry information about both users and items. \citet{steck2010training} proved a sharper negative result: optimising RMSE on data missing not at random (MNAR) does not generally minimise RMSE on the unbiased target one would wish to estimate. In recommender systems, missingness is intertwined with exposure: users cannot rate items they never see. The interaction log $\mathcal{D}$ in e-commerce is therefore MNAR by construction: interaction frequency correlates with past exposure, which is itself a function of prior recommendations. Algorithms trained on $\mathcal{D}$ risk learning the \emph{exposure policy} of the legacy system as much as they learn latent preference.
+
+\citet{steck2011itempopularity} further showed that standard accuracy metrics can conflate predictive skill with conformity to popularity, so that models appear ``more accurate'' when they systematically favour head items. Causal and propensity-aware learning offers principled counterfactual objectives: inverse propensity scoring (IPS) for training and evaluation \citep{schnabel2016ips} remains a gold standard for debiasing under explicit exposure models. The present thesis does \emph{not} implement IPS; the contribution is instead \emph{measurement} and comparative diagnosis, quantifying how far different architectures push recommendations along concentration, coverage, and segment disparity dimensions under realistic MNAR sparsity. MNAR provides the vocabulary in which failures such as ALS instability on ultra-sparse retail logs should be read: they are not arbitrary implementation artefacts but predictable interactions between implicit-feedback objectives and pathologically thin support.
+
+\section{Popularity and exposure bias: the propagation chain}
+\label{sec:lit_popularity}
+\textbf{Economic grounding.}
+The ``long tail'' narrative \citep{anderson2004long} posits that digital platforms can profit from aggregating demand for niche inventory. \citet{brynjolfsson2006niches} provided econometric support that long-tail sales can be substantial in aggregate on large retailers. Popularity bias in recommenders works against that advantage by reallocating visibility toward already dominant SKUs.
+
+\textbf{Early measurement and survey consolidation.}
+Novelty- and diversity-oriented evaluation surfaced popularity concentration early in the RecSys community \citep{celma2008novel}. \citet{abdollahpouri2019managing} articulated the \emph{popularity amplifier}: models not only score items by predicted relevance but inherit training-frequency structure that further elevates head items. The workshop paper of \citet{abdollahpouri2019unfairness} showed that aggregate accuracy coexists with grossly unequal exposure when measured through average recommendation popularity (ARP), Gini coefficients, and catalog coverage, metrics that tell a different story from RMSE alone.
+
+Surveys synthesise dozens of definitions and mitigation families \citep{klimashevskaia2024survey}; they also reveal that e-commerce and ultra-sparse interaction regimes remain under-represented relative to MovieLens-style benchmarks. Complementary multimedia studies employ Gini-based audits in domains with heavy-tailed popularity \citep{kowald2022multimedia}, paralleling the macro-level diagnostics used later in this thesis.
+
+\textbf{Distributional inequality.}
+The Gini coefficient is a standard inequality index for recommendation frequency vectors \citep{cowell2011measuring}. Finite-sample bias in inequality estimation is well known \citep{deltas2003gini}; large-scale simulation mitigates but does not remove sensitivity to tail noise, motivating conservative interpretation on small-catalogue slices.
+
+While macro-level bias metrics are now mainstream, their interaction with \emph{cross-algorithm} benchmarks and with \emph{segment-level} consumer disparities on the same pipeline is less standardised. The transition to user-centric fairness follows.
+
+\section{User-centric fairness and disparate impact}
+\label{sec:lit_fairness}
+\textbf{Provider versus consumer fairness.}
+\citeauthor{ekstrand2022fairness} situate fairness in recommenders along multiple stakeholder axes \citep{ekstrand2022fairness}. \citet{burke2017multisided} formalises multi-sided objectives: optimising for one side (e.g., consumers) can harm another (e.g., producers). Macro-level exposure metrics align with producer-side equity; segment RMSE and NDCG align with consumer-side equity.
+
+\textbf{Mainstreaminess, niche users, and $\Delta$GAP.}
+\citet{abdollahpouri2021usercentered} define user-centred popularity bias evaluation, mainstreaminess scores, and group-level gaps that directly inform Experiment~B in this thesis. Related longitudinal and calibration analyses connect popularity bias to time-varying disparities \citep{abdollahpouri2020multistakeholder}. Disparate impact need not be defined only on protected attributes: \citet{ekstrand2018exploringgender} document outcome disparities linked to author metadata in book recommendation, illustrating that subgroup analysis is mainstream in fairness-sensitive evaluations.
+
+\textbf{User-level (non-)aggregation.}
+\citet{leonhardt2018userfairness} argue that system-level accuracy masks per-user inequality, which motivates per-user test construction and Mann--Whitney tests between mainstream and niche cohorts. Group recommendation extends popularity-tax analyses to multi-user settings \citep{yalcin2021group}.
+
+\textbf{Accuracy--fairness tension.}
+Optimising accuracy can reduce diversity \citep{jannach2015balances}. Dynamic settings worsen the trade-off: popularity bias interacts with temporal drift \citep{zhu2021dynamicpopularity}. These strands justify reporting \emph{both} ranking quality and distributional metrics, rather than treating RMSE as sufficient welfare evidence.
+
+\section{Temporal dynamics and feedback loops}
+\label{sec:lit_temporal}
+Societal concern with shrinking information diets motivates attention to feedback, but technical argument rests on formal studies. \citet{pariser2011filterbubble} popularised the filter-bubble metaphor; economic evidence that recommenders can reduce \emph{sales} diversity predates modern deep learning \citep{fleder2009blockbuster}. \citet{chaney2018algorithmic} demonstrate algorithmic confounding: when recommendations shape subsequent consumption, na\"ive retraining homogenises users and can reduce welfare. \citet{mansoury2020feedback} provide a compact model of bias amplification across feedback cycles and motivate simulation-based study. \citet{jiang2019degenerate} show degeneracy toward trivial rankings under particular feedback regimes. Simulation-based evaluation itself requires methodological defence \citep{yao2021simulatedusers}.
+
+\textbf{Diversity at different granularities.}
+\citet{fleder2010individualdiversity} document that recommenders can increase \emph{individual} diversity while decreasing \emph{aggregate} catalogue diversity, a nuance relevant when contrasting collaborative and content-based trajectories. Recent large-scale observational work on streaming listening \citep{aridor2024originals} complements simulation evidence.
+
+While feedback-loop analyses are mature for collaborative filters, direct comparison of collaborative versus content-based dynamics under identical click-generation assumptions remains comparatively rare, and that gap is precisely the niche Experiment~C occupies in this thesis.
+
+\section{Mitigation strategies: a methodological survey}
+\label{sec:lit_mitigation}
+Mitigations are commonly grouped by \emph{when} they act: on training data, inside the objective, or on the produced ranking.
+
+\textbf{Pre-processing.}
+Rebalancing or reweighting training interactions can attenuate head domination before any latent model is fit \citep{boratto2021connecting, zhu2021opportunitybias}.
+
+\textbf{In-processing.}
+IPS and related estimators adjust losses for propensity \citep{schnabel2016ips}. Popularity-aware regularisers in learning-to-rank MF \citep{abdollahpouri2017controlling} penalise head items during training. Not all popularity signal is harmful; \citet{zhao2022benignharmful} disentangle benign versus harmful components, relevant when interpreting hybrid click models that retain a popularity channel.
+
+\textbf{Post-processing.}
+Personalised re-ranking after candidate generation is a direct antecedent to the popularity-penalty reranker evaluated in this thesis \citep{abdollahpouri2019managing}. Calibration objectives refine score-to-probability mappings \citep{steck2018calibrated}. Pairwise rank constraints embed fairness between groups at decision time \citep{beutel2019pairwise}.
+
+Post-processing is attractive when legacy models must be audited without retraining; its limitation is that it cannot correct biases rooted in missing not-at-random training support, which is another reason MNAR analysis remains central.
+
+\section{Theoretical framework}
+\label{sec:lit_theory}
+The preceding sections reviewed collaborative and content-based paradigms, MNAR foundations, macro-level popularity metrics, user-centric fairness, feedback simulations, and mitigations largely as distinct threads. This section makes explicit the \emph{single} conceptual system that the empirical programme tests. Macro-level exposure concentration, segment-level disparities, and longitudinal diversity loss are treated as three observational scales on one underlying process: the \textbf{Bias Propagation Chain}. The chain has identifiable ancestry in sociology, missing-data theory, causal exposure modelling, and fairness-aware machine learning \citep{merton1968social, rubin1976inference, little2002statistical, schnabel2016ips, barocashardt2016fairness, dwork2012fairness}.
+
+\subsection{The Bias Propagation Chain model}
+\label{sec:lit_theory_chain}
+Let $\mathcal{D}$ denote the logged user--item interaction matrix (or equivalently the set of observed events). Following \citet{rubin1976inference,little2002statistical}, missingness in $\mathcal{D}$ is not innocuous: under MNAR, the probability that an entry is observed depends on latent preference and on which items the platform has historically surfaced. \citet{schnabel2016ips} formalise the implication for evaluation: observed ratings (or clicks) are draws from the intersection of user taste and the \emph{exposure policy}, not from taste alone. Collaborative objectives fitted on $\mathcal{D}$ therefore inherit a popularity-skewed support set; latent-factor and neighbourhood methods can further \emph{amplify} head-item concentration because their inductive bias rewards co-occurrence structure that is itself popularity-shaped \citep{steck2011itempopularity, abdollahpouri2019managing}. At the macro scale this behaviour is the algorithmic analogue of cumulative advantage \citep{merton1968social}: small initial differences in visibility compound through repeated fitting on biased evidence.
+
+The same mechanism read at the \emph{user} scale becomes a question of disparate service quality: users whose tastes align with the head of the popularity distribution experience denser collaborative signal and rankings closer to the training support, whereas users in the tail face sparser neighbourhoods and systematically weaker predictions \citep{abdollahpouri2021usercentered, leonhardt2018userfairness}. Read longitudinally, recommendations alter the next round of exposures; retraining on logs produced by the system closes a feedback loop that can homogenise consumption and rankings \citep{chaney2018algorithmic, mansoury2020feedback}. These three lenses are coupled stages of one chain, not three unrelated ``bias types.'' Figure~\ref{fig:bias_propagation_chain} summarises the model used throughout later chapters.
+
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tikzpicture}[
+    font=\small,
+    box/.style={rectangle, draw=black!70, rounded corners=2.5pt, thick, align=center, inner sep=7pt, minimum height=1.05cm, text width=2.45cm},
+    edgelab/.style={font=\footnotesize, text=black, text opacity=1, fill=white, inner sep=2.2pt, rounded corners=1.5pt, draw=black!25, thin},
+    scl/.style={font=\footnotesize, text=black!90},
+    arr/.style={-{Latex[length=2.2mm]}, thick, shorten >=0.8pt, shorten <=0.8pt}
+  ]
+    \node[box] (mnar) {Biased training data\\(MNAR log $\mathcal{D}$)};
+    \node[box, right=2.15cm of mnar] (fit) {Algorithm fit\\(loss on $\mathcal{D}$)};
+    \node[box, right=2.15cm of fit] (macro) {Macro\\amplification};
+    \node[box, right=2.15cm of macro] (user) {Segment-level\\impact};
+    \node[box, right=2.15cm of user] (log) {Logged feedback\\(next exposures)};
+    \draw[arr] (mnar) -- node[above, edgelab, yshift=1pt] {train} (fit);
+    \draw[arr] (fit) -- node[above, edgelab, yshift=1pt] {score} (macro);
+    \draw[arr] (macro) -- node[above, edgelab, yshift=1pt] {serve} (user);
+    \draw[arr] (user) -- node[above, edgelab, yshift=1pt] {observe} (log);
+    \draw[arr] (log.south) -- ++(0,-1.05) -| node[pos=0.22, below, edgelab, yshift=-3pt] {\strut Retrain / next round} (mnar.south);
+    \node[scl, anchor=north] at ($(macro.south)+(0,-0.42)$) {macro scale};
+    \node[scl, anchor=north] at ($(user.south)+(0,-0.42)$) {user-centric scale};
+  \end{tikzpicture}%
+  }
+  \caption{The \emph{Bias Propagation Chain}: MNAR training data and exposure-coupled objectives produce macro-level concentration, uneven segment-level service, and feedback-generated logs that re-enter training. Macro diagnostics, user-centric tests, and longitudinal simulation (Experiments A--C) interrogate successive links of the same loop.}
+  \label{fig:bias_propagation_chain}
+\end{figure}
+
+\subsection{Constructs and formal definitions}
+\label{sec:lit_theory_constructs}
+The literature often uses ``popularity bias,'' ``exposure bias,'' and ``diversity'' interchangeably. The operational definitions below fix the quantities evaluated later and separate \emph{training-side} skew from \emph{decision-time} missingness, \emph{segment-level} welfare loss, and \emph{dynamic} narrowing.
+
+\textbf{Popularity bias (training distribution).}
+Let $f_i$ denote the empirical frequency (or implicit count) of item $i$ in $\mathcal{D}$. Popularity bias is the structural over-representation of high-$f_i$ items relative to a reference measure that would obtain under uniform sampling of user--item pairs or under an idealised uniform exposure design. It is a property of the \emph{data generating process} that produces $\mathcal{D}$, prior to any particular scoring model.
+
+\textbf{Exposure bias (surfacing and missingness).}
+For user $u$, let $P_u$ denote a latent full-information preference distribution over items and let $E_u$ denote the platform exposure distribution (which items $u$ can interact with). Observed events for $u$ are draws from a restricted support set where $E_u$ is positive; this is the recommender-system specialisation of MNAR \citep{marlin2009mnar, schnabel2016ips}. Exposure bias names the wedge between $P_u$ and what the system surfaces, \emph{including} which coordinates of $\mathcal{D}$ are ever filled. It is not reducible to ``the model likes popular items''; it is the causal structure that makes those items likelier to appear in $\mathcal{D}$ in the first place.
+
+\textbf{Niche tax (segment-level service gap).}
+Partition users into mainstream and niche cohorts using a mainstreaminess score or equivalent long-tail diagnostic \citep{abdollahpouri2021usercentered}. The niche tax is the systematic excess prediction or ranking error (e.g., higher RMSE, lower NDCG@$K$) for the niche cohort relative to the mainstream cohort \emph{under the same model and protocol}. It is an outcome disparity metric, not a property of $\mathcal{D}$ alone.
+
+\textbf{Diversity decay (longitudinal).}
+Let $R^{(t)}$ denote the multiset (or empirical distribution) of recommended items at feedback round $t$, aggregated across users. Diversity decay is the reduction over increasing $t$ in dispersion indices defined on $R^{(t)}$ (e.g., falling catalogue coverage, rising concentration), holding the simulation protocol fixed \citep{mansoury2020feedback, chaney2018algorithmic}.
+
+\textbf{Catalog starvation (extreme macro manifestation).}
+Catalog starvation is the limiting regime in which the recommended support collapses to a vanishing fraction of the catalogue (near-zero coverage, near-degenerate Gini), so that discovery for long-tail inventory effectively ceases even when overall accuracy remains misleadingly stable \citep{steck2011itempopularity}. It is the macro endpoint of the chain under extreme sparsity and strong collaborative amplification, as documented for Takealot-style logs in Experiment~A (Chapter~\ref{ch:exp_a}).
+
+Figure~\ref{fig:theory_construct_map} situates the constructs in relation to one another.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    box/.style={draw=black!70, rounded corners=2.5pt, thick, align=left, inner sep=8pt, text width=4.35cm},
+    arr/.style={-{Latex[length=2mm]}, thick},
+    arrlab/.style={font=\footnotesize, text=black, text opacity=1, align=center, fill=white, inner sep=2.5pt, rounded corners=2pt, draw=black!30, thin}
+  ]
+    \node[box] (pb) {\textbf{Popularity bias}\\Skewed item frequencies in $\mathcal{D}$ (training side).};
+    \node[box, below=1.05cm of pb] (eb) {\textbf{Exposure bias}\\Preference versus surfacing; MNAR support for each user.};
+    \node[box, below=1.05cm of eb] (nt) {\textbf{Niche tax}\\Measured mainstream versus niche quality gap.};
+    \node[box, right=3.85cm of pb, text width=4.1cm] (dd) {\textbf{Diversity decay}\\Loss of aggregate recommendation dispersion across rounds.};
+    \node[box, below=0.95cm of dd, text width=4.1cm] (cs) {\textbf{Catalog starvation}\\Extreme coverage collapse on sparse domains.};
+    \coordinate (ddinup) at ($(dd.west)+(0,0.55)$);
+    \coordinate (ddinlo) at ($(dd.west)+(0,-0.55)$);
+    \draw[arr] (pb) -- (eb);
+    \draw[arr] (eb) -- (nt);
+    % Upper elbow from popularity bias: label on the horizontal segment (no overlap with niche path).
+    \draw[arr] (pb.east) -- ++(1.05,0) coordinate (pbstub) |- (ddinup);
+    \path (pb.east) -- (pbstub) node[midway, above=3pt, arrlab] {objectives\\amplify skew};
+    % Lower elbow from niche tax: separate vertical channel and label below the upper path.
+    \draw[arr] (nt.east) -- ++(1.05,0) coordinate (ntstub) |- (ddinlo);
+    \path (nt.east) -- (ntstub) node[midway, below=3pt, arrlab] {unequal service\\feeds logs};
+    \draw[arr] (dd) -- node[right, arrlab, xshift=4pt] {limit case} (cs);
+  \end{tikzpicture}
+  \caption{Relations among constructs used in this thesis: training-side popularity skew and exposure-coupled missingness shape segment-level disparities; feedback and retraining link user-level outcomes to longitudinal diversity loss, with catalog starvation as the extreme macro outcome.}
+  \label{fig:theory_construct_map}
+\end{figure}
+
+\subsection{Hypotheses}
+\label{sec:lit_theory_hyp}
+Research Questions~1--3 (Chapter~\ref{ch:introduction}) are reframed here as directional hypotheses derived from the Bias Propagation Chain. Each maps to one experiment.
+
+\textbf{H1 (Experiment~A, RQ1).}
+Matrix factorisation and implicit ALS, by minimising squared or implicit-feedback loss on MNAR data with popularity-skewed support, concentrate recommendations on head items more strongly than content-based models whose features are not monotone in interaction counts. \emph{Directional prediction:} collaborative latent-factor and implicit baselines exhibit higher Gini / ARP and lower catalogue coverage than TF--IDF, lexical logistic, and identifier-feature baselines on matched protocols, with the gap widening under extreme sparsity (Takealot).
+
+\textbf{H2 (Experiment~B, RQ2).}
+Niche users draw on thinner collaborative neighbourhoods and fewer reliable positives for head-aligned latent factors; mainstream users align with the training support. \emph{Directional prediction:} niche cohorts show statistically higher RMSE and lower NDCG@10 than mainstream cohorts under user-based $k$-NN, biased MF/SVD, and ALS, with smaller (or reversed) gaps for content-based pipelines that partially decouple predictions from global co-occurrence.
+
+\textbf{H3 (Experiment~C, RQ3).}
+Under iterative retraining on logs generated from the system's own recommendations, collaborative models reinforce their own exposure policy: ARP rises and aggregate diversity falls across rounds. Content-based models, relying on item-feature similarity rather than re-estimating popularity from thinning interaction graphs, show weaker monotonic concentration or relative resilience. \emph{Directional prediction:} non-decreasing ARP and non-increasing coverage for collaborative trajectories versus flatter or recovering trajectories for content-based trajectories under the shared click simulator.
+
+\subsection{The Sparsity Amplification Conjecture}
+\label{sec:lit_theory_sparsity}
+Sparsity is not only a logistical difficulty; it is hypothesised to \emph{amplify} every link in Figure~\ref{fig:bias_propagation_chain}. When the number of observations per item and per user is small, each additional appearance of a head SKU constitutes a larger share of the available evidence, so MNAR popularity skew is statistically sharper relative to the noise floor. Latent factors estimated from a nearly bipartite graph lack orthogonal directions to separate niche taste from popularity, so optimisers collapse toward frequency-shaped solutions \citep{steck2010training}. Niche users meet fewer reliable neighbours, so the niche tax tightens. Post-processing mitigations that do not inject new propensity structure cannot repair missing support \citep{abdollahpouri2019managing}. Dense benchmarks therefore risk reporting \emph{stable-looking} bias that is mechanically dampened by abundant counts; the Takealot corpus functions as a stress test that makes the chain visible in magnified form. This conjecture is evaluated jointly across Chapters~\ref{ch:exp_a}--\ref{ch:exp_c} and the domain comparison to public datasets.
+
+\section{The research gap}
+\label{sec:lit_gap}
+Recent surveys \citep{klimashevskaia2024survey} subsume much of the popularity-bias literature yet still leave open several combinations that this thesis treats as a \emph{single} empirical programme. Table~\ref{tab:lit_gap} summarises coverage of four dimensions (macro bias, user-centric fairness, longitudinal dynamics, and sparse e-commerce stress) for representative foundations; cells highlight absent or partial coverage motivating the present work.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Illustrative coverage of key dimensions in selected prior work (Y\,=\,addressed; (\,Y\,)\,=\,partial; empty\,=\,not central). The final row sketches this thesis.}
+  \label{tab:lit_gap}
+  \begin{tabular}{@{}lcccc@{}}
+    \toprule
+    \textbf{Reference} & \textbf{Macro} & \textbf{User} & \textbf{Dynamic} & \textbf{Sparse e-com.} \\
+    \midrule
+    \citeauthor{abdollahpouri2019unfairness} \citeyearpar{abdollahpouri2019unfairness} & Y & (\,Y\,) & & \\
+    \citeauthor{abdollahpouri2021usercentered} \citeyearpar{abdollahpouri2021usercentered} & (\,Y\,) & Y & & \\
+    \citeauthor{mansoury2020feedback} \citeyearpar{mansoury2020feedback} & (\,Y\,) & & Y & \\
+    \citeauthor{chaney2018algorithmic} \citeyearpar{chaney2018algorithmic} & (\,Y\,) & & Y & \\
+    \citeauthor{klimashevskaia2024survey} \citeyearpar{klimashevskaia2024survey} & Y & Y & (\,Y\,) & (\,Y\,) \\
+    \midrule
+    \textbf{This thesis} & Y & Y & Y & Y \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\noindent\textbf{Claim 1: Isolated paradigms.}
+Foundational popularity-bias papers often foreground collaborative filters \citep{abdollahpouri2019unfairness, mansoury2020feedback}. Comparative benchmarking across memory-based CF, latent-factor CF, and multiple content paradigms under \emph{identical} logging assumptions is rarer.
+
+\noindent\textbf{Claim 2: Dense-benchmark dominance.}
+MovieLens, Last.fm, and related corpora dominate offline studies \citep{klimashevskaia2024survey}. Amazon-style ratings are denser than many marketplace logs; ultra-sparse regimes with interaction densities orders of magnitude smaller are under-documented.
+
+\noindent\textbf{Claim 3: Split metrics.}
+Macro-level exposure studies and user-centric segment studies frequently appear in \emph{different} papers. A unified table that reports Gini, coverage, ARP, \emph{and} mainstream--niche NDCG/RMSE gaps for the \emph{same} algorithm list is still uncommon.
+
+\noindent\textbf{Claim 4: Feedback simulations and content models.}
+Feedback-loop analyses emphasise collaborative training cycles \citep{chaney2018algorithmic, mansoury2020feedback}. Directly contrasting collaborative (SVD) and content-based (TF--IDF) trajectories under a shared stochastic click rule addresses an open methodological question: whether textual similarity can act as a diversity regulariser when feedback confounds ratings.
+
+\noindent\textbf{Claim 5: Stress-testing sparsity.}
+Dense-benchmark conclusions need not transfer directionally to proprietary retail graphs. When matrix factorisation collapses to vanishing coverage while text-based models retain dispersion, the failure is interpretable through MNAR and exposure amplification rather than through ``low accuracy'' alone.
+
+\medskip
+\noindent\textbf{Mapping claims to experiments.}
+Experiment~A (Chapter~\ref{ch:exp_a}) closes Claims~1--2 on concentration; Experiment~B (Chapter~\ref{ch:exp_b}) closes Claim~3 on segment disparity; Experiment~C (Chapter~\ref{ch:exp_c}) closes Claim~4 on dynamics; the Takealot corpus closes Claim~5 on domain stress. Together they instantiate the intersection advertised in the abstract: \emph{algorithmic bias, user-group fairness, and longitudinal dynamics} evaluated coherently, with sparse e-commerce as a counterpoint to textbook benchmarks.
+
+\chapter{Methodology and Experimental Framework}
+\label{ch:methodology}
+% The comprehensive blueprint. This merges your datasets, algorithms, and academic rigor into one cohesive foundation.
+
+\section{Research Design Overview}
+% Introduction to the three-phase pipeline (Experiment A, B, and C).
+To fully study these three bias problems in recommender systems, this study uses a clear, numbers-based plan across different types of data. The testing setup compares six types of algorithms on five different datasets. This covers both crowded movie-rating data and very sparse online shopping data.
+
+The testing plan is split into three steps:
+\begin{enumerate}
+    \item \textbf{Experiment A (Macro-Level Exposure Bias):} Checking how the system recommends items overall and how much of the store actually gets shown.
+    \item \textbf{Experiment B (User-Centric Fairness):} Grouping users by their past choices to see if the system works worse for some groups.
+    \item \textbf{Experiment C (Longitudinal Feedback Dynamics):} Running a loop that guesses user clicks over multiple steps to see what happens in the long run.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+      node distance=0.6cm and 1.0cm,
+      box/.style={rectangle, draw, rounded corners=2pt, minimum width=3.4cm, minimum height=1.15cm, align=center, font=\small},
+      arr/.style={-{Stealth[length=2.2mm]}, thick},
+    ]
+    \node[box] (a) {Experiment A\\Macro-level exposure};
+    \node[box, right=of a] (b) {Experiment B\\User-centric fairness};
+    \node[box, right=of b] (c) {Experiment C\\Feedback simulation};
+    \draw[arr] (a) -- (b);
+    \draw[arr] (b) -- (c);
+  \end{tikzpicture}
+  \caption{The three main steps of the testing plan.}
+  \label{fig:pipeline}
+\end{figure}
+
+\section{Datasets and Domains}
+% Detail MovieLens (100K/1M), Last.fm 2K, Book-Crossing, and explicitly contrast them with the schema and sparsity of the proprietary Takealot dataset.
+Standard academic datasets do not show the real problems of large, empty online stores. Because of this, the study tests models on data with different levels of crowding.
+
+\textbf{Public Datasets:}
+\begin{itemize}
+    \item \textbf{MovieLens 100K and 1M} \citep{harper2015movielens}: Crowded, clear movie datasets. The item details are simple words for movie genres.
+    \item \textbf{Last.fm 2K} \citep{cantador2011second}: A dataset showing how many times a song was played. The play numbers were grouped into clear ratings from 1 to 5. Item details are made by combining artist names and user tags.
+    \item \textbf{Book-Crossing} \citep{ziegler2005improving}: A sparse dataset of book ratings. Empty links with no real ratings were removed to keep the error testing exact.
+\end{itemize}
+
+\textbf{E-Commerce Data (Takealot Dataset):}
+To anchor the study in the real world, a large, private data snapshot from the Takealot online store was used. This dataset is special because it has a massive number of rare items and is very sparse. The inputs were taken from customer reviews, and the item details were made by linking product names, brand names, and store categories together.
+
+\section{Data Preprocessing}
+Let $G_0$ be the interaction bipartite graph. For chosen thresholds $(k_U,k_I)$ (both $10$ in code), the $k$-core filtering strategy repeats the following until convergence:
+\begin{equation}
+  \mathcal{U}_{t+1} = \bigl\{ u : \deg_{G_t}(u) \ge k_U \bigr\}, \qquad
+  \mathcal{I}_{t+1} = \bigl\{ i : \deg_{G_t}(i) \ge k_I \bigr\},
+\end{equation}
+keeping only edges between $\mathcal{U}_{t+1}$ and $\mathcal{I}_{t+1}$, then sets $G_{t+1}$ accordingly. This removes tail users and items, yielding a denser core for more stable collaborative estimates.
+
+\section{Ethics and Data Use}
+% Acknowledgement of public benchmark licenses and the specific usage constraints and anonymization of the Takealot data.
+
+\section{Algorithmic Baselines \& Constraints}
+The setup tests six recommendation models across collaborative and content-based paradigms:
+
+\begin{itemize}
+    \item \textbf{User-Based $k$-NN (Surprise):} Uses cosine similarity and user-based aggregation to provide predictions $\hat{r}_{ui}$.
+    \item \textbf{SVD (Biased Probabilistic Matrix Factorization):} Uses \texttt{surprise.SVD}, optimizing regularized squared error on observed ratings with latent factors and bias terms.
+    \item \textbf{ALS (Implicit Library):} Fits alternating least squares on a sparse user$\times$item matrix with nonzeros $r_{ui}$ from training ratings (factors$=50$, iterations$=15$, regularization$=0.01$).
+    \item \textbf{TF--IDF Profile Model:} Represents items with TF-IDF vectors $\bm{v}_i \in \R^d$ of metadata. A user $u$'s profile is $\bar{\bm{v}}_u = \frac{1}{|H_u|} \sum_{i \in H_u} \bm{v}_i$, and items are scored via cosine similarity.
+    \item \textbf{Per-User Logistic Regression:} Defines a binary label $y=1$ if $r_{ui}$ is at or above the user's median rating. A pipeline of TF-IDF and logistic regression predicts $\mathbb{P}(y=1|\text{metadata})$ for candidates.
+    \item \textbf{Random Forest on IDs:} User and item identifiers are label-encoded, and a random forest regressor predicts $\hat{r}_{ui}$ from the pair $(u,i)$ only, capturing memorized popularity structure without text.
+\end{itemize}
+
+\section{Evaluation Metrics Formulations}
+\label{sec:method_metrics_rq1}
+
+\subsection{Macro-Level Metrics (Distributional Equity)}
+
+\subsubsection*{1. Gini Index}
+The Gini Index assesses recommendation distribution inequality, showing perfect equality at 0 and maximal inequality at 1 \citep{cowell2011measuring}.
+\begin{equation}
+G = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}|x_i - x_j|}{2n^2\bar{x}}
+\end{equation}
+where $x_i$ represents the recommendation frequency of item $i$, $n$ is the total number of items, and $\bar{x}$ is the mean recommendation frequency.
+
+\subsubsection*{2. Catalogue Coverage}
+This metric quantifies the percentage of unique items recommended to users.
+\begin{equation}
+\textrm{Coverage} = \frac{|\{i \in I : \textrm{item } i \textrm{ is recommended}\}|}{|I|} \times 100\%
+\end{equation}
+where $I$ represents the full item catalogue.
+
+\subsubsection*{3. Group Average Popularity (GAP) and $\Delta$GAP}
+GAP measures the average popularity of items recommended to a user group $g$. $\Delta$GAP quantifies disparities between groups (e.g., mainstream vs. niche-focused users).
+\begin{align}
+\textrm{GAP}_g &= \frac{1}{|U_g|}\sum_{u \in U_g}\frac{1}{|R_u|}\sum_{i \in R_u}\textrm{pop}(i) \\
+\Delta\textrm{GAP} &= |\textrm{GAP}_{g1} - \textrm{GAP}_{g2}|
+\end{align}
+where $\textrm{pop}(i)$ is an item's interaction count, $U_g$ is a user group, and $R_u$ is user $u$'s recommendations.
+
+\subsubsection*{4. Exposure Fairness}
+Evaluates how equitably items are visible in recommendations using entropy $H(E)$.
+\begin{equation}
+H(E) = -\sum_{i=1}^{n}p_i\log p_i \quad \textrm{where} \quad p_i = \frac{\textrm{Exposure}(i)}{\sum_{j=1}^{n}\textrm{Exposure}(j)}
+\end{equation}
+
+\subsubsection*{5. Average Recommendation Popularity (ARP)}
+Measures the average popularity of recommended items:
+\begin{equation}
+\textrm{ARP} = \frac{1}{|U|}\sum_{u \in U} \frac{1}{|R_u|}\sum_{i \in R_u} \textrm{pop}(i)
+\end{equation}
+
+\subsection{Micro-Level Metrics (Ranking Quality \& Accuracy)}
+While macro metrics capture fairness, standard micro-level metrics including \textbf{NDCG@10} and \textbf{RMSE} are utilized to ensure that fairness interventions are evaluated against the traditional predictive baseline, observing the quality-bias trade-off curve.
+
+\section{Statistical Testing Framework}
+% Detailing the tests used (e.g., Mann-Whitney, Welch) to ensure observed differences are statistically significant.
+
+\section{Implementation and Reproducibility}
+Core numerical tooling uses NumPy and Pandas; scikit-learn supplies TF-IDF, logistic regression, random forests, and cosine similarity. Surprise provides $k$-NN and SVD (with a bias-only fallback if unavailable). ALS uses the \texttt{implicit} library. Reproducibility is guaranteed via isolated pipelines (e.g., \texttt{run\_all.py} and \texttt{run\_takealot\_full.py}). 
+
+\textbf{Known Limitations:}
+\begin{itemize}
+    \item \textbf{Segment RMSE for ALS, TF--IDF, LogReg:} The implementation assigns the global training mean prediction to every test row for RMSE computation for these models, while still computing genuine top-$K$ lists for NDCG. Therefore niche, diverse, and mainstream RMSE are \emph{identical} within each of these model families on a given dataset. Only k-NN, SVD, and Random Forest provide differentiated segment RMSE.
+    \item \textbf{ALS robustness:} Failures fall back to trivial recommendations (first catalog items), which can artifactually inflate concentration metrics.
+\end{itemize}
+
+\section{Longitudinal feedback simulator (Experiment C)}
+\label{sec:method_click}
+Synthetic clicks blend normalised model relevance $s_{ui}\in[0,1]$ with normalised training popularity $\tilde{p}_i\in[0,1]$ (min--max scaled within the current training log). Each item in the per-user top-$5$ slate is clicked independently with probability
+\begin{equation}
+  c_{ui} = \mathrm{clip}\bigl(0.7\, s_{ui} + 0.3\, \tilde{p}_i,\;[0,1]\bigr),
+\end{equation}
+followed by a Bernoulli draw. Accepted clicks append a rating of $5.0$; duplicate $(u,i)$ pairs keep the latest event. Weights $(0.7,0.3)$ match \texttt{simulate\_clicks} in \texttt{run\_all.py} and are \emph{not} calibrated to live Takealot traffic.
+
+\section{Threats to validity}
+\label{sec:method_threats}
+\textbf{Internal.} $k$-core filtering removes the sparsest users and items; mean-fallback RMSE for ALS, TF--IDF, and per-user logistic regression can hide segment-level error structure even when NDCG uses genuine ranked lists. \textbf{External.} Offline metrics omit position bias, inventory churn, and marketing interventions present in production. \textbf{Construct.} Niche versus mainstream segments are inferred from training interactions only. \textbf{Statistical.} Multiple comparisons across models and datasets are reported without a global family-wise correction; emphasis is placed on effect sizes and stability across corpora.
+
+\chapter{Experiment A: Macro-Level Exposure Bias}
+\label{ch:exp_a}
+
+\section{Purpose and alignment with the research design}
+Experiment~A addresses \textbf{RQ1} (Chapter~\ref{ch:introduction}): how concentrated recommendations are across items under different algorithmic families and domains. It operationalises \textbf{Hypothesis~H1} from Chapter~\ref{ch:lit_review}: collaborative latent-factor and implicit baselines should exhibit stronger macro-level concentration (higher Gini, lower catalogue coverage, higher ARP where applicable) than content-based pipelines under the \emph{same} preprocessing, split, and top-$K$ protocol (Chapter~\ref{ch:methodology}). Metrics follow Section~\ref{sec:method_metrics_rq1}: Gini on recommendation-slot frequencies, catalogue coverage, ARP computed from training interaction counts, Spearman rank correlation between item training popularity and recommendation-slot frequency, long-tail share (fraction of recommendations drawn from the least popular 20\% of training items), and aggregate diversity (count of distinct items recommended). RMSE is reported where the model exposes a global rating predictor in the pipeline (user-based $k$-NN, SVD, random forest).
+
+\section{Protocol and computational details}
+For each dataset, models were fit on the training fold, then each test user received a ranked list of \textbf{ten} unseen items (candidates excluded the user's training items). Recommendation lists were pooled across test users to build the item exposure histogram used for Gini, coverage, and entropy diagnostics. Popularity for ARP and for the Spearman diagnostic used \textbf{global training-set} interaction counts prior to splitting. All randomised steps matched Chapter~\ref{ch:methodology} (seeded split, fixed ALS and SVD hyperparameters). Takealot used the official train/test release without an additional $k$-core so that tail behaviour of the marketplace is visible.
+
+\section{Concentration and catalogue coverage}
+Figure~\ref{fig:macro-heatmaps} summarises the two headline diagnostics: \textbf{Gini} on the vector of per-item recommendation counts (higher means fewer items capture most slots) and \textbf{catalogue coverage} (fraction of the full item set that receives at least one recommendation slot across the test cohort).
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{combined_macro_gini_heatmap.png}
+    \caption{Gini coefficient on recommendation-slot frequencies (model $\times$ dataset).}
+    \label{fig:macro-gini}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{combined_macro_catalog_coverage_heatmap.png}
+    \caption{Catalogue coverage (\% of items ever recommended in the evaluation run).}
+    \label{fig:macro-cov}
+  \end{subfigure}
+  \caption{Macro-level exposure inequality (left) and catalogue coverage (right). Darker Gini cells indicate stronger concentration; coverage is read directly from the colour scale. Heatmaps are produced from the merged results table after \texttt{run\_all\_datasets.py} (public corpora) and the Takealot pipeline.}
+  \label{fig:macro-heatmaps}
+\end{figure}
+
+\textbf{Collaborative amplification.} Implicit ALS attains the highest Gini on every corpus in this run: $0.987$ (MovieLens~100K), $0.996$ (MovieLens~1M), $0.993$ (Last.fm~2K), $0.995$ (Book-Crossing), and $1.000$ rounded to three decimals ($0.9998$) on Takealot. Catalogue coverage collapses in parallel: $3.3\times 10^{-2}$ on MovieLens~100K, $1.9\times 10^{-2}$ on MovieLens~1M, $1.7\times 10^{-2}$ on Last.fm, $1.1\times 10^{-2}$ on Book-Crossing, and $2.9\times 10^{-4}$ on Takealot (approximately $0.00029$\% of the catalogue), with only \textbf{14} distinct items receiving any recommendation slot for ALS on Takealot. User-based $k$-NN and biased SVD remain concentrated relative to content models but are generally less extreme than ALS on coverage, which is consistent with implicit confidence weights sharpening popularity under sparsity (Chapter~\ref{ch:methodology}).
+
+\textbf{Content-based dispersal.} Per-user logistic regression achieves the highest coverage on every dataset ($0.89$--$0.95$ on public benchmarks and $0.56$ on Takealot) and the lowest Gini among non-trivial baselines on MovieLens~100K ($0.543$). TF--IDF occupies an intermediate band: strong coverage on dense movies ($0.32$--$0.36$) and nearly half of the Takealot catalogue ($0.49$) while still exhibiting moderate Gini because lexical similarity can correlate with incidental popularity in metadata.
+
+\section{Popularity amplification and tail behaviour}
+Table~\ref{tab:macro-spearman} reports the Spearman correlation between training popularity and recommendation-slot frequency. Large positive values indicate that the model allocates additional recommendation mass to already popular items beyond what a uniform allocator would imply \citep{abdollahpouri2019unfairness, steck2011itempopularity}. Table~\ref{tab:macro-aggregate} complements this with aggregate diversity (unique items recommended across the test cohort) and the long-tail share metric exported by the pipeline (fraction of slots drawn from the least popular 20\% of training items).
+
+\begin{table}[htbp]
+  \centering
+  \caption{Spearman $\rho$ between training popularity and recommendation-slot frequency (higher implies stronger popularity alignment). Values come from \texttt{combined\_macro\_bias\_metrics.csv}.}
+  \label{tab:macro-spearman}
+  \begin{tabular}{@{}l rrrrr@{}}
+    \toprule
+    \textbf{Model} & \textbf{ML-100K} & \textbf{ML-1M} & \textbf{Last.fm} & \textbf{Book-X} & \textbf{Takealot} \\
+    \midrule
+    ALS & 0.256 & 0.201 & 0.186 & 0.120 & 0.036 \\
+    SVD & 0.434 & 0.518 & 0.245 & 0.183 & 0.291 \\
+    $k$-NN & 0.341 & 0.285 & $-0.373$ & $-0.235$ & 0.224 \\
+    TF--IDF & 0.074 & 0.258 & 0.221 & 0.210 & 0.209 \\
+    LogReg & 0.132 & 0.171 & 0.172 & 0.260 & 0.156 \\
+    RandomForest & 0.292 & 0.190 & 0.130 & $-0.022$ & 0.025 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Aggregate diversity (unique recommended items) and long-tail share of recommendation slots (fraction from the least popular 20\% of training items).}
+  \label{tab:macro-aggregate}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}l rr rr rr rr rr@{}}
+    \toprule
+    & \multicolumn{2}{c}{\textbf{ML-100K}} & \multicolumn{2}{c}{\textbf{ML-1M}} & \multicolumn{2}{c}{\textbf{Last.fm}} & \multicolumn{2}{c}{\textbf{Book-X}} & \multicolumn{2}{c}{\textbf{Takealot}} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}
+    \textbf{Model} & uniq. & LT$_{20}$ & uniq. & LT$_{20}$ & uniq. & LT$_{20}$ & uniq. & LT$_{20}$ & uniq. & LT$_{20}$ \\
+    \midrule
+    ALS & 38 & 0.939 & 61 & 0.999 & 25 & 1.000 & 23 & 0.896 & 14 & 1.000 \\
+    SVD & 241 & 0.590 & 836 & 0.688 & 268 & 0.539 & 186 & 0.570 & 5824 & 0.821 \\
+    $k$-NN & 98 & 0.642 & 231 & 0.616 & 729 & 0.010 & 562 & 0.046 & 7830 & 0.575 \\
+    TF--IDF & 371 & 0.156 & 1180 & 0.287 & 673 & 0.647 & 1540 & 0.339 & 23945 & 0.305 \\
+    LogReg & 1022 & 0.231 & 3033 & 0.253 & 1435 & 0.291 & 1923 & 0.289 & 27556 & 0.203 \\
+    RandomForest & 234 & 0.535 & 204 & 0.533 & 1234 & 0.382 & 513 & 0.204 & 1217 & 0.289 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+On MovieLens~100K, SVD yields the largest Spearman $\rho$ ($0.43$), signalling tight coupling between historical popularity and the latent-factor ranking. ALS shows a smaller $\rho$ there yet worse Gini because the implicit objective reallocates mass through confidence-weighted factors rather than through a monotonic linear correlation alone. On Takealot, ALS's Spearman drops toward zero ($0.036$) even while Gini approaches unity: the model recommends essentially the same tiny support for everyone, so rank correlation against the global popularity vector is weak even though \emph{absolute} concentration is catastrophic. Random forest on IDs mirrors extreme Gini on Takealot ($0.995$) with modest Spearman, illustrating memorised co-occurrence without a smooth popularity gradient.
+
+\section{Average recommendation popularity and accuracy}
+ARP contextualises concentration: on MovieLens~1M, ALS attains ARP $\approx 1178$ training interactions per recommended item on average versus $\approx 289$ for logistic regression, despite both models seeing the same candidate generator. Takealot ARPs are numerically smaller because raw interaction counts are sparser, but the \emph{relative} ordering persists (ALS $\approx 28.7$ vs.\ LogReg $\approx 2.2$). Table~\ref{tab:macro-rmse} collects RMSE where defined; it confirms that macro-level pathology is not ``bought'' with better accuracy---SVD remains competitive on RMSE while still exhibiting high Gini.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Test RMSE for models that expose global rating-scale predictors in the macro pipeline (empty cells where RMSE is not computed in this export).}
+  \label{tab:macro-rmse}
+  \begin{tabular}{@{}l rrrrr@{}}
+    \toprule
+    \textbf{Model} & \textbf{ML-100K} & \textbf{ML-1M} & \textbf{Last.fm} & \textbf{Book-X} & \textbf{Takealot} \\
+    \midrule
+    $k$-NN & 1.004 & 0.977 & 1.392 & 1.777 & 1.021 \\
+    SVD & 0.931 & 0.873 & 0.906 & 1.496 & 0.966 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Post-processing mitigation: popularity-aware re-ranking}
+Beyond passive measurement, the pipeline evaluates a lightweight \textbf{post-processing} variant on MovieLens~100K and Takealot: \textbf{SVD+Rerank}. Starting from the vanilla SVD scoring pool (top 50 candidates by predicted rating), predictions and global training popularity counts are min--max normalised to $[0,1]$; items are re-scored as $\lambda \hat{R}_{\mathrm{norm}} - (1-\lambda) P_{\mathrm{norm}}$ with $\lambda=0.8$, then the top ten are returned \citep{abdollahpouri2019managing}. RMSE is unchanged because the underlying factoriser is identical; the intervention targets \emph{exposure shape}. In practice, re-ranking lowers ARP and raises coverage relative to plain SVD when the popularity channel is not perfectly aligned with user-specific relevance---an existence proof that post hoc constraints can partially unwind concentration without retraining (Chapter~\ref{ch:lit_review}).
+
+\section{Discussion and answer to RQ1}
+\textbf{RQ1---concentration across paradigms:} Under a unified offline protocol, implicit ALS and memory/popularity-heavy baselines systematically concentrate recommendation slots on head items, with Takealot exhibiting \textbf{catalogue starvation} for ALS. Content-based models, especially per-user logistic regression on TF--IDF features, spread mass across orders of magnitude more SKUs and yield lower Gini on dense corpora, supporting H1 at the macro scale. Spearman diagnostics show that ``amplification'' is not a single mechanism: latent-factor models can exhibit high monotonic popularity tracking (SVD on MovieLens) or near-degenerate supports with low correlation (ALS on Takealot). \textbf{Limitations:} ALS cold-start fallbacks in the implementation can default to the first catalogue positions when a user row is empty, which mechanically inflates concentration; reported Takealot ALS metrics should be read as worst-case indicators of implicit CF under extreme sparsity rather than as a calibrated production deployment. Chapter~\ref{ch:exp_b} turns to whether these macro patterns translate into unequal service quality across user segments.
+
+\chapter{Experiment B - User-Centric Fairness (The "Niche Tax")}
+\label{ch:exp_b}
+% Anchor Visual: The combined_rmse_niche_vs_mainstream.png chart.
+
+\section{User Stratification Strategy}
+For each user $u$, we define the \emph{mainstreaminess} score:
+\begin{equation}
+  M_u = \frac{1}{|H_u|} \sum_{i \in H_u} p_i ,
+\end{equation}
+where $H_u$ is user $u$'s training item set and $p_i$ is the item's global training interaction count. Users are split into tertiles based on this score: \textbf{Niche} (low $M_u$), \textbf{Diverse} (middle), and \textbf{Mainstream} (high).
+
+\section{The RMSE Methodological Artifact}
+% A deep dive into why evaluating content models via RMSE on sparse segments introduces systemic flaws due to mean-fallback placeholders.
+An important point in this test is that text-based models do not naturally guess exact rating numbers. When checking the error (RMSE) for user groups on these models, the system had to just guess the average score to make it work. Because of this, comparing RMSE mostly shows the flaws in collaborative models.
+
+\section{Predictive Disparities}
+Analysis of the $\Delta$ Accuracy metric ($\mathrm{RMSE}_{\text{niche}} - \mathrm{RMSE}_{\text{mainstream}}$) revealed that users with unique tastes frequently receive substandard algorithmic service.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{combined_fairness_gap_delta_rmse.png}
+  \caption{Fairness gap $\Delta\mathrm{RMSE} = \mathrm{RMSE}_{\text{niche}} - \mathrm{RMSE}_{\text{mainstream}}$ by dataset and model. Positive values indicate higher error for niche users. Note that content models that fall back to a global mean for rating prediction can show flat $\Delta\mathrm{RMSE}$; segment NDCG should be read alongside this chart.}
+  \label{fig:fairness-gap}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{combined_rmse_niche_vs_mainstream.png}
+  \caption{RMSE by user segment (Niche vs.\ Mainstream) across datasets and models.}
+  \label{fig:rmse-segment}
+\end{figure}
+
+\textbf{Neighborhood Penalties:} As shown in Figures \ref{fig:fairness-gap} and \ref{fig:rmse-segment}, k-NN models consistently exhibited a positive ``niche tax,'' peaking on the Book-Crossing dataset with a gap of 0.1127. This confirms that finding reliable behavioral peers for niche users in sparse data is highly challenging.
+
+\textbf{The Latent Space Anomaly:} Interestingly, SVD on Last.fm 2K produced a negative gap ($-0.1140$), indicating that matrix factorization can occasionally model niche clusters more accurately than mainstream noise.
+
+\section{Ranking Fairness (NDCG@10)}
+Evaluating the ``niche tax'' revealed the critical limitations of standard error metrics. Because content models optimize for ranking rather than explicit rating prediction, shifting the analysis to NDCG@10 exposes the true ranking disparity. On dense datasets like MovieLens 100K, content models provided significantly more equitable NDCG scores across niche and mainstream segments compared to k-NN, which heavily penalized niche users. Conversely, in the massive Takealot catalog, NDCG@10 was universally low ($< 0.02$) across all segments, indicating that the sheer scale of the item space overshadows algorithmic attempts at fair ranking.
+
+\section{Summary of Findings}
+% Directly answering RQ2.
+
+\chapter{Experiment C - Longitudinal Feedback Dynamics}
+\label{ch:exp_c}
+% Anchor Visual: The combined_feedback_diversity_decay.png lines chart showing iteration over iteration.
+
+\section{Simulation Design}
+The simulation initializes a training log $\mathcal{D}_0$ as an 80\% random sample of all ratings. For rounds $t=1,\ldots,5$ and for each model in $\{\text{SVD}, \text{TF--IDF}\}$:
+\begin{enumerate}
+  \item Train on $\mathcal{D}_{t-1}$, recommend top-$5$ unseen items per user.
+  \item Compute relevance score $s_{ui}$ from model outputs (normalized predicted rating for SVD; cosine score for TF--IDF).
+  \item Let $\tilde{p}_i$ be training popularity in $\mathcal{D}_{t-1}$, min--max normalized to $[0,1]$. Simulate clicks.
+  \item Append clicked pairs as ratings $5.0$; resolve duplicates on $(u,i)$ keeping the last event, yielding $\mathcal{D}_t$.
+\end{enumerate}
+
+\section{The Stochastic User Choice Model}
+Clicks in the simulator are drawn using the rule documented in Section~\ref{sec:method_click} (linear blend $0.7\, s_{ui} + 0.3\, \tilde{p}_i$, clipped, then Bernoulli). That section states the behavioural motivation, acknowledges that the weights are not calibrated on live Takealot traffic, and outlines sensitivity as future work.
+
+\section{Collaborative "Popularity Creep"}
+The 5-iteration simulation challenged the monolithic concept of ``diversity decay''.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{combined_feedback_diversity_decay.png}
+  \caption{Feedback simulation: aggregate diversity (unique recommended items) and ARP over five iterations for SVD and TF-IDF, by dataset. Trajectories illustrate how collaborative vs.\ content-based models respond to synthetic clicks.}
+  \label{fig:feedback-diversity}
+\end{figure}
+
+SVD consistently amplified historical biases over time. In ML-1M, SVD's ARP grew from 893 to 1997, actively shrinking its aggregate diversity.
+
+\section{Content Model Resilience}
+TF-IDF demonstrated an ability to resist the filter bubble effect. In ML-100K and ML-1M, TF-IDF actually increased its aggregate diversity over sequential iterations. This indicates that leveraging item attributes can break the recursive feedback loop caused by pure collaborative filtering.
+
+\section{Summary of Findings}
+% Directly answering RQ3.
+
+\chapter{Discussion}
+\label{ch:discussion}
+% Synthesizing the three experiments and demonstrating critical academic thought.
+
+\section{The Interconnectedness of Biases}
+% Synthesizing how macro-level catalog starvation (Ch 4) drives the micro-level niche tax (Ch 5) and is compounded by feedback loops (Ch 6).
+
+\section{The Domain Extreme}
+% Reiterating that algorithmic choices that work for standard dense benchmarks fail gracefully on sparse e-commerce data like Takealot.
+Only testing on normal, crowded academic data gives researchers a false sense of how good a model is. Moving to test on real, sparse data, like the Takealot dataset, proves a major point. It shows that using plain collaborative matrix models in real online stores causes a total failure in showing users a healthy mix of items.
+
+\section{Threats to Validity}
+Chapter~\ref{ch:methodology} (Section~\ref{sec:method_threats}) already catalogues internal, external, construct, and statistical-conclusion threats at the level of research design. In brief: $k$-core filtering removes the sparsest users; mean-fallback RMSE limits interpretability for several models; the feedback simulator is stylised; and multiple comparisons are not globally corrected. The discussion below focuses on how these limitations colour the empirical narrative rather than restating the full taxonomy.
+
+\section{Implications for Practitioners}
+% Real-world consequences for marketplace health and vendor equitability.
+For companies running real stores, the findings suggest moving away from using only matrix math models. By slowly adding in text models like TF-IDF or setting custom fixed limits, developers can stop filter bubbles from building up smoothly. Knowing what the algorithms do badly allows companies to make sure many different items are found, while still making useful sales suggestions.
+
+\chapter{Conclusion}
+\label{ch:conclusion_final}
+
+\section{Summary of the Study}
+This thesis empirically demonstrates that popularity bias is heavily model-dependent and domain-sensitive. By stepping outside traditional, dense movie benchmarks and utilizing the Takealot e-commerce corpus, this study revealed that standard matrix factorization models (ALS) collapse into extreme exposure inequality (Gini $\sim 0.9998$) when faced with massive, sparse catalogs. Furthermore, longitudinal simulations utilizing a formal stochastic user choice model proved that collaborative filtering actively amplifies this bias over time, whereas content-based architectures demonstrate resilience, preserving or expanding aggregate diversity.
+
+Finally, this study highlights a critical gap in industry evaluation protocols: the inability to directly compare the user-centric predictive accuracy (RMSE) of latent-factor models against content-based models without resorting to global mean fallbacks. Recommender systems must be audited not just for aggregate accuracy, but for how equitably they distribute exposure and accuracy across diverse user profiles.
+
+\section{Key Takeaways}
+% The heavy dependency of bias on both the algorithm family and dataset sparsity.
+
+\section{Directions for Future Research}
+% Proposing next steps, such as quality-aware popularity penalties or live A/B testing.
+
+\renewcommand{\bibname}{References / Bibliography}
+\phantomsection
+\addcontentsline{toc}{chapter}{References / Bibliography}
+\bibliographystyle{plainnat}
+\bibliography{thesis_references}
+
+\appendix
+\input{_appendices_full.tex}
+
+\end{document}

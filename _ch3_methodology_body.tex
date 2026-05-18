@@ -1,0 +1,262 @@
+\chapter{Methodology and Experimental Framework}
+\label{ch:methodology}
+
+\section{Research Design Overview}
+\label{sec:method_overview}
+
+This study adopts a \textbf{quantitative, empirical} research design grounded in the \textbf{positivist} tradition: algorithmic behaviour is treated as a measurable, reproducible phenomenon that can be characterised through formal metrics under controlled offline conditions. The design is not a post-hoc description of code paths; each choice in this chapter is intended to answer whether a competent independent researcher could \emph{reproduce} the reported tables and understand \emph{why} that choice was made over reasonable alternatives.
+
+The empirical programme follows the \textbf{Bias Propagation Chain} introduced in Chapter~\ref{ch:lit_review}. Three experiments are logically ordered rather than interchangeable:
+\begin{itemize}
+  \item \textbf{Experiment~A} establishes whether measurable macro-level concentration and exposure inequality exist for each model--dataset pair. Without this step, segment-level disparities in Experiment~B could not be interpreted as riding on top of a documented distributional phenomenon, and longitudinal dynamics in Experiment~C would lack a static baseline against which to compare drift.
+  \item \textbf{Experiment~B} narrows the unit of analysis from the catalogue to \emph{user segments} stratified by mainstreaminess, asking who bears the accuracy and ranking costs associated with the skew documented at the macro scale.
+  \item \textbf{Experiment~C} extends the temporal scope through a stylised feedback simulation, asking how macro diagnostics evolve when logs are repeatedly replenished from the system's own recommendations.
+\end{itemize}
+
+In response to documented failures of reproducibility and weak baseline tuning in recent recommender-system comparisons \citep{ferrari2019progress}, the study prioritises \textbf{methodological transparency}: a single evaluation pipeline (\texttt{run\_all.py} for public corpora; \texttt{run\_takealot\_full.py} for the proprietary split) applies identical train--test construction, $k$-core rules where applicable, top-$K$ list generation, and metric code across all models unless a limitation is explicitly flagged (Section~\ref{sec:method_threats}).
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+      node distance=0.55cm and 1.05cm,
+      box/.style={rectangle, draw, rounded corners=2.5pt, minimum width=3.55cm, minimum height=1.25cm, align=center, font=\small},
+      arr/.style={-{Stealth[length=2.2mm]}, thick},
+      ann/.style={font=\footnotesize, text=black!75, align=center},
+    ]
+    \node[box] (a) {Experiment A\\Macro-level exposure};
+    \node[box, right=of a] (b) {Experiment B\\User-centric fairness};
+    \node[box, right=of b] (c) {Experiment C\\Feedback simulation};
+    \draw[arr] (a) -- node[above, ann, yshift=2pt] {bias must exist\\before asking ``who pays?''} (b);
+    \draw[arr] (b) -- node[above, ann, yshift=2pt] {static disparities\\before dynamics} (c);
+  \end{tikzpicture}
+  \caption{Logical flow of the three-phase pipeline: macro diagnostics are a prerequisite for interpreting segment-level costs; both inform the reading of longitudinal trajectories under synthetic feedback.}
+  \label{fig:pipeline}
+\end{figure}
+
+\section{Datasets and Domains}
+\label{sec:method_datasets}
+
+Each corpus below is described in terms of \textbf{origin}, \textbf{role in the comparative design}, and \textbf{post-filtering statistics} used in this thesis. Table~\ref{tab:dataset_comparison} summarises user counts, item counts, interaction counts, and bipartite density $\rho = |\mathcal{D}|/(|\mathcal{U}||\mathcal{I}|)$ expressed as a percentage. Public figures are computed on the interaction graph \emph{after} $10$-core filtering (Section~\ref{sec:method_preprocessing}); Takealot statistics refer to the official \textbf{train} split after user--item deduplication by latest timestamp, matching the Takealot pipeline (no additional $k$-core, so tail users remain represented).
+
+\subsection{MovieLens 100K and 1M}
+MovieLens remains the canonical offline benchmark for collaborative filtering \citep{harper2015movielens}. \textbf{MovieLens 100K} is included as a \textbf{sanity-check} regime: interaction density is high enough that all six baselines should produce non-degenerate rankings, which supports attribution of later failures to model family or sparsity rather than to broken preprocessing. \textbf{MovieLens 1M} keeps the same film domain while increasing scale, which lets the study ask whether macro- and user-level findings are stable as $|\mathcal{D}|$ grows. Item metadata for content models concatenates genre indicators supplied with the release.
+
+\subsection{Last.fm 2K}
+The Last.fm heterogeneous dataset \citep{cantador2011second} introduces a \textbf{domain shift} from film to music consumption and supplies artist-level tags for text features. Raw signals are implicit play counts; following the repository loader, counts are mapped to explicit-style ratings in $\{1,\ldots,5\}$ by \textbf{percentile binning}: each $(u,i)$ pair is ranked within the global count distribution, the empirical percentile is scaled to five bins, and the ceiling is taken so that heavy tails do not collapse into a single score. Binning into five levels (rather than three) preserves ordinal granularity for RMSE and for the per-user median rule used by the logistic baseline, while remaining coarse enough that each bin retains mass under long-tailed counts; ten bins would fragment tail evidence, whereas three bins would erase mid-range preference structure. Item metadata concatenates artist names with deduplicated user-assigned tags.
+
+\subsection{Book-Crossing}
+The Book-Crossing corpus, widely used since the diversification study of \citet{ziegler2005improving}, acts as a \textbf{sparsity bridge}: denser than Takealot but sparser than MovieLens after identical $k$-core treatment. Its rating scale includes zeros used in the raw dump to encode \emph{implicit non-engagement}, not explicit ``lowest-star'' judgements. Those rows are removed (\texttt{rating} $>0$ only) so that RMSE is computed on genuine explicit feedback; retaining zeros would treat ``never rated'' as a numeric rating and contaminate error metrics. Metadata for content models concatenates author and publisher fields.
+
+\subsection{Takealot (proprietary e-commerce)}
+Takealot data are derived from \textbf{customer product reviews} linked to catalogue entries: each record supplies a user identifier, product identifier, star rating, timestamp, and review text in the raw release; the experimental pipeline consumes \texttt{user\_id}, \texttt{item\_id}, and \texttt{rating} together with \texttt{products.csv}, which contributes product title, brand, and category strings. Access was arranged for academic thesis work under institutional supervision and supplier-imposed \textbf{non-redistribution} and \textbf{no re-identification} constraints; identifiers are used only as opaque keys inside the evaluation code. Surveys of popularity-bias research emphasise that entertainment-centric logs still dominate the literature \citep{klimashevskaia2024survey}, while work on session-based commerce highlights how representation bias interacts with long-tail items in realistic retail settings \citep{gupta2019niser}. Including Takealot is therefore not ornamental: it stress-tests whether conclusions calibrated on dense movie or music graphs survive contact with an ultra-sparse retail graph whose density is orders of magnitude smaller than MovieLens (Table~\ref{tab:dataset_comparison}).
+
+\begin{table}[htbp]
+  \centering
+  \caption{Dataset summary statistics as used in this thesis (public corpora after $10$-core filtering on the full interaction graph; Takealot on the official train split with user--item deduplication). Density $\rho = 100\cdot|\mathcal{D}|/(|\mathcal{U}||\mathcal{I}|)$.}
+  \label{tab:dataset_comparison}
+  \begin{tabular}{@{}l l l r r r r@{}}
+    \toprule
+    \textbf{Dataset} & \textbf{Domain} & \textbf{Feedback} & \textbf{$|\mathcal{U}|$} & \textbf{$|\mathcal{I}|$} & \textbf{$|\mathcal{D}|$} & \textbf{$\rho$ (\%)} \\
+    \midrule
+    MovieLens 100K & Film & explicit $1$--$5$ & 943 & 1\,152 & 97\,953 & 9.02 \\
+    MovieLens 1M   & Film & explicit $1$--$5$ & 6\,040 & 3\,260 & 998\,539 & 5.07 \\
+    Last.fm 2K     & Music & binned $1$--$5$ & 1\,797 & 1\,507 & 62\,376 & 2.30 \\
+    Book-Crossing  & Books & explicit $1$--$10$ & 1\,842 & 2\,065 & 42\,137 & 1.11 \\
+    Takealot train & E-commerce & explicit $1$--$5$ & 8\,154 & 48\,910 & 87\,538 & 0.022 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Data Preprocessing}
+\label{sec:method_preprocessing}
+
+\paragraph{$k$-core filtering (public corpora).}
+Let $G_0$ denote the bipartite graph of observed user--item interactions. Real interaction graphs are heavy-tailed: a small fraction of hubs carries most edges. Training latent-factor or neighbourhood models on users or items with extremely low degree yields poorly identified parameters because the optimisation objective sees almost no signal \citep{adomavicius2005toward}. Iterative $k$-core filtering with thresholds $(k_U,k_I)$ removes users and items below the chosen degree until convergence:
+\begin{equation}
+  \mathcal{U}_{t+1} = \bigl\{ u : \deg_{G_t}(u) \ge k_U \bigr\}, \qquad
+  \mathcal{I}_{t+1} = \bigl\{ i : \deg_{G_t}(i) \ge k_I \bigr\},
+\end{equation}
+retaining only edges between $\mathcal{U}_{t+1}$ and $\mathcal{I}_{t+1}$ to form $G_{t+1}$. This thesis sets $k_U=k_I=10$, a threshold that appears in widely reproduced graph-based recommender experiments \citep{he2020lightgcn, wang2019ngcf} and therefore anchors preprocessing to mainstream practice. The cost is \textbf{selection bias}: the sparsest users---often the most niche---are removed, which can understate fairness problems in the tail. Section~\ref{sec:method_threats} records this as an internal-validity trade-off; Takealot mitigates the issue partially by retaining the official long-tail split without an additional core filter.
+
+\paragraph{Train--test split.}
+Public datasets are partitioned with an \textbf{80/20 pseudo-random split} (\texttt{train\_test\_split} in scikit-learn, \texttt{random\_state=42}) applied at the level of interaction rows after filtering. A time-based split would better mimic deployment for logs with reliable timestamps, but timestamps are incomplete or unused across all corpora in a uniform way, and the comparative goal is to hold the evaluation protocol fixed while varying models. Protocol consistency is itself a methodological safeguard against metric artefacts that arise when each paper uses a different splitting convention \citep{bellogin2017statistical, ferrari2019progress}.
+
+\paragraph{Content features.}
+For every dataset, items expose a single string field \texttt{metadata\_text} used by TF--IDF and logistic regression. MovieLens joins genre tags; Last.fm joins artist names and tags; Book-Crossing joins author and publisher; Takealot concatenates \textbf{product title, brand, and category} because richer structured attributes were unavailable in the release. Bag-of-words TF--IDF is appropriate when metadata are short textual fields and the goal is a transparent lexical baseline decoupled from interaction frequency.
+
+\section{Algorithmic Baselines and Constraints}
+\label{sec:method_baselines}
+
+The six models are not an exhaustive inventory of recommender research; they are a \textbf{designed coverage} of two axes: (i) whether the primary signal is \textbf{collaborative} (interaction-driven) or \textbf{content-based} (metadata-driven), and (ii) whether the functional form is a \textbf{memory-based} matcher, a \textbf{latent-factor} smoother, a \textbf{linear discriminative} classifier, or a \textbf{non-linear memorising} ensemble. Table~\ref{tab:model_design_grid} maps each implementation to that grid.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Baselines positioned by signal source and model family.}
+  \label{tab:model_design_grid}
+  \begin{tabular}{@{}l l l@{}}
+    \toprule
+    \textbf{Model} & \textbf{Signal} & \textbf{Family} \\
+    \midrule
+    User-based $k$-NN & Collaborative & Memory / neighbourhood \\
+    SVD (biased PMF) & Collaborative & Latent factor \\
+    ALS (implicit) & Collaborative & Latent factor (implicit confidence) \\
+    TF--IDF profile & Content & Lexical similarity \\
+    Per-user logistic regression & Content & Discriminative classifier \\
+    Random forest on IDs & Hybrid memorisation & Ensemble on categorical IDs \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{User-based $k$-NN.}
+$k$-nearest neighbours in user space instantiate collaborative filtering in its most transparent form: predictions aggregate neighbours' ratings weighted by cosine similarity \citep{resnick1994grouplens}. Despite its age, strong $k$-NN tuning remains competitive when neural baselines are fairly compared \citep{ferrari2019progress}, which justifies retaining it as an interpretable reference for popularity amplification.
+
+\paragraph{SVD (biased probabilistic matrix factorisation).}
+\texttt{surprise.SVD} optimises regularised squared error with latent factors \emph{and} scalar user and item bias terms $b_u$, $b_i$ that absorb main effects of popularity \citep{koren2009matrix}. Those biases matter for bias research because they give the model an explicit capacity to track item popularity outside the low-rank subspace \citep{abdollahpouri2019unfairness, abdollahpouri2021usercentered}.
+
+\paragraph{ALS (implicit feedback).}
+Alternating least squares fits a confidence-weighted implicit matrix \citep{hu2008collaborative}. Confidence grows with interaction frequency, so popularity enters both through support and through weighting; on ultra-sparse graphs the weight concentrates on a tiny item set, which is why ALS is expected to struggle most on Takealot.
+
+\paragraph{TF--IDF profile model.}
+Items are represented by L2-normalised TF--IDF vectors; user profiles are the mean vector of consumed items; scores are cosine similarities. Because the pipeline never feeds interaction counts into the scorer, popularity bias from the training distribution cannot be amplified through latent factors---only through textual association with popular brands or categories.
+
+\paragraph{Per-user logistic regression.}
+Each user contributes training rows labelled $1$ if $r_{ui}$ is at or above that user's median rating and $0$ otherwise; a TF--IDF pipeline feeds a linear classifier. Per-user thresholds adapt to heterogeneous rating scales, which distinguishes this baseline from global TF--IDF similarity.
+
+\paragraph{Random forest on identifiers.}
+User and item identifiers are label-encoded and fed to \texttt{RandomForestRegressor} without text. The model can only learn smooth functions of memorised co-occurrence structure; it acts as a \textbf{non-linear popularity memoriser}. Contrasting it with SVD/ALS isolates whether harmful concentration arises from low-rank factor geometry or from brute-force pattern storage.
+
+\section{Evaluation Metrics and Their Interpretation}
+\label{sec:method_metrics}
+
+Metrics are grouped by research question so that each formula is tied to a measurement purpose.
+
+\subsection{Metrics for RQ1 (macro-level exposure equity)}
+\label{sec:method_metrics_rq1}
+
+\paragraph{Gini coefficient.}
+Let $x_i$ be the count of recommendation slots allocated to item $i$ across all users' top-$K$ lists. The Gini coefficient \citep{cowell2011measuring, celma2008novel} is
+\begin{equation}
+  G = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}|x_i - x_j|}{2n^2\bar{x}},
+\end{equation}
+with $0$ denoting perfectly equal exposure and values near $1$ denoting concentration on a vanishing support. Values above $0.9$ signal a near collapse of catalog diversity in the recommendation layer. Gini describes the \emph{shape} of the histogram but not which SKU IDs dominate; ARP complements it.
+
+\paragraph{Catalogue coverage.}
+\begin{equation}
+  \textrm{Coverage} = \frac{|\{i \in \mathcal{I} : x_i>0\}|}{|\mathcal{I}|}\times 100\%.
+\end{equation}
+Coverage is a supply-side fairness indicator: it measures the fraction of inventory that receives at least one recommendation slot. On Takealot, near-zero coverage is not only unfair to long-tail sellers but commercially untenable.
+
+\paragraph{Average recommendation popularity (ARP).}
+\begin{equation}
+  \textrm{ARP} = \frac{1}{|\mathcal{U}|}\sum_{u \in \mathcal{U}} \frac{1}{|R_u|}\sum_{i \in R_u} \textrm{pop}(i),
+\end{equation}
+where $\textrm{pop}(i)$ is the training-set interaction count of item $i$ and $R_u$ is the recommended set. High ARP is benign when niche users intentionally receive popular items; paired with extreme Gini and low coverage it indicates head-item domination across the board.
+
+\paragraph{Shannon entropy of exposure.}
+Let $p_i = x_i / \sum_j x_j$. Exposure entropy $H(E)=-\sum_i p_i\log p_i$ measures the information content of the recommendation distribution. Higher entropy corresponds to more uniform exposure; it is inversely related to Gini in practice but not redundant, because inequality and uncertainty capture different functional summaries.
+
+\paragraph{Spearman correlation (training popularity vs.\ recommendations).}
+Experiment~A also reports the Spearman rank correlation between training popularity and recommendation-slot counts. Spearman captures monotone amplification without assuming linearity; the coefficient is treated as an effect-size diagnostic rather than a standalone hypothesis test.
+
+\subsection{Metrics for RQ2 (user-centric accuracy and fairness)}
+\label{sec:method_metrics_rq2}
+
+\paragraph{Mainstreaminess stratification.}
+For each user $u$, mainstreaminess $M_u = \frac{1}{|H_u|}\sum_{i\in H_u} \text{pop}(i)$ averages training popularity over items in the training history $H_u$. Users are partitioned into \textbf{Niche}, \textbf{Diverse}, and \textbf{Mainstream} tertiles following \citet{abdollahpouri2021usercentered}. Tertiles strike a balance between segment size (stable means) and contrast; finer splits would fragment sparse cohorts, especially on Takealot.
+
+\paragraph{Segment RMSE.}
+For test pairs $\mathcal{T}_g$ in group $g$,
+\begin{equation}
+  \text{RMSE}_g = \sqrt{\frac{1}{|\mathcal{T}_g|}\sum_{(u,i)\in\mathcal{T}_g}(\hat r_{ui}-r_{ui})^2}.
+\end{equation}
+\textbf{Critical limitation:} ALS, TF--IDF, and logistic regression do not expose consistent rating-scale predictors in the pipeline; RMSE for these models is computed with a \textbf{global training mean} fallback on test rows. Segment RMSE values are therefore \emph{identical} across niche, diverse, and mainstream buckets for each such model and measure the fallback artefact rather than true predictive disparity. \textbf{Only user-based $k$-NN, SVD, and the random forest} produce differentiated segment RMSE comparable in interpretation across groups. For content models, \textbf{NDCG@10} is the primary fairness metric.
+
+\paragraph{$\Delta$RMSE (niche tax).}
+Define $\Delta\text{RMSE} = \text{RMSE}_{\text{niche}} - \text{RMSE}_{\text{mainstream}}$ on the subset of models where segment RMSE is meaningful. Positive values indicate higher error for niche users \citep{abdollahpouri2020multistakeholder}.
+
+\paragraph{NDCG@10.}
+Let $\text{rel}_j\in\{0,1\}$ indicate whether the item ranked at position $j$ in the recommended list is relevant. Relevance is \textbf{binary}: any item appearing for user $u$ in the test fold counts as relevant for $u$, matching the implicit-feedback style evaluation used in the code path. Discounted cumulative gain at cutoff $K$ is
+\begin{equation}
+  \text{DCG@}K = \sum_{j=1}^{K}\frac{\text{rel}_j}{\log_2(j+1)}, \qquad
+  \text{NDCG@}K = \frac{\text{DCG@}K}{\text{IDCG@}K},
+\end{equation}
+where $\text{IDCG@}K$ normalises by the ideal DCG obtained by placing $\min(|\text{Rel}_u|,K)$ relevant items at the top of the list \citep{jarvelin2002cumulated}. $K=10$ mirrors a single screen of recommendations on typical interfaces.
+
+\paragraph{Group average popularity (GAP) and $\Delta$GAP.}
+Let $\text{GAP}_g$ be the mean training popularity of items appearing in recommendations to group $g$. This thesis reports \textbf{signed} $\Delta\text{GAP} = \text{GAP}_{\text{niche}} - \text{GAP}_{\text{mainstream}}$ to highlight whether niche users receive more mainstream-oriented item mixes, a form of preference misalignment distinct from RMSE \citep{abdollahpouri2020multistakeholder}.
+
+\subsection{Metrics for RQ3 (longitudinal dynamics)}
+\label{sec:method_metrics_rq3}
+
+Let $R_u^{(t)}$ denote the top-$K$ list for user $u$ at simulation round $t$. \textbf{Aggregate diversity} is
+\begin{equation}
+  \text{AD}_t = \Bigl|\bigcup_{u\in\mathcal{U}} R_u^{(t)}\Bigr|,
+\end{equation}
+the count of unique items recommended in round $t$. Tracking $\text{AD}_t$ across rounds distinguishes stable, expanding, or decaying diversity regimes; a single snapshot cannot reveal drift. \textbf{Round-indexed ARP} applies the same ARP formula to the recommendations emitted in round $t$; monotonic increases are interpreted as popularity creep under the shared click rule (Section~\ref{sec:method_click}).
+
+\section{The Stochastic Click Model}
+\label{sec:method_click}
+
+Experiment~C augments training logs with synthetic clicks drawn from a \textbf{Bernoulli model} that mixes normalised relevance scores $\text{Rel}(u,i)$ with min--max normalised training popularity $\text{Pop}_{\text{norm}}(i)$:
+\begin{equation}
+  P(\text{click}_{u,i}) = \max\bigl(0,\, \min\bigl(1,\, \alpha\,\text{Rel}(u,i) + (1-\alpha)\,\text{Pop}_{\text{norm}}(i)\bigr)\bigr).
+\end{equation}
+The multiplicative structure reflects a dual-process intuition: clicks respond to personal match quality while still being sensitive to social proof through aggregate engagement \citep{cialdini1984influence, zhao2022benignharmful}. The weight $\alpha=0.7$ is a \textbf{deliberate modelling choice} prioritising relevance but leaving a fixed share of probability mass to popularity, broadly in line with mixed propensity constructions used in feedback simulations \citep{mansoury2020feedback}. Extremes $\alpha=1$ (pure relevance) and $\alpha=0$ (pure popularity) would violate the thesis premise that both signals shape offline logs. Because $\alpha$ is not empirically calibrated on Takealot click streams, \textbf{sensitivity} to alternative values (e.g.\ $0.5$--$0.9$) remains an explicit direction for future work: larger $\alpha$ would dampen popularity-driven clicks and likely slow collaborative diversity decay.
+
+\section{Statistical Testing Framework}
+\label{sec:method_stats}
+
+Per-user RMSE and NDCG vectors across niche and mainstream segments are \textbf{not} assumed Gaussian, especially under sparsity where many users contribute few test interactions. Following guidance on non-parametric comparisons of learning algorithms \citep{demsar2006statistical}, the primary test is the \textbf{two-sided Mann--Whitney $U$} comparing niche and mainstream per-user scores for each model and dataset. The null hypothesis is that both samples are drawn from identical distributions; tests use $\alpha=0.05$. \textbf{Welch's $t$-test} is computed in parallel as a sensitivity check when variances differ. The implementation does \textbf{not} apply a global multiple-comparison correction across the full grid of models and datasets; $p$-values should therefore be read alongside effect sizes and interpreted conservatively when many tests are inspected.
+
+Experiment~A reports Spearman correlations without a unified $p$-value aggregation across all cells. Experiment~C produces \textbf{one trajectory} per model--dataset pair; longitudinal statements are therefore \textbf{descriptive} (effect magnitudes, slopes across five rounds) rather than inferential in the classical sense.
+
+\section{Threats to Validity}
+\label{sec:method_threats}
+
+\paragraph{Internal validity.}
+Confounds include \textbf{hyperparameter sensitivity}: factors, iterations, and regularisers are held fixed at pragmatic defaults rather than exhaustively tuned per dataset, which may disadvantage some families relative to others. ALS failures that fall back to trivial recommenders inflate concentration metrics artefactually; such cases are flagged when they occur.
+
+\paragraph{External validity.}
+Findings are bounded to movie, music, book, and one e-commerce domain; they do not automatically transfer to social feeds or search ads. The click model is stylised and not calibrated to live Takealot traffic. Offline metrics may diverge from online outcomes.
+
+\paragraph{Construct validity.}
+Mean-fallback RMSE for ALS, TF--IDF, and logistic regression does not measure the niche tax for those models; NDCG@10 and $\Delta$GAP carry the interpretive burden instead.
+
+\paragraph{Statistical conclusion validity.}
+Sparse segments imply wide sampling variability for per-user scores; niche cohorts on Takealot can contain users with very few test events, widening confidence intervals even when Mann--Whitney $p$-values are small.
+
+\section{Implementation and Reproducibility}
+\label{sec:method_impl}
+
+\paragraph{Software stack.}
+Experiments were executed with Python~3.10+ on the machine used to regenerate thesis figures. Representative pinned versions from that environment include \texttt{numpy==1.26.4}, \texttt{scikit-learn==1.8.0}, \texttt{scipy==1.17.1}, \texttt{implicit==0.7.2}, \texttt{matplotlib==3.10.8}, \texttt{seaborn==0.13.2}, and \texttt{scikit-surprise==1.1.4} (optional but enabled for the reported Surprise baselines); \texttt{pandas} and \texttt{tqdm} were taken from the same environment without relaxing other transitive dependencies. Version pinning matters because small numerical changes propagate to matrix factorisation solutions and ranking ties \citep{ferrari2019progress}.
+
+\paragraph{Pipeline architecture.}
+\texttt{run\_all.py} orchestrates dataset load, optional $k$-core filtering, seeded train--test split, model fitting, recommendation generation, CSV exports, and figure rendering for public corpora. \texttt{run\_takealot\_full.py} swaps in the official Takealot train/test files then calls the same experiment functions. Figure~\ref{fig:method_code_pipeline} sketches the data flow.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    box/.style={rectangle, draw, rounded corners=2pt, minimum width=2.5cm, minimum height=0.85cm, align=center},
+    arr/.style={-{Stealth[length=2mm]}, thick},
+    node distance=0.45cm and 0.55cm,
+  ]
+    \node[box] (raw) {Raw tables};
+    \node[box, right=of raw] (prep) {Filter /\\features};
+    \node[box, right=of prep] (split) {Train /\\test};
+    \node[box, right=of split] (fit) {Fit six\\baselines};
+    \node[box, right=of fit] (met) {Metrics\\and tests};
+    \node[box, right=of met] (out) {CSV /\\figures};
+    \draw[arr] (raw) -- (prep);
+    \draw[arr] (prep) -- (split);
+    \draw[arr] (split) -- (fit);
+    \draw[arr] (fit) -- (met);
+    \draw[arr] (met) -- (out);
+  \end{tikzpicture}
+  \caption{High-level processing graph shared by \texttt{run\_all.py} and \texttt{run\_takealot\_full.py} (dataset-specific loaders insert before the split stage).}
+  \label{fig:method_code_pipeline}
+\end{figure}
+
+\paragraph{Reproducibility commitments.}
+All pseudo-random splits and factorisers use fixed seeds (\texttt{random\_state=42} in scikit-learn and Surprise, matching \texttt{AlternatingLeastSquares}). Outputs are written to versioned directories under \texttt{outputs/} (or a user-specified run label). A public GitHub release may accompany the thesis; until then, the dissertation repository bundle serves as the canonical artefact together with the environment file listing above.

@@ -1,0 +1,164 @@
+% Appendices A--C (included after \appendix in thesis.tex).
+
+\chapter{Extended tables for macro and micro metrics}
+\label{app:tables}
+
+The following tables consolidate every model--dataset cell written by the evaluation pipeline under \texttt{Thesis\_Research/outputs/results/}. Values are copied verbatim from the CSV exports (rounded for display). Re-running \texttt{run\_all.py} on a different machine or seed may shift decimals slightly; the qualitative ordering of models is stable across repeated local runs.
+
+\input{_appendix_generated_tables.tex}
+
+\chapter{Additional visualizations and diagrams}
+\label{app:viz}
+
+This appendix collects schematic views of the evaluation workflow and reproduces the cross-dataset figures from the main experiments at appendix scale, so printed copies remain self-contained even when individual chapters are excerpted.
+
+\section{End-to-end evaluation pipeline}
+Figure~\ref{fig:app-pipeline} situates Experiments~A--C as three measurement stations on a shared data and training backbone: the same splits, models, and recommendation lists feed macro catalog metrics, segment-level user metrics, and the longitudinal click simulator.
+
+\begin{figure}[p]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    box/.style={draw, rounded corners=2pt, align=center, inner sep=6pt, minimum width=3.1cm},
+    arr/.style={-{Latex[length=2.2mm]}, thick}
+  ]
+    \node[box, fill=gray!12] (data) {Datasets\\\textit{ML-100K, ML-1M, Last.fm, Book-Crossing, Takealot}};
+    \node[box, below=0.9cm of data] (prep) {Preprocess\\\textit{$k$-core, TF--IDF text, Surprise CF}};
+    \node[box, below=0.9cm of prep] (train) {Train baselines\\\textit{ALS, SVD, $k$-NN, TF--IDF, RF, LogReg}};
+    \node[box, below left=1.1cm and 0.2cm of train] (a) {\textbf{Exp.~A}\\Macro bias\\Gini, ARP, coverage};
+    \node[box, below=1.1cm of train] (b) {\textbf{Exp.~B}\\Micro fairness\\RMSE / NDCG segments};
+    \node[box, below right=1.1cm and 0.2cm of train] (c) {\textbf{Exp.~C}\\Feedback loop\\5 iterations};
+    \draw[arr] (data) -- (prep);
+    \draw[arr] (prep) -- (train);
+    \draw[arr] (train.south west) -- (a.north);
+    \draw[arr] (train.south) -- (b.north);
+    \draw[arr] (train.south east) -- (c.north);
+  \end{tikzpicture}
+  \caption{Unified pipeline: shared preprocessing and model training feed three evaluation tracks (Chapters~\ref{ch:exp_a}--\ref{ch:exp_c}).}
+  \label{fig:app-pipeline}
+\end{figure}
+
+\section{Stylised feedback loop with explicit simulator knobs}
+Figure~\ref{fig:app-feedback-schematic} summarises the feedback simulation at the level of state variables referenced in Chapter~\ref{ch:exp_c}. Clicks use the linear blend $c_{ui}=\mathrm{clip}(0.7\, s_{ui}+0.3\, \tilde{p}_i,[0,1])$ from Section~\ref{sec:method_click}, then a Bernoulli draw on each recommended slot.
+
+\begin{figure}[p]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    n/.style={draw, circle, minimum size=1.05cm, inner sep=0pt},
+    sq/.style={draw, rounded corners=2pt, minimum width=2.6cm, minimum height=0.85cm, align=center},
+    arr/.style={-{Latex[length=2mm]}, thick}
+  ]
+    \node[sq] (log) {$\mathcal{D}_{t-1}$\\training log};
+    \node[sq, right=2.4cm of log] (rec) {Recommender\\top-$5$ lists};
+    \node[sq, right=2.4cm of rec] (clk) {Clicks\\Bernoulli rule};
+    \node[sq, below=1.5cm of rec] (logp) {$\mathcal{D}_t$\\updated log};
+    \draw[arr] (log) -- node[above]{train / infer} (rec);
+    \draw[arr] (rec) -- node[above]{expose} (clk);
+    \draw[arr] (clk.south) -- ++(0,-0.35) -| node[pos=0.22, below]{append $5.0$ ratings} (logp.south);
+    \draw[arr] (logp.west) -- ++(-0.6,0) |- node[pos=0.25, left]{next round} (log.west);
+  \end{tikzpicture}
+  \caption{Longitudinal simulator: logs evolve from recommendations and stochastic clicks, then re-enter training.}
+  \label{fig:app-feedback-schematic}
+\end{figure}
+
+\section{Cross-dataset figures (same assets as the main text)}
+For convenience, the heatmaps and segment plots used in Chapters~\ref{ch:exp_a}--\ref{ch:exp_c} are repeated here without reinterpretation.
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=\linewidth]{combined_macro_gini_heatmap.png}
+  \caption[Appendix: Gini heatmap]{Gini coefficient of recommendation frequency versus item popularity (all non-Takealot benchmarks).}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=\linewidth]{combined_macro_catalog_coverage_heatmap.png}
+  \caption[Appendix: catalog coverage heatmap]{Catalog coverage of top-$N$ recommendations across datasets and models.}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=0.92\textwidth]{combined_fairness_gap_delta_rmse.png}
+  \caption[Appendix: niche RMSE gap]{Niche minus mainstream RMSE ($\Delta$RMSE) by dataset and model.}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=0.92\textwidth]{combined_rmse_niche_vs_mainstream.png}
+  \caption[Appendix: RMSE by segment]{RMSE for niche versus mainstream taste segments.}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=0.92\textwidth]{combined_feedback_diversity_decay.png}
+  \caption[Appendix: feedback diversity]{Aggregate diversity and ARP across five feedback iterations (SVD versus TF--IDF).}
+\end{figure}
+
+\chapter{Extended software specifications}
+\label{appendix:software}
+
+\section{Repository layout}
+All experiments are implemented as a single Python package-style tree under \texttt{Thesis\_Research/}: \texttt{run\_all.py} orchestrates dataset ingestion, training, evaluation, plotting, and CSV exports; \texttt{src/} holds metric utilities and statistical tests; \texttt{outputs/results/} stores the tables consumed by this document. Figures are written to \texttt{outputs/figures/} (and mirrored under \texttt{Thesis-main/outputs/figures/} when syncing for \LaTeX).
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    font=\footnotesize,
+    every node/.style={draw, align=left, anchor=west, inner sep=4pt}
+  ]
+    \node (r) at (0,0) {\texttt{Thesis\_Research/}};
+    \node (run) at (0.4,-0.85) {\texttt{run\_all.py} --- entry point};
+    \node (src) at (0.4,-1.55) {\texttt{src/} --- models, metrics, \texttt{statistical\_tests.py}};
+    \node (out) at (0.4,-2.25) {\texttt{outputs/results/*.csv} --- thesis tables};
+    \node (fig) at (0.4,-2.95) {\texttt{outputs/figures/*.png} --- thesis figures};
+    \draw[-{Latex}] (r.south west) ++(0.15,-0.12) |- (run.west);
+    \draw[-{Latex}] (r.south west) ++(0.15,-0.12) |- (src.west);
+    \draw[-{Latex}] (r.south west) ++(0.15,-0.12) |- (out.west);
+    \draw[-{Latex}] (r.south west) ++(0.15,-0.12) |- (fig.west);
+  \end{tikzpicture}
+  \caption{Code and artefact layout relative to the research repository root.}
+  \label{fig:app-repo-layout}
+\end{figure}
+
+\section{Language runtime and hardware assumptions}
+The code targets \textbf{Python 3.10+} (tested on 64-bit Windows~10/11). Experiments are CPU-bound; GPU acceleration is not required. Wall-clock runtime scales with Book-Crossing and Takealot matrix sizes; a full multi-dataset sweep completes overnight on a modern laptop when Surprise and implicit builds are already compiled.
+
+\section{Core dependency pins}
+Table~\ref{tab:app-deps} lists the libraries that materially affect numerical results. A broader scientific stack (Jupyter, widgets, conda solver libraries) may be present in a full Anaconda install but does not change the reported metrics.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{@{}llp{6.8cm}@{}}
+    \toprule
+    \textbf{Package} & \textbf{Role in this thesis} & \textbf{Notes} \\
+    \midrule
+    \texttt{numpy} & Arrays, linear algebra & Pinned below 2.x for \texttt{implicit} compatibility. \\
+    \texttt{pandas} & CSV aggregation & Used for all combined result tables. \\
+    \texttt{scipy} & Statistics & Welch/Mann--Whitney helpers in \texttt{statistical\_tests.py}. \\
+    \texttt{scikit-learn} & TF--IDF, RF, LogReg, metrics & Pipelines mirror standard sklearn idioms. \\
+    \texttt{scikit-surprise} & SVD, $k$-NN, ALS & Optional import guarded when wheels are unavailable. \\
+    \texttt{implicit} & ALS (implicit feedback path) & Used where the benchmark supports implicit-style training. \\
+    \texttt{matplotlib}, \texttt{seaborn} & Plots & Heatmaps and line charts exported to PNG. \\
+    \texttt{tqdm} & Progress bars & Long Takealot sweeps remain observable during batch runs. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Scientific stack directly exercised by \texttt{run\_all.py}.}
+  \label{tab:app-deps}
+\end{table}
+
+\section{Pinned versions (\texttt{pip freeze} excerpt)}
+Listing~\ref{lst:app-freeze} lists pinned versions from the development host. Reproduce with a clean virtual environment and the research repository \path{requirements.txt}, then align versions as needed.
+
+\lstset{basicstyle=\ttfamily\footnotesize,frame=single,breaklines=true,columns=fullflexible}
+\lstinputlisting[caption={Excerpted \texttt{pip} pins for core scientific dependencies.},label={lst:app-freeze}]{thesis_core_environment.txt}
+
+\section{Regeneration checklist}
+\begin{enumerate}
+  \item Install dependencies from \path{requirements.txt} in the research repo; verify \texttt{surprise} imports.
+  \item From the repo root, run \texttt{python run\_all.py} with the thesis defaults (top-$10$ lists for offline metrics; feedback uses top-$5$ and five iterations).
+  \item Copy new PNGs into folder \path{Thesis-main/outputs/figures/} when compiling the thesis locally.
+  \item Run \texttt{python scripts/export\_appendix\_tables.py} to rebuild \path{_appendix_generated_tables.tex}.
+  \item Recompile \texttt{thesis.tex} (\texttt{pdflatex}, \texttt{bibtex}, \texttt{pdflatex} $\times 2$).
+\end{enumerate}

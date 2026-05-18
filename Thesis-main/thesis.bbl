@@ -1,0 +1,96 @@
+\begin{thebibliography}{13}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abdollahpouri et~al.(2019)Abdollahpouri, Burke, and
+  Mobasher]{abdollahpouri2019managing}
+Himan Abdollahpouri, Robin Burke, and Bamshad Mobasher.
+\newblock Managing popularity bias in recommender systems with personalized
+  re-ranking.
+\newblock In \emph{Proceedings of the 32nd international flairs conference},
+  2019.
+
+\bibitem[Abdollahpouri et~al.(2020)Abdollahpouri, Adomavicius, Burke, Guy,
+  Jannach, Kaminskas, Krasnodebski, and
+  Pizzato]{abdollahpouri2020multistakeholder}
+Himan Abdollahpouri, Gediminas Adomavicius, Robin Burke, Ido Guy, Dietmar
+  Jannach, Toshihiro Kaminskas, Jan Krasnodebski, and Luiz Pizzato.
+\newblock Multistakeholder recommendation and its connection to multi-sided
+  fairness.
+\newblock In \emph{ACM SIGKDD Explorations Newsletter}, volume~22, pages
+  29--33, 2020.
+
+\bibitem[Anderson(2004)]{anderson2004long}
+Chris Anderson.
+\newblock The long tail.
+\newblock \emph{Wired magazine}, 12\penalty0 (10):\penalty0 170--177, 2004.
+
+\bibitem[Cantador et~al.(2011)Cantador, Brusilovsky, and
+  Kuflik]{cantador2011second}
+Iv{\'a}n Cantador, Peter Brusilovsky, and Tsvi Kuflik.
+\newblock Second benchmark workshop on recommender systems.
+\newblock In \emph{Proceedings of the 5th ACM conference on Recommender
+  systems}, pages 387--388, 2011.
+
+\bibitem[Chaney et~al.(2018)Chaney, Stewart, and
+  Engelhardt]{chaney2018algorithmic}
+Allison~JB Chaney, Brandon~M Stewart, and Barbara~E Engelhardt.
+\newblock How algorithmic confounding in recommendation systems increases
+  homogeneity and decreases utility.
+\newblock \emph{Proceedings of the 12th ACM Conference on Recommender Systems},
+  pages 224--232, 2018.
+
+\bibitem[Cowell(2011)]{cowell2011measuring}
+Frank Cowell.
+\newblock \emph{Measuring inequality}.
+\newblock Oxford university press, 2011.
+
+\bibitem[Ekstrand et~al.(2022)Ekstrand, Das, Burke, and
+  Diaz]{ekstrand2022fairness}
+Michael~D Ekstrand, Anubrata Das, Robin Burke, and Fernando Diaz.
+\newblock Fairness in recommender systems.
+\newblock \emph{Recommender systems handbook}, pages 679--707, 2022.
+
+\bibitem[Harper and Konstan(2015)]{harper2015movielens}
+F~Maxwell Harper and Joseph~A Konstan.
+\newblock The movielens datasets: History and context.
+\newblock \emph{Acm transactions on interactive intelligent systems (tiis)},
+  5\penalty0 (4):\penalty0 1--19, 2015.
+
+\bibitem[Hu et~al.(2008)Hu, Koren, and Volinsky]{hu2008collaborative}
+Yifan Hu, Yehuda Koren, and Chris Volinsky.
+\newblock Collaborative filtering for implicit feedback datasets.
+\newblock In \emph{2008 Eighth IEEE International Conference on Data Mining},
+  pages 263--272. Ieee, 2008.
+
+\bibitem[Koren et~al.(2009)Koren, Bell, and Volinsky]{koren2009matrix}
+Yehuda Koren, Robert Bell, and Chris Volinsky.
+\newblock Matrix factorization techniques for recommender systems.
+\newblock \emph{Computer}, 42\penalty0 (8):\penalty0 30--37, 2009.
+
+\bibitem[Mansoury et~al.(2020)Mansoury, Abdollahpouri, Pechenizkiy, Mobasher,
+  and Burke]{mansoury2020feedback}
+Majid Mansoury, Himan Abdollahpouri, Mykola Pechenizkiy, Bamshad Mobasher, and
+  Robin Burke.
+\newblock Feedback loop and bias amplification in recommender systems.
+\newblock \emph{Proceedings of the 29th ACM International Conference on
+  Information \& Knowledge Management}, pages 2145--2148, 2020.
+
+\bibitem[Sarwar et~al.(2001)Sarwar, Karypis, Konstan, and
+  Riedl]{sarwar2001item}
+Badrul Sarwar, George Karypis, Joseph Konstan, and John Riedl.
+\newblock Item-based collaborative filtering recommendation algorithms.
+\newblock In \emph{Proceedings of the 10th international conference on World
+  Wide Web}, pages 285--295, 2001.
+
+\bibitem[Ziegler et~al.(2005)Ziegler, McNee, Konstan, and
+  Lausen]{ziegler2005improving}
+Cai-Nicolas Ziegler, Sean~M McNee, Joseph~A Konstan, and Georg Lausen.
+\newblock Improving recommendation lists through topic diversification.
+\newblock In \emph{Proceedings of the 14th international conference on World
+  Wide Web}, pages 22--32, 2005.
+
+\end{thebibliography}

@@ -1,0 +1,13 @@
+# Core Python packages pinned on the host used for thesis runs (May 2026).
+# Regenerate: pip install -r Thesis_Research/requirements.txt && pip freeze | findstr /i "numpy pandas scipy scikit surprise implicit matplotlib seaborn tqdm notebook ipywidgets"
+implicit==0.7.2
+matplotlib==3.10.8
+numpy==1.26.4
+pandas==3.0.1
+scikit-learn==1.8.0
+scikit-surprise==1.1.4
+scipy==1.17.1
+seaborn==0.13.2
+tqdm==4.67.3
+ipywidgets==8.1.8
+notebook==7.5.5

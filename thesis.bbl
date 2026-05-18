@@ -1,0 +1,413 @@
+\begin{thebibliography}{60}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abdollahpouri et~al.(2017)Abdollahpouri, Burke, and
+  Mobasher]{abdollahpouri2017controlling}
+Himan Abdollahpouri, Robin Burke, and Bamshad Mobasher.
+\newblock Controlling popularity bias in learning-to-rank recommendation.
+\newblock \emph{Proceedings of the eleventh ACM conference on recommender
+  systems}, pages 42--46, 2017.
+
+\bibitem[Abdollahpouri et~al.(2019{\natexlab{a}})Abdollahpouri, Burke, and
+  Mobasher]{abdollahpouri2019managing}
+Himan Abdollahpouri, Robin Burke, and Bamshad Mobasher.
+\newblock Managing popularity bias in recommender systems with personalized
+  re-ranking.
+\newblock In \emph{Proceedings of the 32nd international flairs conference},
+  2019{\natexlab{a}}.
+
+\bibitem[Abdollahpouri et~al.(2019{\natexlab{b}})Abdollahpouri, Mansoury,
+  Burke, and Mobasher]{abdollahpouri2019unfairness}
+Himan Abdollahpouri, Majid Mansoury, Robin Burke, and Bamshad Mobasher.
+\newblock The unfairness of popularity bias in recommendation.
+\newblock In \emph{RecSys Workshop on Recommendation in Multi-Stakeholder
+  Environments}, 2019{\natexlab{b}}.
+
+\bibitem[Abdollahpouri et~al.(2020)Abdollahpouri, Adomavicius, Burke, Guy,
+  Jannach, Kaminskas, Krasnodebski, and
+  Pizzato]{abdollahpouri2020multistakeholder}
+Himan Abdollahpouri, Gediminas Adomavicius, Robin Burke, Ido Guy, Dietmar
+  Jannach, Toshihiro Kaminskas, Jan Krasnodebski, and Luiz Pizzato.
+\newblock Multistakeholder recommendation and its connection to multi-sided
+  fairness.
+\newblock In \emph{ACM SIGKDD Explorations Newsletter}, volume~22, pages
+  29--33, 2020.
+
+\bibitem[Abdollahpouri et~al.(2021)Abdollahpouri, Mansoury, Burke, Mobasher,
+  and Malthouse]{abdollahpouri2021usercentered}
+Himan Abdollahpouri, Majid Mansoury, Robin Burke, Bamshad Mobasher, and
+  Edward~C Malthouse.
+\newblock User-centered evaluation of popularity bias in recommender systems.
+\newblock In \emph{Proceedings of the 29th ACM Conference on User Modeling,
+  Adaptation and Personalization}, pages 225--235, 2021.
+
+\bibitem[Adomavicius and Tuzhilin(2005)]{adomavicius2005toward}
+Gediminas Adomavicius and Alexander Tuzhilin.
+\newblock Toward the next generation of recommender systems: A survey of the
+  state-of-the-art and possible extensions.
+\newblock \emph{IEEE transactions on knowledge and data engineering},
+  17\penalty0 (6):\penalty0 734--749, 2005.
+
+\bibitem[Anderson(2004)]{anderson2004long}
+Chris Anderson.
+\newblock The long tail.
+\newblock \emph{Wired magazine}, 12\penalty0 (10):\penalty0 170--177, 2004.
+
+\bibitem[Aridor et~al.(2024)Aridor, Goncalves, Sikdar, and
+  Levy]{aridor2024originals}
+Guy Aridor, Duarte Goncalves, Shreyas Sikdar, and Ron Levy.
+\newblock Recommenders' originals: Untangling the effects of recommender
+  systems on online music listening.
+\newblock \emph{Management Science}, 2024.
+\newblock Advance publication; verify issue and pages.
+
+\bibitem[Barocas and Hardt(2016)]{barocashardt2016fairness}
+Solon Barocas and Moritz Hardt.
+\newblock Fairness in machine learning.
+\newblock NeurIPS Tutorial, 2016.
+\newblock Tutorial materials; see fairmlbook.org for successive editions.
+
+\bibitem[Bellog{\'i}n et~al.(2017)Bellog{\'i}n, Castells, and
+  Cantador]{bellogin2017statistical}
+Alejandro Bellog{\'i}n, Pablo Castells, and Iv{\'a}n Cantador.
+\newblock Statistical biases in information retrieval metrics for recommender
+  systems.
+\newblock \emph{Information Retrieval}, 20\penalty0 (6):\penalty0 517--547,
+  2017.
+
+\bibitem[Beutel et~al.(2019)Beutel, Chen, Doshi, Qian, Wei, Chi, and
+  Raghavan]{beutel2019pairwise}
+Alex Beutel, Jilin Chen, Tanvi Doshi, Hai Qian, Li~Wei, Ed~H Chi, and Sahin
+  Raghavan.
+\newblock Fairness in recommendation ranking through pairwise comparisons.
+\newblock In \emph{Proceedings of the 25th ACM SIGKDD International Conference
+  on Knowledge Discovery \& Data Mining}, pages 2212--2220, 2019.
+
+\bibitem[Boratto et~al.(2021)Boratto, Fenu, and Marras]{boratto2021connecting}
+Ludovico Boratto, Gianni Fenu, and Mirko Marras.
+\newblock Connecting user and item perspectives in popularity debiasing for
+  collaborative recommendation.
+\newblock \emph{Information Processing \& Management}, 58\penalty0
+  (1):\penalty0 102388, 2021.
+
+\bibitem[Brynjolfsson et~al.(2006)Brynjolfsson, Hu, and
+  Smith]{brynjolfsson2006niches}
+Erik Brynjolfsson, Yu~Jeffrey Hu, and Michael~D Smith.
+\newblock From niches to riches: Anatomy of the long tail.
+\newblock \emph{Sloan management review}, 47\penalty0 (4):\penalty0 67--71,
+  2006.
+
+\bibitem[Burke(2017)]{burke2017multisided}
+Robin Burke.
+\newblock Multisided fairness for recommendation.
+\newblock In \emph{Proceedings of the 2017 {AAAI/ACM} Conference on {AI},
+  Ethics, and Society}, pages 27--34, 2017.
+
+\bibitem[Cantador et~al.(2011)Cantador, Brusilovsky, and
+  Kuflik]{cantador2011second}
+Iv{\'a}n Cantador, Peter Brusilovsky, and Tsvi Kuflik.
+\newblock Second benchmark workshop on recommender systems.
+\newblock In \emph{Proceedings of the 5th ACM conference on Recommender
+  systems}, pages 387--388, 2011.
+
+\bibitem[Celma and Herrera(2008)]{celma2008novel}
+{\`O}scar Celma and Perfecto Herrera.
+\newblock A new approach to evaluating novel recommendations.
+\newblock In \emph{Proceedings of the 2008 ACM conference on Recommender
+  systems}, pages 179--186, 2008.
+
+\bibitem[Chaney et~al.(2018)Chaney, Stewart, and
+  Engelhardt]{chaney2018algorithmic}
+Allison~JB Chaney, Brandon~M Stewart, and Barbara~E Engelhardt.
+\newblock How algorithmic confounding in recommendation systems increases
+  homogeneity and decreases utility.
+\newblock \emph{Proceedings of the 12th ACM Conference on Recommender Systems},
+  pages 224--232, 2018.
+
+\bibitem[Chen et~al.(2024)Chen, Wu, Chen, Xin, Li, and
+  He]{chen2024gcnamplifypopularity}
+Jiajia Chen, Jiancan Wu, Jiawei Chen, Xin Xin, Yong Li, and Xiangnan He.
+\newblock How graph convolutions amplify popularity bias for recommendation?
+\newblock \emph{Frontiers of Computer Science}, 18\penalty0 (5):\penalty0
+  185603, 2024.
+
+\bibitem[Cialdini(1984)]{cialdini1984influence}
+Robert~B. Cialdini.
+\newblock \emph{Influence: The New Psychology of Persuasion}.
+\newblock William Morrow, New York, 1984.
+
+\bibitem[Cowell(2011)]{cowell2011measuring}
+Frank Cowell.
+\newblock \emph{Measuring inequality}.
+\newblock Oxford university press, 2011.
+
+\bibitem[Deltas(2003)]{deltas2003gini}
+George Deltas.
+\newblock The small-sample bias of the {Gini} coefficient: results on the
+  estimation and comparison of inequality for purchasing power parities.
+\newblock \emph{Economics Letters}, 82\penalty0 (1):\penalty0 141--147, 2003.
+
+\bibitem[Dem{\v{s}}ar(2006)]{demsar2006statistical}
+Janez Dem{\v{s}}ar.
+\newblock Statistical comparisons of classifiers over multiple data sets.
+\newblock \emph{Journal of Machine Learning Research}, 7:\penalty0 1--30, 2006.
+
+\bibitem[Dwork et~al.(2012)Dwork, Hardt, Pitassi, Reingold, and
+  Zemel]{dwork2012fairness}
+Cynthia Dwork, Moritz Hardt, Toniann Pitassi, Omer Reingold, and Richard Zemel.
+\newblock Fairness through awareness.
+\newblock In \emph{Proceedings of the 3rd Innovations in Theoretical Computer
+  Science Conference}, pages 214--226. ACM, 2012.
+
+\bibitem[Ekstrand et~al.(2018)Ekstrand, Tian, Kazi, Mehrpouyan, and
+  Kluver]{ekstrand2018exploringgender}
+Michael~D Ekstrand, Mucun Tian, Mohammed R~Imran Kazi, Hoda Mehrpouyan, and
+  Daniel Kluver.
+\newblock Exploring author gender in book rating and recommendation.
+\newblock In \emph{Proceedings of the 12th ACM Conference on Recommender
+  Systems}, pages 242--250, 2018.
+
+\bibitem[Ekstrand et~al.(2022)Ekstrand, Das, Burke, and
+  Diaz]{ekstrand2022fairness}
+Michael~D Ekstrand, Anubrata Das, Robin Burke, and Fernando Diaz.
+\newblock Fairness in recommender systems.
+\newblock \emph{Recommender systems handbook}, pages 679--707, 2022.
+
+\bibitem[Ferrari~Dacrema et~al.(2019)Ferrari~Dacrema, Cremonesi, and
+  Jannach]{ferrari2019progress}
+Maurizio Ferrari~Dacrema, Paolo Cremonesi, and Dietmar Jannach.
+\newblock Are we really making much progress? a worrying analysis of recent
+  neural recommendation approaches.
+\newblock In \emph{Proceedings of the 13th ACM Conference on Recommender
+  Systems}, pages 101--110, 2019.
+
+\bibitem[Fleder and Hosanagar(2009)]{fleder2009blockbuster}
+Daniel Fleder and Kartik Hosanagar.
+\newblock Blockbuster culture's next rise or fall: The impact of recommender
+  systems on sales diversity.
+\newblock \emph{Management science}, 55\penalty0 (5):\penalty0 697--712, 2009.
+
+\bibitem[Fleder et~al.(2010)Fleder, Hosanagar, and
+  Buja]{fleder2010individualdiversity}
+Daniel Fleder, Kartik Hosanagar, and Andreas Buja.
+\newblock Recommender systems' impact on sales diversity: {C}hallenges for
+  measuring consumer heterogeneity preferences.
+\newblock \emph{Management Science}, 56\penalty0 (10):\penalty0 1523--1539,
+  2010.
+
+\bibitem[Gupta et~al.(2019)Gupta, Garg, Malhotra, Vig, and
+  Shroff]{gupta2019niser}
+Priyanka Gupta, Diksha Garg, Pankaj Malhotra, Lovekesh Vig, and Gautam Shroff.
+\newblock {NISER}: Normalized item and session representations to handle
+  popularity bias, 2019.
+
+\bibitem[Harper and Konstan(2015)]{harper2015movielens}
+F~Maxwell Harper and Joseph~A Konstan.
+\newblock The movielens datasets: History and context.
+\newblock \emph{Acm transactions on interactive intelligent systems (tiis)},
+  5\penalty0 (4):\penalty0 1--19, 2015.
+
+\bibitem[He et~al.(2017)He, Liao, Zhang, Nie, Hu, and Chua]{he2017ncf}
+Xiangnan He, Lizi Liao, Hanwang Zhang, Liqiang Nie, Xia Hu, and Tat-Seng Chua.
+\newblock Neural collaborative filtering.
+\newblock In \emph{Proceedings of the 26th international conference on world
+  wide web}, pages 173--182, 2017.
+
+\bibitem[He et~al.(2020)He, Deng, Wang, Li, Zhang, and Wang]{he2020lightgcn}
+Xiangnan He, Kuan Deng, Xiang Wang, Yan Li, Yongdong Zhang, and Meng Wang.
+\newblock {LightGCN}: Simplifying and powering graph convolution network for
+  recommendation.
+\newblock In \emph{Proceedings of the 43rd International ACM SIGIR conference
+  on research and development in Information Retrieval}, pages 639--648, 2020.
+
+\bibitem[Hu et~al.(2008)Hu, Koren, and Volinsky]{hu2008collaborative}
+Yifan Hu, Yehuda Koren, and Chris Volinsky.
+\newblock Collaborative filtering for implicit feedback datasets.
+\newblock In \emph{2008 Eighth IEEE International Conference on Data Mining},
+  pages 263--272. Ieee, 2008.
+
+\bibitem[Jannach et~al.(2015)Jannach, Lerche, Zanker, and
+  Ge]{jannach2015balances}
+Dietmar Jannach, Lukas Lerche, Markus Zanker, and Mouzhi Ge.
+\newblock What recommenders recommend: an analysis of recommendation biases and
+  possible countermeasures.
+\newblock \emph{User Modeling and User-Adapted Interaction}, 25\penalty0
+  (5):\penalty0 427--465, 2015.
+
+\bibitem[J{\"a}rvelin and Kek{\"a}l{\"a}inen(2002)]{jarvelin2002cumulated}
+Kalervo J{\"a}rvelin and Jaana Kek{\"a}l{\"a}inen.
+\newblock Cumulated gain-based evaluation of ir techniques.
+\newblock \emph{ACM Transactions on Information Systems (TOIS)}, 20\penalty0
+  (4):\penalty0 422--446, 2002.
+
+\bibitem[Jiang et~al.(2019)Jiang, Chiappa, Lattimore, Gy{\"o}rgy, and
+  Kohli]{jiang2019degenerate}
+Ray Jiang, Silvia Chiappa, Tor Lattimore, Andr{\'a}s Gy{\"o}rgy, and Pushmeet
+  Kohli.
+\newblock Degenerate feedback loops in recommender systems.
+\newblock In \emph{Proceedings of the 2019 {AAAI/ACM} Conference on {AI},
+  Ethics, and Society}, pages 383--390, 2019.
+
+\bibitem[Klimashevskaia et~al.(2024)Klimashevskaia, Jannach, Elahi, and
+  Trattner]{klimashevskaia2024survey}
+Anastasiia Klimashevskaia, Dietmar Jannach, Mehdi Elahi, and Christoph
+  Trattner.
+\newblock A survey on popularity bias in recommender systems.
+\newblock \emph{User Modeling and User-Adapted Interaction}, 34\penalty0
+  (4):\penalty0 1041--1100, 2024.
+
+\bibitem[Koren et~al.(2009)Koren, Bell, and Volinsky]{koren2009matrix}
+Yehuda Koren, Robert Bell, and Chris Volinsky.
+\newblock Matrix factorization techniques for recommender systems.
+\newblock \emph{Computer}, 42\penalty0 (8):\penalty0 30--37, 2009.
+
+\bibitem[Kowald and Lacic(2022)]{kowald2022multimedia}
+Dominik Kowald and Emanuel Lacic.
+\newblock Popularity bias in collaborative filtering-based multimedia
+  recommender systems.
+\newblock \emph{IEEE Transactions on Multimedia}, 25:\penalty0 1--14, 2022.
+
+\bibitem[Leonhardt et~al.(2018)Leonhardt, Anand, and
+  Khosla]{leonhardt2018userfairness}
+J{\"u}rgen Leonhardt, Ashish Anand, and Megha Khosla.
+\newblock User fairness in recommender systems.
+\newblock In \emph{Companion proceedings of the the web conference 2018}, pages
+  1063--1067, 2018.
+
+\bibitem[Little and Rubin(2002)]{little2002statistical}
+Roderick J.~A. Little and Donald~B. Rubin.
+\newblock \emph{Statistical Analysis with Missing Data}.
+\newblock John Wiley \& Sons, Hoboken, NJ, 2 edition, 2002.
+
+\bibitem[Lops et~al.(2011)Lops, de~Gemmis, and Semeraro]{lops2011contentbased}
+Pasquale Lops, Marco de~Gemmis, and Giovanni Semeraro.
+\newblock Content-based recommender systems: State of the art and trends.
+\newblock In \emph{Recommender systems handbook}, pages 73--105. Springer,
+  2011.
+
+\bibitem[Mansoury et~al.(2020)Mansoury, Abdollahpouri, Pechenizkiy, Mobasher,
+  and Burke]{mansoury2020feedback}
+Majid Mansoury, Himan Abdollahpouri, Mykola Pechenizkiy, Bamshad Mobasher, and
+  Robin Burke.
+\newblock Feedback loop and bias amplification in recommender systems.
+\newblock \emph{Proceedings of the 29th ACM International Conference on
+  Information \& Knowledge Management}, pages 2145--2148, 2020.
+
+\bibitem[Marlin and Zemel(2009)]{marlin2009mnar}
+Benjamin~M Marlin and Richard~S Zemel.
+\newblock Collaborative prediction and ranking with non-random missing data.
+\newblock In \emph{Proceedings of the 26th annual international conference on
+  machine learning}, pages 692--699, 2009.
+
+\bibitem[Merton(1968)]{merton1968social}
+Robert~K. Merton.
+\newblock \emph{Social Theory and Social Structure}.
+\newblock Free Press, New York, enlarged edition, 1968.
+
+\bibitem[Pariser(2011)]{pariser2011filterbubble}
+Eli Pariser.
+\newblock \emph{The filter bubble: What the Internet is hiding from you}.
+\newblock Penguin UK, 2011.
+
+\bibitem[Resnick et~al.(1994)Resnick, Iakovou, Suchak, Bergstrom, and
+  Riedl]{resnick1994grouplens}
+Paul Resnick, Neophytos Iakovou, Mitesh Suchak, Peter Bergstrom, and John
+  Riedl.
+\newblock {GroupLens}: an open architecture for collaborative filtering of
+  netnews.
+\newblock In \emph{Proceedings of the 1994 ACM conference on Computer supported
+  cooperative work}, pages 175--186, 1994.
+
+\bibitem[Rubin(1976)]{rubin1976inference}
+Donald~B. Rubin.
+\newblock Inference and missing data.
+\newblock \emph{Biometrika}, 63\penalty0 (3):\penalty0 581--592, 1976.
+
+\bibitem[Sarwar et~al.(2001)Sarwar, Karypis, Konstan, and
+  Riedl]{sarwar2001item}
+Badrul Sarwar, George Karypis, Joseph Konstan, and John Riedl.
+\newblock Item-based collaborative filtering recommendation algorithms.
+\newblock In \emph{Proceedings of the 10th international conference on World
+  Wide Web}, pages 285--295, 2001.
+
+\bibitem[Schnabel et~al.(2016)Schnabel, Swaminathan, Singh, Chandak, and
+  Joachims]{schnabel2016ips}
+Tobias Schnabel, Adith Swaminathan, Ashudeep Singh, Navin Chandak, and Thorsten
+  Joachims.
+\newblock Recommendations as treatments: Debiasing learning and evaluation.
+\newblock In \emph{International conference on machine learning}, pages
+  1670--1679. PMLR, 2016.
+
+\bibitem[Steck(2010)]{steck2010training}
+Harald Steck.
+\newblock Training and testing of recommender systems on data missing not at
+  random.
+\newblock In \emph{Proceedings of the 16th ACM SIGKDD international conference
+  on Knowledge discovery and data mining}, pages 713--722, 2010.
+
+\bibitem[Steck(2011)]{steck2011itempopularity}
+Harald Steck.
+\newblock Item popularity and recommendation accuracy.
+\newblock In \emph{Proceedings of the fifth ACM conference on Recommender
+  systems}, pages 125--132, 2011.
+
+\bibitem[Steck(2018)]{steck2018calibrated}
+Harald Steck.
+\newblock Calibrated recommendations.
+\newblock In \emph{Proceedings of the 12th ACM conference on recommender
+  systems}, pages 154--162, 2018.
+
+\bibitem[Wang et~al.(2019)Wang, He, Wang, Feng, and Chua]{wang2019ngcf}
+Xiang Wang, Xiangnan He, Meng Wang, Fuli Feng, and Tat-Seng Chua.
+\newblock Neural graph collaborative filtering.
+\newblock In \emph{Proceedings of the 42nd international ACM SIGIR conference
+  on research and development in information retrieval}, pages 165--174, 2019.
+
+\bibitem[Yalcin and Bilge(2021)]{yalcin2021group}
+Enes Yalcin and Aysen Bilge.
+\newblock Investigating and counteracting popularity bias in group
+  recommendations.
+\newblock In \emph{Proceedings of the 15th ACM Conference on Recommender
+  Systems}, pages 348--357, 2021.
+
+\bibitem[Yao and Huang(2021)]{yao2021simulatedusers}
+Fan Yao and Ke~Huang.
+\newblock Measuring recommender system effects with simulated users.
+\newblock In \emph{Proceedings of the 2021 {ACM} Conference on Fairness,
+  Accountability, and Transparency}, pages 78--88, 2021.
+
+\bibitem[Zhao et~al.(2022)Zhao, Fan, Liu, Wen, Wang, Yin, and
+  Tang]{zhao2022benignharmful}
+Zihuai Zhao, Jiahui Fan, Chen Liu, Zhefan Wen, Dawei Wang, Dawei Yin, and
+  Jiliang Tang.
+\newblock Popularity bias is not always evil: Disentangling benign and harmful
+  bias for recommendation.
+\newblock \emph{IEEE Transactions on Knowledge and Data Engineering},
+  35\penalty0 (3):\penalty0 2744--2757, 2022.
+
+\bibitem[Zhu et~al.(2021{\natexlab{a}})Zhu, Hu, and
+  Caverlee]{zhu2021dynamicpopularity}
+Ziwei Zhu, Xia Hu, and James Caverlee.
+\newblock Popularity bias in dynamic recommendation.
+\newblock \emph{ACM Transactions on the Web (TWEB)}, 15\penalty0 (3):\penalty0
+  1--21, 2021{\natexlab{a}}.
+
+\bibitem[Zhu et~al.(2021{\natexlab{b}})Zhu, Wang, and
+  Caverlee]{zhu2021opportunitybias}
+Ziwei Zhu, Jianling Wang, and James Caverlee.
+\newblock Popularity-opportunity bias in collaborative filtering.
+\newblock In \emph{Proceedings of the 14th ACM International Conference on Web
+  Search and Data Mining}, pages 85--93, 2021{\natexlab{b}}.
+
+\bibitem[Ziegler et~al.(2005)Ziegler, McNee, Konstan, and
+  Lausen]{ziegler2005improving}
+Cai-Nicolas Ziegler, Sean~M McNee, Joseph~A Konstan, and Georg Lausen.
+\newblock Improving recommendation lists through topic diversification.
+\newblock In \emph{Proceedings of the 14th international conference on World
+  Wide Web}, pages 22--32, 2005.
+
+\end{thebibliography}
