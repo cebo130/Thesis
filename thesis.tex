@@ -128,7 +128,56 @@ Any errors or omissions in interpretation remain my own. To everyone named above
 
 \chapter*{List of Abbreviations}
 \addcontentsline{toc}{chapter}{List of Abbreviations}
-Crucial addition for CS/Data Science: Define NDCG, RMSE, SVD, ALS, TF-IDF, ARP, etc., here so you don't clutter the main text.
+
+\noindent The following abbreviations and acronyms are used throughout this thesis. Model names in code (e.g.\ \texttt{LogReg}, \texttt{RandomForest}) follow the implementation in \texttt{run\_all.py}.
+
+\vspace{0.5em}
+\begin{tabular}{@{}p{2.4cm}p{11.2cm}@{}}
+\toprule
+\textbf{Abbrev.} & \textbf{Meaning} \\
+\midrule
+AI & Artificial intelligence (including generative tools declared in the Declaration). \\
+ALS & Alternating least squares; implicit matrix factorisation baseline (\texttt{implicit} library). \\
+ARP & Average recommendation popularity: mean training-set interaction count of recommended items, averaged over users. \\
+CF & Collaborative filtering: recommendations from user--item interaction patterns. \\
+$\Delta$GAP & Absolute difference in group average popularity between two user segments. \\
+$\Delta$RMSE & Difference in root mean squared error between niche and mainstream user segments (niche minus mainstream). \\
+GAP & Group average popularity: mean popularity of items recommended to a user group. \\
+Gini & Gini coefficient of the item recommendation-frequency distribution (0\,=\,perfect equality, 1\,=\,maximal concentration). \\
+IPS & Inverse propensity scoring; debiasing estimator discussed in the literature (not implemented in this thesis). \\
+$k$-core & Iterative filtering that retains users and items with at least $k$ interactions in the bipartite graph. \\
+$k$-NN & $k$-nearest neighbours; user-based collaborative filtering baseline (\texttt{surprise.KNNBasic}). \\
+LT@20\% & Long-tail share: fraction of recommendation slots assigned to items in the least popular 20\% of the training catalogue. \\
+MF & Matrix factorisation; latent-factor collaborative filtering. \\
+ML-100K & MovieLens 100K benchmark dataset. \\
+ML-1M & MovieLens 1M benchmark dataset. \\
+MNAR & Missing not at random; missingness depends on unobserved preference and exposure. \\
+NDCG & Normalized discounted cumulative gain; ranking-quality metric with position discounting. \\
+NDCG@$K$ & NDCG computed at cutoff $K$ (this thesis uses $K{=}10$ unless stated otherwise). \\
+NeuMF & Neural matrix factorisation (excluded from experiments; cited for scope). \\
+RF & Random forest regressor on label-encoded user and item identifiers. \\
+RMSE & Root mean squared error between predicted and held-out ratings. \\
+RQ & Research question (RQ1--RQ3 map to Experiments A--C). \\
+RS & Recommender system(s). \\
+RecSys & Recommender-systems research community and conference context. \\
+SKU & Stock keeping unit; individual product identifier in e-commerce catalogues. \\
+SVD & Biased probabilistic matrix factorisation via \texttt{surprise.SVD} (latent-factor baseline). \\
+TF--IDF & Term frequency--inverse document frequency; content-based vectorisation of item metadata. \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.75em}
+\noindent\textbf{Baseline shorthand (tables and figures).}
+\begin{tabular}{@{}p{2.4cm}p{11.2cm}@{}}
+\toprule
+\textbf{Label} & \textbf{Model} \\
+\midrule
+LogReg & Per-user logistic regression on TF--IDF features (high vs.\ low rating vs.\ user median). \\
+RandomForest & Random forest on encoded \texttt{user\_id} and \texttt{item\_id} pairs. \\
+SVD+Rerank & Post-processing re-rank on top of SVD scores with a popularity penalty ($\lambda{=}0.8$ on MovieLens~100K and Takealot). \\
+TF--IDF & Content-based recommender using cosine similarity between user profiles and item vectors. \\
+\bottomrule
+\end{tabular}
 
 \newpage
 
