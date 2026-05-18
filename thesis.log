@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.30)  18 MAY 2026 21:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.30)  18 MAY 2026 21:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1113,86 +1113,92 @@ LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 [13{C:/Users/29915759/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.e
-nc}] [14]
+nc}]
+Overfull \hbox (22.57993pt too wide) in paragraph at lines 259--260
+[]\T1/lmr/m/n/10.95 (-20) Surveys col-lab-o-ra-tive and content-based rec-om-me
+nder paradigms,
+ []
+
+[14] [15]
 Chapter 2.
-[15
+[16
 
-] [16] [17]
+] [17] [18]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 367.
+(Font)              <10> on input line 398.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 367.
+(Font)              <7> on input line 398.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 367.
- [18] [19] [20] [21]
+(Font)              <5> on input line 398.
+ [19] [20] [21] [22]
 Chapter 3.
-[22
+[23
 
-] [23{C:/Users/29915759/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mat
-hex.enc}] [24] [25]
+] [24{C:/Users/29915759/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mat
+hex.enc}] [25] [26]
 Chapter 4.
-<outputs/figures/combined_macro_gini_heatmap.png, id=691, 660.4675pt x 350.5095
+<outputs/figures/combined_macro_gini_heatmap.png, id=707, 660.4675pt x 350.5095
 pt>
 File: outputs/figures/combined_macro_gini_heatmap.png Graphic file (type png)
 <use outputs/figures/combined_macro_gini_heatmap.png>
 Package pdftex.def Info: outputs/figures/combined_macro_gini_heatmap.png  used 
-on input line 632.
+on input line 663.
 (pdftex.def)             Requested size: 218.51521pt x 115.968pt.
-<outputs/figures/combined_macro_catalog_coverage_heatmap.png, id=693, 660.4675p
+<outputs/figures/combined_macro_catalog_coverage_heatmap.png, id=709, 660.4675p
 t x 350.5095pt>
 File: outputs/figures/combined_macro_catalog_coverage_heatmap.png Graphic file 
 (type png)
 <use outputs/figures/combined_macro_catalog_coverage_heatmap.png>
 Package pdftex.def Info: outputs/figures/combined_macro_catalog_coverage_heatma
-p.png  used on input line 638.
+p.png  used on input line 669.
 (pdftex.def)             Requested size: 218.51521pt x 115.968pt.
-[26
+[27
 
-] [27 <./outputs/figures/combined_macro_gini_heatmap.png> <./outputs/figures/co
-mbined_macro_catalog_coverage_heatmap.png>] [28] [29]
+] [28 <./outputs/figures/combined_macro_gini_heatmap.png> <./outputs/figures/co
+mbined_macro_catalog_coverage_heatmap.png>] [29] [30]
 Chapter 5.
-<outputs/figures/combined_fairness_gap_delta_rmse.png, id=721, 855.5965pt x 422
+<outputs/figures/combined_fairness_gap_delta_rmse.png, id=738, 855.5965pt x 422
 .7795pt>
 File: outputs/figures/combined_fairness_gap_delta_rmse.png Graphic file (type p
 ng)
 <use outputs/figures/combined_fairness_gap_delta_rmse.png>
 Package pdftex.def Info: outputs/figures/combined_fairness_gap_delta_rmse.png  
-used on input line 738.
+used on input line 769.
 (pdftex.def)             Requested size: 418.82375pt x 206.95087pt.
-<outputs/figures/combined_rmse_niche_vs_mainstream.png, id=722, 844.3545pt x 59
+<outputs/figures/combined_rmse_niche_vs_mainstream.png, id=739, 844.3545pt x 59
 1.811pt>
 File: outputs/figures/combined_rmse_niche_vs_mainstream.png Graphic file (type 
 png)
 <use outputs/figures/combined_rmse_niche_vs_mainstream.png>
 Package pdftex.def Info: outputs/figures/combined_rmse_niche_vs_mainstream.png 
- used on input line 745.
+ used on input line 776.
 (pdftex.def)             Requested size: 418.82375pt x 293.5569pt.
-[30
+[31
 
-] [31 <./outputs/figures/combined_fairness_gap_delta_rmse.png> <./outputs/figur
-es/combined_rmse_niche_vs_mainstream.png>] [32]
+] [32 <./outputs/figures/combined_fairness_gap_delta_rmse.png> <./outputs/figur
+es/combined_rmse_niche_vs_mainstream.png>] [33]
 Chapter 6.
-<outputs/figures/combined_feedback_diversity_decay.png, id=742, 855.5965pt x 42
+<outputs/figures/combined_feedback_diversity_decay.png, id=758, 855.5965pt x 42
 2.7795pt>
 File: outputs/figures/combined_feedback_diversity_decay.png Graphic file (type 
 png)
 <use outputs/figures/combined_feedback_diversity_decay.png>
 Package pdftex.def Info: outputs/figures/combined_feedback_diversity_decay.png 
- used on input line 781.
+ used on input line 812.
 (pdftex.def)             Requested size: 418.82375pt x 206.95087pt.
-[33
+[34
 
-] [34 <./outputs/figures/combined_feedback_diversity_decay.png>]
+] [35 <./outputs/figures/combined_feedback_diversity_decay.png>]
 Chapter 7.
-[35
+[36
 
 ]
 Chapter 8.
-(thesis.bbl [36
+(thesis.bbl [37
 
-] [37
+] [38
 
-] [38] [39]) (_appendices_full.tex [40]
+] [39] [40]) (_appendices_full.tex [41]
 Appendix A.
 (_appendix_generated_tables.tex
 Overfull \hbox (3.90573pt too wide) in paragraph at lines 4--5
@@ -1201,7 +1207,7 @@ Overfull \hbox (3.90573pt too wide) in paragraph at lines 4--5
 ed as a \T1/lmtt/m/n/10.95 take-a-lot \T1/lmr/m/n/10.95 (-20) row). RMSE
  []
 
-ignored error: Infinite glue shrinkage found in box being split [41
+ignored error: Infinite glue shrinkage found in box being split [42
 
 ]
 Overfull \hbox (14.30878pt too wide) in alignment at lines 55--60
@@ -1228,9 +1234,9 @@ Overfull \hbox (14.30878pt too wide) in alignment at lines 70--101
  [] [] [] [] [] [] [] 
  []
 
-[42]
-ignored error: Infinite glue shrinkage found in box being split [43]
-ignored error: Infinite glue shrinkage found in box being split [44]) [45]
+[43]
+ignored error: Infinite glue shrinkage found in box being split [44]
+ignored error: Infinite glue shrinkage found in box being split [45]) [46]
 Appendix B.
 File: outputs/figures/combined_macro_gini_heatmap.png Graphic file (type png)
 <use outputs/figures/combined_macro_gini_heatmap.png>
@@ -1261,9 +1267,9 @@ png)
 Package pdftex.def Info: outputs/figures/combined_feedback_diversity_decay.png 
  used on input line 94.
 (pdftex.def)             Requested size: 418.82375pt x 206.95087pt.
-[46
+[47
 
-] [47] [48] [49]
+] [48] [49] [50]
 Appendix C.
 
 Underfull \hbox (badness 10000) in paragraph at lines 139--140
@@ -1274,19 +1280,19 @@ LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 151.
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 155.
-(thesis_core_environment.txt [50
+(thesis_core_environment.txt [51
 
-])) [51] (thesis.aux)
+])) [52] (thesis.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 28895 strings out of 467871
- 527128 string characters out of 5416924
- 1002343 words of memory out of 5000000
- 56679 multiletter control sequences out of 15000+600000
+ 28899 strings out of 467871
+ 527221 string characters out of 5416924
+ 1002386 words of memory out of 5000000
+ 56682 multiletter control sequences out of 15000+600000
  749032 words of font info for 285 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,11n,104p,1201b,2025s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1313,9 +1319,9 @@ grams/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Users/29915759/AppData/Local/
 Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/29915759/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb><C:/Users/29915759/AppData/L
 ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (52 pages, 1166864 bytes).
+Output written on thesis.pdf (53 pages, 1172771 bytes).
 PDF statistics:
- 1291 PDF objects out of 1440 (max. 8388607)
- 276 named destinations out of 1000 (max. 500000)
+ 1308 PDF objects out of 1440 (max. 8388607)
+ 277 named destinations out of 1000 (max. 500000)
  66259 words of extra memory for PDF output out of 74296 (max. 10000000)
 

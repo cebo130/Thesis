@@ -250,7 +250,38 @@ Offline metrics are imperfect proxies for online performance and may not fully c
 Most research on recommender systems only looks at very dense and clean datasets, like the MovieLens movie ratings. These datasets do not look like real, messy, and very large online stores. The main new idea in this research is comparing different types of data. This thesis directly compares four standard public datasets with a huge, very sparse e-commerce dataset from the Takealot store. By comparing these, this research finds that matrix factorization models fail completely in sparse datasets, mostly showing nothing but the top few items. It also proves that content-based models naturally avoid getting trapped in filter bubbles over time.
 
 \section{Thesis Outline}
-% A brief roadmap of the remaining chapters.
+\label{sec:thesis_outline}
+
+The remainder of this document is organised as follows. Each empirical chapter answers one research question (RQ1--RQ3) under a shared offline protocol; Chapters~\ref{ch:lit_review} and~\ref{ch:methodology} supply the conceptual and operational foundations.
+
+\begin{description}
+  \item[Chapter~\ref{ch:lit_review} (Literature Review)]
+  Surveys collaborative and content-based recommender paradigms, missing-not-at-random (MNAR) feedback, macro-level popularity and exposure metrics, user-centric fairness, longitudinal feedback dynamics, and post-processing mitigations. The chapter closes with the \emph{Bias Propagation Chain} theoretical framework and testable hypotheses (H1--H3) that link macro concentration, segment-level disparity, and diversity decay over simulated feedback rounds.
+
+  \item[Chapter~\ref{ch:methodology} (Methodology)]
+  Specifies datasets (MovieLens~100K and~1M, Last.fm~2K, Book-Crossing, and the proprietary Takealot corpus), $k$-core preprocessing, six baseline families ($k$-NN, SVD, ALS, TF--IDF, per-user logistic regression, random forest on identifiers), metric definitions (Gini, catalogue coverage, ARP, NDCG@10, RMSE by taste segment), the stochastic click simulator for Experiment~C, statistical testing, implementation details, and threats to validity.
+
+  \item[Chapter~\ref{ch:exp_a} (Experiment~A, RQ1)]
+  Quantifies catalogue-level concentration and popularity amplification across algorithms and domains, including optional SVD popularity re-ranking on MovieLens~100K and Takealot. Answers whether collaborative latent-factor and implicit models concentrate exposure more strongly than content-based pipelines under matched protocols (H1).
+
+  \item[Chapter~\ref{ch:exp_b} (Experiment~B, RQ2)]
+  Segments users into niche, diverse, and mainstream cohorts and reports RMSE and NDCG@10 disparities---the ``niche tax.'' Examines whether accuracy and ranking quality diverge across segments and how sparsity (especially on Takealot) shapes those gaps (H2).
+
+  \item[Chapter~\ref{ch:exp_c} (Experiment~C, RQ3)]
+  Runs five-round feedback simulations for SVD versus TF--IDF with a blended relevance--popularity click model. Tracks aggregate diversity and ARP over iterations to test whether collaborative filtering amplifies popularity while content-based models remain more resilient (H3).
+
+  \item[Chapter~\ref{ch:discussion} (Discussion)]
+  Synthesises findings across the three experiments, relates macro catalog starvation to segment-level unfairness and feedback loops, discusses the Takealot domain extreme, and revisits validity threats and implications for practitioners.
+
+  \item[Chapter~\ref{ch:conclusion_final} (Conclusion)]
+  Summarises contributions, states key takeaways, and outlines directions for future work (e.g.\ calibrated click models, stronger debiasing, and live evaluation).
+
+  \item[References]
+  Bibliography of sources cited in the main text.
+
+  \item[Appendices]
+  Appendix~\ref{app:tables} provides extended macro- and micro-metric tables exported from the evaluation pipeline; Appendix~\ref{app:viz} repeats principal figures and workflow diagrams; Appendix~\ref{appendix:software} documents repository layout, dependencies, and reproducibility steps.
+\end{description}
 
 \chapter{Literature Review}
 \label{ch:lit_review}
