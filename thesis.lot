@@ -1,21 +1,21 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Illustrative coverage of key dimensions in selected prior work (Y\,=\,addressed; (\,Y\,)\,=\,partial; empty\,=\,not central). The final row sketches this thesis.}}{22}{table.caption.10}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Illustrative coverage of key dimensions in selected prior work (Y\,=\,addressed; (\,Y\,)\,=\,partial; empty\,=\,not central). The final row sketches this thesis.}}{46}{table.caption.41}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Spearman $\rho $ between training popularity and recommendation-slot frequency (higher implies stronger popularity alignment). Values come from \texttt {combined\_macro\_bias\_metrics.csv}.}}{28}{table.caption.18}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Aggregate diversity (unique recommended items) and long-tail share of recommendation slots (fraction from the least popular 20\% of training items).}}{29}{table.caption.19}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Test RMSE for models that expose global rating-scale predictors in the macro pipeline (empty cells where RMSE is not computed in this export).}}{29}{table.caption.20}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Spearman $\rho $ between training popularity and recommendation-slot frequency (higher implies stronger popularity alignment). Values come from \texttt {combined\_macro\_bias\_metrics.csv}.}}{55}{table.caption.49}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Aggregate diversity (unique recommended items) and long-tail share of recommendation slots (fraction from the least popular 20\% of training items).}}{56}{table.caption.50}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Test RMSE for models that expose global rating-scale predictors in the macro pipeline (empty cells where RMSE is not computed in this export).}}{56}{table.caption.51}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {A.1}{\ignorespaces Macro metrics (part I): concentration and popularity alignment.}}{42}{table.A.1}%
-\contentsline {table}{\numberline {A.2}{\ignorespaces Macro metrics (part II): tail mass, diversity, metadata entropy, RMSE.}}{43}{table.A.2}%
-\contentsline {table}{\numberline {A.3}{\ignorespaces Micro metrics (part I): RMSE by taste segment and $\Delta $RMSE.}}{44}{table.A.3}%
-\contentsline {table}{\numberline {A.4}{\ignorespaces Micro metrics (part II): NDCG@10 by taste segment.}}{44}{table.A.4}%
-\contentsline {table}{\numberline {A.5}{\ignorespaces Feedback simulation: aggregate diversity and ARP at every iteration (SVD vs.\ TF--IDF).}}{45}{table.A.5}%
+\contentsline {table}{\numberline {A.1}{\ignorespaces Macro metrics (part I): concentration and popularity alignment.}}{69}{table.A.1}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Macro metrics (part II): tail mass, diversity, metadata entropy, RMSE.}}{70}{table.A.2}%
+\contentsline {table}{\numberline {A.3}{\ignorespaces Micro metrics (part I): RMSE by taste segment and $\Delta $RMSE.}}{71}{table.A.3}%
+\contentsline {table}{\numberline {A.4}{\ignorespaces Micro metrics (part II): NDCG@10 by taste segment.}}{71}{table.A.4}%
+\contentsline {table}{\numberline {A.5}{\ignorespaces Feedback simulation: aggregate diversity and ARP at every iteration (SVD vs.\ TF--IDF).}}{72}{table.A.5}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {C.1}{\ignorespaces Scientific stack directly exercised by \texttt {run\_all.py}.}}{52}{table.caption.34}%
+\contentsline {table}{\numberline {C.1}{\ignorespaces Scientific stack directly exercised by \texttt {run\_all.py}.}}{79}{table.caption.65}%

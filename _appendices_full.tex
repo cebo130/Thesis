@@ -108,10 +108,10 @@ All experiments are implemented as a single Python package-style tree under \tex
     every node/.style={draw, align=left, anchor=west, inner sep=4pt}
   ]
     \node (r) at (0,0) {\texttt{Thesis\_Research/}};
-    \node (run) at (0.4,-0.85) {\texttt{run\_all.py} --- entry point};
-    \node (src) at (0.4,-1.55) {\texttt{src/} --- models, metrics, \texttt{statistical\_tests.py}};
-    \node (out) at (0.4,-2.25) {\texttt{outputs/results/*.csv} --- thesis tables};
-    \node (fig) at (0.4,-2.95) {\texttt{outputs/figures/*.png} --- thesis figures};
+    \node (run) at (0.4,-0.85) {\texttt{run\_all.py}   entry point};
+    \node (src) at (0.4,-1.55) {\texttt{src/}   models, metrics, \texttt{statistical\_tests.py}};
+    \node (out) at (0.4,-2.25) {\texttt{outputs/results/*.csv}   thesis tables};
+    \node (fig) at (0.4,-2.95) {\texttt{outputs/figures/*.png}   thesis figures};
     \draw[-{Latex}] (r.south west) ++(0.15,-0.12) |- (run.west);
     \draw[-{Latex}] (r.south west) ++(0.15,-0.12) |- (src.west);
     \draw[-{Latex}] (r.south west) ++(0.15,-0.12) |- (out.west);

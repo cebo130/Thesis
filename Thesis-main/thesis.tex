@@ -37,7 +37,7 @@ Standard Stellenbosch University declaration of original work.
 
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
-Recommender Systems (RS) are critical tools for content discovery, yet many algorithms fail to promote diverse content, instead exhibiting a measurable popularity bias—the disproportionate recommendation of already popular items. This phenomenon leads to significant exposure disparity, reinforcing market imbalances and restricting user access to niche content. This thesis presents a rigorous empirical study that detects and quantifies inherent popularity and exposure bias across classical Collaborative Filtering (CF) architectures and Content-Based models. 
+Recommender Systems (RS) are critical tools for content discovery, yet many algorithms fail to promote diverse content, instead exhibiting a measurable popularity bias the disproportionate recommendation of already popular items. This phenomenon leads to significant exposure disparity, reinforcing market imbalances and restricting user access to niche content. This thesis presents a rigorous empirical study that detects and quantifies inherent popularity and exposure bias across classical Collaborative Filtering (CF) architectures and Content-Based models. 
 
 Using standard benchmark datasets (MovieLens, Last.fm, Book-Crossing) alongside a proprietary, highly sparse e-commerce dataset from Takealot, the study implements a unified, three-phase evaluation framework. \textbf{Experiment A} measures macro-level exposure bias, revealing that Matrix Factorization models (SVD, ALS) act as extreme popularity amplifiers, exhibiting near-perfect Gini coefficients and collapsing catalog coverage on sparse data. \textbf{Experiment B} investigates user-centric fairness, quantifying a "niche tax" where models significantly degrade in ranking quality (NDCG@10) and predictive accuracy (RMSE) for users with non-mainstream tastes. \textbf{Experiment C} employs a longitudinal feedback simulation to demonstrate how CF models drive diversity decay over time, while content-based models show resilience against filter bubbles.
 
@@ -100,7 +100,7 @@ This study breaks them down into three main questions about what items get shown
 \section{Scope and Limitations}
 
 \subsection{Focus Area}
-This research is scoped to focus specifically on popularity bias and exposure bias in the context of both explicit and implicit feedback recommender systems. The study explores how these biases manifest at the macro-level (catalog coverage), micro-level (user fairness), and longitudinally over time. It specifically investigates whether architectural design choices—rather than just the data—drive bias amplification.
+This research is scoped to focus specifically on popularity bias and exposure bias in the context of both explicit and implicit feedback recommender systems. The study explores how these biases manifest at the macro-level (catalog coverage), micro-level (user fairness), and longitudinally over time. It specifically investigates whether architectural design choices rather than just the data drive bias amplification.
 
 The research does \textbf{not} cover demographic or representation bias (e.g., based on gender or ethnicity), nor does it evaluate online A/B testing in live production environments, as all evaluations are conducted offline using historical datasets and simulations.
 
@@ -136,7 +136,7 @@ Recommender systems have evolved from early rule-based filtering to sophisticate
 \textbf{Hybrid approaches} combine CF and content-based methods to leverage the strengths of both, often achieving better accuracy and coverage than either approach alone.
 
 \subsection{Explicit vs. Implicit Feedback}
-A critical distinction in recommendation data is between \textbf{explicit feedback} (e.g., star ratings, likes) and \textbf{implicit feedback} (clicks, views, purchases) \citep{hu2008collaborative}. Explicit feedback directly expresses preference strength but is sparse and subject to selection bias. Implicit feedback is abundant and reflects actual behavior but is ambiguous: the absence of an interaction does not necessarily indicate disinterest---it may indicate lack of exposure.
+A critical distinction in recommendation data is between \textbf{explicit feedback} (e.g., star ratings, likes) and \textbf{implicit feedback} (clicks, views, purchases) \citep{hu2008collaborative}. Explicit feedback directly expresses preference strength but is sparse and subject to selection bias. Implicit feedback is abundant and reflects actual behavior but is ambiguous: the absence of an interaction does not necessarily indicate disinterest it may indicate lack of exposure.
 
 \subsection{Modern Approaches (Deep Learning \& Graphs)}
 % A brief look at architectures like Neural Collaborative Filtering (NeuMF) and Graph Convolutional Networks (LightGCN), justifying why foundational baselines are better suited for isolated bias testing.

@@ -1,26 +1,26 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces The \emph {Bias Propagation Chain}: MNAR training data and exposure-coupled objectives produce macro-level concentration, uneven segment-level service, and feedback-generated logs that re-enter training. Macro diagnostics, user-centric tests, and longitudinal simulation (Experiments A--C) interrogate successive links of the same loop.}}{20}{figure.caption.8}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Relations among constructs used in this thesis: training-side popularity skew and exposure-coupled missingness shape segment-level disparities; feedback and retraining link user-level outcomes to longitudinal diversity loss, with catalog starvation as the extreme macro outcome.}}{21}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces The \emph {Bias Propagation Chain}: MNAR training data and exposure-coupled objectives produce macro-level concentration, uneven segment-level service, and feedback-generated logs that re-enter training. Macro diagnostics, user-centric tests, and longitudinal simulation (Experiments A--C) interrogate successive links of the same loop.}}{41}{figure.caption.39}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Relations among constructs used in this thesis: training-side popularity skew and exposure-coupled missingness shape segment-level disparities; feedback and retraining link user-level outcomes to longitudinal diversity loss, with catalog starvation as the extreme macro outcome.}}{43}{figure.caption.40}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces The three main steps of the testing plan.}}{23}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces The three main steps of the testing plan.}}{50}{figure.caption.42}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Macro-level exposure inequality (left) and catalogue coverage (right). Darker Gini cells indicate stronger concentration; coverage is read directly from the colour scale. Heatmaps are produced from the merged results table after \texttt {run\_all\_datasets.py} (public corpora) and the Takealot pipeline.}}{28}{figure.caption.17}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Macro-level exposure inequality (left) and catalogue coverage (right). Darker Gini cells indicate stronger concentration; coverage is read directly from the colour scale. Heatmaps are produced from the merged results table after \texttt {run\_all\_datasets.py} (public corpora) and the Takealot pipeline.}}{55}{figure.caption.48}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Fairness gap $\Delta \mathrm {RMSE} = \mathrm {RMSE}_{\text {niche}} - \mathrm {RMSE}_{\text {mainstream}}$ by dataset and model. Positive values indicate higher error for niche users. Note that content models that fall back to a global mean for rating prediction can show flat $\Delta \mathrm {RMSE}$; segment NDCG should be read alongside this chart.}}{32}{figure.caption.21}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces RMSE by user segment (Niche vs.\ Mainstream) across datasets and models.}}{32}{figure.caption.22}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Fairness gap $\Delta \mathrm {RMSE} = \mathrm {RMSE}_{\text {niche}} - \mathrm {RMSE}_{\text {mainstream}}$ by dataset and model. Positive values indicate higher error for niche users. Note that content models that fall back to a global mean for rating prediction can show flat $\Delta \mathrm {RMSE}$; segment NDCG should be read alongside this chart.}}{59}{figure.caption.52}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces RMSE by user segment (Niche vs.\ Mainstream) across datasets and models.}}{59}{figure.caption.53}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Feedback simulation: aggregate diversity (unique recommended items) and ARP over five iterations for SVD and TF-IDF, by dataset. Trajectories illustrate how collaborative vs.\ content-based models respond to synthetic clicks.}}{35}{figure.caption.23}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Feedback simulation: aggregate diversity (unique recommended items) and ARP over five iterations for SVD and TF-IDF, by dataset. Trajectories illustrate how collaborative vs.\ content-based models respond to synthetic clicks.}}{62}{figure.caption.54}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {B.1}{\ignorespaces Unified pipeline: shared preprocessing and model training feed three evaluation tracks (Chapters~\ref {ch:exp_a}--\ref {ch:exp_c}).}}{48}{figure.caption.26}%
-\contentsline {figure}{\numberline {B.2}{\ignorespaces Longitudinal simulator: logs evolve from recommendations and stochastic clicks, then re-enter training.}}{48}{figure.caption.27}%
-\contentsline {figure}{\numberline {B.3}{\ignorespaces Appendix: Gini heatmap}}{48}{figure.caption.28}%
-\contentsline {figure}{\numberline {B.4}{\ignorespaces Appendix: catalog coverage heatmap}}{49}{figure.caption.29}%
-\contentsline {figure}{\numberline {B.5}{\ignorespaces Appendix: niche RMSE gap}}{49}{figure.caption.30}%
-\contentsline {figure}{\numberline {B.6}{\ignorespaces Appendix: RMSE by segment}}{50}{figure.caption.31}%
-\contentsline {figure}{\numberline {B.7}{\ignorespaces Appendix: feedback diversity}}{50}{figure.caption.32}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {C.1}{\ignorespaces Code and artefact layout relative to the research repository root.}}{51}{figure.caption.33}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {B.1}{\ignorespaces Unified pipeline: shared preprocessing and model training feed three evaluation tracks (Chapters~\ref {ch:exp_a}--\ref {ch:exp_c}).}}{75}{figure.caption.57}%
+\contentsline {figure}{\numberline {B.2}{\ignorespaces Longitudinal simulator: logs evolve from recommendations and stochastic clicks, then re-enter training.}}{75}{figure.caption.58}%
+\contentsline {figure}{\numberline {B.3}{\ignorespaces Appendix: Gini heatmap}}{75}{figure.caption.59}%
+\contentsline {figure}{\numberline {B.4}{\ignorespaces Appendix: catalog coverage heatmap}}{76}{figure.caption.60}%
+\contentsline {figure}{\numberline {B.5}{\ignorespaces Appendix: niche RMSE gap}}{76}{figure.caption.61}%
+\contentsline {figure}{\numberline {B.6}{\ignorespaces Appendix: RMSE by segment}}{77}{figure.caption.62}%
+\contentsline {figure}{\numberline {B.7}{\ignorespaces Appendix: feedback diversity}}{77}{figure.caption.63}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {C.1}{\ignorespaces Code and artefact layout relative to the research repository root.}}{78}{figure.caption.64}%
