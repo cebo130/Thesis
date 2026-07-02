@@ -57,41 +57,41 @@
 \contentsline {section}{\numberline {5.1}User Stratification Strategy}{68}{section.5.1}%
 \contentsline {section}{\numberline {5.2}The RMSE Methodological Artifact}{68}{section.5.2}%
 \contentsline {section}{\numberline {5.3}Predictive Disparities}{68}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Ranking Fairness (NDCG@10)}{68}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Summary of Findings}{70}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Experiment C: Longitudinal Feedback Dynamics}{71}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Purpose and Alignment with the Research Design}{71}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Simulation Design}{72}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Initialisation and Round Structure}{72}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Scope Restrictions}{72}{subsection.6.2.2}%
-\contentsline {section}{\numberline {6.3}The Stochastic User Choice Model}{73}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Collaborative ``Popularity Creep''}{73}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Content Model Resilience}{75}{section.6.5}%
-\contentsline {section}{\numberline {6.6}Comparing SVD and TF--IDF Trajectories: A Controlled Attribution}{77}{section.6.6}%
-\contentsline {section}{\numberline {6.7}Connecting to the Bias Propagation Chain}{78}{section.6.7}%
-\contentsline {section}{\numberline {6.8}Limitations of the Longitudinal Simulation}{78}{section.6.8}%
-\contentsline {section}{\numberline {6.9}Summary of Findings and Answer to RQ3}{79}{section.6.9}%
-\contentsline {chapter}{\numberline {7}Discussion}{81}{chapter.7}%
-\contentsline {section}{\numberline {7.1}The Interconnectedness of Biases}{81}{section.7.1}%
-\contentsline {section}{\numberline {7.2}The Domain Extreme: What Takealot Reveals}{83}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Threats to Validity Revisited}{85}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Implications for Practitioners}{86}{section.7.4}%
-\contentsline {chapter}{\numberline {8}Conclusion}{89}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Summary of the Study}{89}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Key Takeaways}{90}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Directions for Future Research}{91}{section.8.3}%
-\contentsline {chapter}{References / Bibliography}{94}{section*.87}%
-\contentsline {chapter}{\numberline {A}Extended tables for macro and micro metrics}{99}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Macro-level (catalog) metrics}{99}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Micro-level (user-centric) metrics}{101}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Longitudinal feedback simulation (full iteration grid)}{102}{section.A.3}%
-\contentsline {chapter}{\numberline {B}Additional visualizations and diagrams}{104}{appendix.B}%
-\contentsline {section}{\numberline {B.1}End-to-end evaluation pipeline}{104}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Stylised feedback loop with explicit simulator knobs}{104}{section.B.2}%
-\contentsline {section}{\numberline {B.3}Cross-dataset figures (same assets as the main text)}{104}{section.B.3}%
-\contentsline {chapter}{\numberline {C}Extended software specifications}{108}{appendix.C}%
-\contentsline {section}{\numberline {C.1}Repository layout}{108}{section.C.1}%
-\contentsline {section}{\numberline {C.2}Language runtime and hardware assumptions}{108}{section.C.2}%
-\contentsline {section}{\numberline {C.3}Core dependency pins}{108}{section.C.3}%
-\contentsline {section}{\numberline {C.4}Pinned versions (\texttt {pip freeze} excerpt)}{108}{section.C.4}%
-\contentsline {section}{\numberline {C.5}Regeneration checklist}{109}{section.C.5}%
+\contentsline {section}{\numberline {5.4}Ranking Fairness (NDCG@10)}{70}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Discussion and Answer to RQ2}{71}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Experiment C: Longitudinal Feedback Dynamics}{73}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Purpose and Alignment with the Research Design}{73}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Simulation Design}{74}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Initialisation and Round Structure}{74}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Scope Restrictions}{74}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}The Stochastic User Choice Model}{75}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Collaborative ``Popularity Creep''}{76}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Content Model Resilience}{77}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Comparing SVD and TF--IDF Trajectories: A Controlled Attribution}{79}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Connecting to the Bias Propagation Chain}{80}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Limitations of the Longitudinal Simulation}{81}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Summary of Findings and Answer to RQ3}{82}{section.6.9}%
+\contentsline {chapter}{\numberline {7}Discussion}{84}{chapter.7}%
+\contentsline {section}{\numberline {7.1}The Interconnectedness of Biases}{84}{section.7.1}%
+\contentsline {section}{\numberline {7.2}The Domain Extreme: What Takealot Reveals}{86}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Threats to Validity Revisited}{88}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Implications for Practitioners}{89}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Conclusion}{92}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Summary of the Study}{92}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Key Takeaways}{93}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Directions for Future Research}{94}{section.8.3}%
+\contentsline {chapter}{References / Bibliography}{97}{section*.87}%
+\contentsline {chapter}{\numberline {A}Extended tables for macro and micro metrics}{103}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Macro-level (catalog) metrics}{103}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Micro-level (user-centric) metrics}{105}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Longitudinal feedback simulation (full iteration grid)}{106}{section.A.3}%
+\contentsline {chapter}{\numberline {B}Additional visualizations and diagrams}{108}{appendix.B}%
+\contentsline {section}{\numberline {B.1}End-to-end evaluation pipeline}{108}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Stylised feedback loop with explicit simulator knobs}{108}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Cross-dataset figures (same assets as the main text)}{108}{section.B.3}%
+\contentsline {chapter}{\numberline {C}Extended software specifications}{112}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Repository layout}{112}{section.C.1}%
+\contentsline {section}{\numberline {C.2}Language runtime and hardware assumptions}{112}{section.C.2}%
+\contentsline {section}{\numberline {C.3}Core dependency pins}{112}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Pinned versions (\texttt {pip freeze} excerpt)}{112}{section.C.4}%
+\contentsline {section}{\numberline {C.5}Regeneration checklist}{113}{section.C.5}%

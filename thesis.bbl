@@ -1,4 +1,4 @@
-\begin{thebibliography}{60}
+\begin{thebibliography}{71}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -55,29 +55,14 @@ Gediminas Adomavicius and Alexander Tuzhilin.
 \bibitem[Anderson(2004)]{anderson2004long}
 Chris Anderson.
 \newblock The long tail.
-\newblock \emph{Wired magazine}, 12\penalty0 (10):\penalty0 170--177, 2004.
+\newblock Wired Magazine, 2004.
+\newblock URL \url{https://www.wired.com/2004/10/tail/}.
 
-\bibitem[Aridor et~al.(2024)Aridor, Goncalves, Sikdar, and
-  Levy]{aridor2024originals}
-Guy Aridor, Duarte Goncalves, Shreyas Sikdar, and Ron Levy.
-\newblock Recommenders' originals: Untangling the effects of recommender
-  systems on online music listening.
-\newblock \emph{Management Science}, 2024.
-\newblock Advance publication; verify issue and pages.
-
-\bibitem[Barocas and Hardt(2016)]{barocashardt2016fairness}
-Solon Barocas and Moritz Hardt.
-\newblock Fairness in machine learning.
-\newblock NeurIPS Tutorial, 2016.
-\newblock Tutorial materials; see fairmlbook.org for successive editions.
-
-\bibitem[Bellog{\'i}n et~al.(2017)Bellog{\'i}n, Castells, and
-  Cantador]{bellogin2017statistical}
-Alejandro Bellog{\'i}n, Pablo Castells, and Iv{\'a}n Cantador.
-\newblock Statistical biases in information retrieval metrics for recommender
-  systems.
-\newblock \emph{Information Retrieval}, 20\penalty0 (6):\penalty0 517--547,
-  2017.
+\bibitem[Barocas et~al.(2019)Barocas, Hardt, and
+  Narayanan]{barocashardt2016fairness}
+Solon Barocas, Moritz Hardt, and Arvind Narayanan.
+\newblock Fairness and machine learning: Limitations and opportunities.
+\newblock \url{https://fairmlbook.org}, 2019.
 
 \bibitem[Beutel et~al.(2019)Beutel, Chen, Doshi, Qian, Wei, Chi, and
   Raghavan]{beutel2019pairwise}
@@ -87,12 +72,23 @@ Alex Beutel, Jilin Chen, Tanvi Doshi, Hai Qian, Li~Wei, Ed~H Chi, and Sahin
 \newblock In \emph{Proceedings of the 25th ACM SIGKDD International Conference
   on Knowledge Discovery \& Data Mining}, pages 2212--2220, 2019.
 
+\bibitem[Biega et~al.(2018)Biega, Gummadi, and Weikum]{biega2018equity}
+Asia~J Biega, Krishna~P Gummadi, and Gerhard Weikum.
+\newblock Equity of attention: Amortizing individual fairness in rankings.
+\newblock In \emph{The 41st International ACM SIGIR Conference on Research \&
+  Development in Information Retrieval}, pages 405--414, 2018.
+
 \bibitem[Boratto et~al.(2021)Boratto, Fenu, and Marras]{boratto2021connecting}
 Ludovico Boratto, Gianni Fenu, and Mirko Marras.
 \newblock Connecting user and item perspectives in popularity debiasing for
   collaborative recommendation.
 \newblock \emph{Information Processing \& Management}, 58\penalty0
   (1):\penalty0 102388, 2021.
+
+\bibitem[Breiman(2001)]{breiman2001random}
+Leo Breiman.
+\newblock Random forests.
+\newblock \emph{Machine learning}, 45\penalty0 (1):\penalty0 5--32, 2001.
 
 \bibitem[Brynjolfsson et~al.(2006)Brynjolfsson, Hu, and
   Smith]{brynjolfsson2006niches}
@@ -104,15 +100,15 @@ Erik Brynjolfsson, Yu~Jeffrey Hu, and Michael~D Smith.
 \bibitem[Burke(2017)]{burke2017multisided}
 Robin Burke.
 \newblock Multisided fairness for recommendation.
-\newblock In \emph{Proceedings of the 2017 {AAAI/ACM} Conference on {AI},
-  Ethics, and Society}, pages 27--34, 2017.
+\newblock arXiv preprint arXiv:1707.00093, 2017.
 
 \bibitem[Cantador et~al.(2011)Cantador, Brusilovsky, and
   Kuflik]{cantador2011second}
 Iv{\'a}n Cantador, Peter Brusilovsky, and Tsvi Kuflik.
-\newblock Second benchmark workshop on recommender systems.
-\newblock In \emph{Proceedings of the 5th ACM conference on Recommender
-  systems}, pages 387--388, 2011.
+\newblock 2nd workshop on information heterogeneity and fusion in recommender
+  systems (hetrec 2011).
+\newblock In \emph{Proceedings of the 5th ACM Conference on Recommender Systems
+  (RecSys 2011)}, 2011.
 
 \bibitem[Celma and Herrera(2008)]{celma2008novel}
 {\`O}scar Celma and Perfecto Herrera.
@@ -136,14 +132,30 @@ Jiajia Chen, Jiancan Wu, Jiawei Chen, Xin Xin, Yong Li, and Xiangnan He.
   185603, 2024.
 
 \bibitem[Cialdini(1984)]{cialdini1984influence}
-Robert~B. Cialdini.
-\newblock \emph{Influence: The New Psychology of Persuasion}.
-\newblock William Morrow, New York, 1984.
+Robert~B Cialdini.
+\newblock \emph{Influence: The Psychology of Persuasion}.
+\newblock William Morrow, 1984.
 
 \bibitem[Cowell(2011)]{cowell2011measuring}
-Frank Cowell.
-\newblock \emph{Measuring inequality}.
-\newblock Oxford university press, 2011.
+Frank~A Cowell.
+\newblock \emph{Measuring Inequality}.
+\newblock LSE Perspectives in Economic Analysis. Oxford University Press, 3rd
+  edition, 2011.
+\newblock URL
+  \url{http://piketty.pse.ens.fr/files/CowellMeasuringInequality2000.pdf}.
+
+\bibitem[Cremonesi et~al.(2010)Cremonesi, Koren, and
+  Turrin]{cremonesi2010accuracy}
+Paolo Cremonesi, Yehuda Koren, and Roberto Turrin.
+\newblock Performance of recommender algorithms on top-n recommendation tasks.
+\newblock In \emph{Proceedings of the fourth ACM conference on Recommender
+  systems}, pages 39--46, 2010.
+
+\bibitem[Cuturi(2013)]{cuturi2013sinkhorn}
+Marco Cuturi.
+\newblock Sinkhorn distances: Lightspeed computation of optimal transport.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~26, 2013.
 
 \bibitem[Deltas(2003)]{deltas2003gini}
 George Deltas.
@@ -161,21 +173,32 @@ Janez Dem{\v{s}}ar.
 Cynthia Dwork, Moritz Hardt, Toniann Pitassi, Omer Reingold, and Richard Zemel.
 \newblock Fairness through awareness.
 \newblock In \emph{Proceedings of the 3rd Innovations in Theoretical Computer
-  Science Conference}, pages 214--226. ACM, 2012.
+  Science Conference (ITCS '12)}, pages 214--226, 2012.
+\newblock URL \url{https://www.cs.toronto.edu/~toni/Papers/awareness.pdf}.
 
-\bibitem[Ekstrand et~al.(2018)Ekstrand, Tian, Kazi, Mehrpouyan, and
-  Kluver]{ekstrand2018exploringgender}
+\bibitem[Ekstrand et~al.(2018{\natexlab{a}})Ekstrand, Tian, Azpiazu, Ekstrand,
+  Anuyah, McNeill, and Pera]{ekstrand2018all}
+Michael~D Ekstrand, Mucun Tian, Ion~Madrazo Azpiazu, JD~Ekstrand, Oghenemaro
+  Anuyah, David McNeill, and Maria~Soledad Pera.
+\newblock All the cool kids, how do they fit in?: Popularity and demographic
+  biases in recommender evaluation and effectiveness.
+\newblock \emph{Conference on Fairness, Accountability and Transparency}, pages
+  172--186, 2018{\natexlab{a}}.
+
+\bibitem[Ekstrand et~al.(2018{\natexlab{b}})Ekstrand, Tian, Kazi, Mehrpouyan,
+  and Kluver]{ekstrand2018exploringgender}
 Michael~D Ekstrand, Mucun Tian, Mohammed R~Imran Kazi, Hoda Mehrpouyan, and
   Daniel Kluver.
 \newblock Exploring author gender in book rating and recommendation.
 \newblock In \emph{Proceedings of the 12th ACM Conference on Recommender
-  Systems}, pages 242--250, 2018.
+  Systems}, pages 242--250, 2018{\natexlab{b}}.
 
 \bibitem[Ekstrand et~al.(2022)Ekstrand, Das, Burke, and
   Diaz]{ekstrand2022fairness}
 Michael~D Ekstrand, Anubrata Das, Robin Burke, and Fernando Diaz.
-\newblock Fairness in recommender systems.
-\newblock \emph{Recommender systems handbook}, pages 679--707, 2022.
+\newblock Fairness in information access systems.
+\newblock \emph{Foundations and Trends in Information Retrieval}, 16\penalty0
+  (1--2):\penalty0 1--177, 2022.
 
 \bibitem[Ferrari~Dacrema et~al.(2019)Ferrari~Dacrema, Cremonesi, and
   Jannach]{ferrari2019progress}
@@ -191,25 +214,24 @@ Daniel Fleder and Kartik Hosanagar.
   systems on sales diversity.
 \newblock \emph{Management science}, 55\penalty0 (5):\penalty0 697--712, 2009.
 
-\bibitem[Fleder et~al.(2010)Fleder, Hosanagar, and
-  Buja]{fleder2010individualdiversity}
-Daniel Fleder, Kartik Hosanagar, and Andreas Buja.
-\newblock Recommender systems' impact on sales diversity: {C}hallenges for
-  measuring consumer heterogeneity preferences.
-\newblock \emph{Management Science}, 56\penalty0 (10):\penalty0 1523--1539,
-  2010.
-
-\bibitem[Gupta et~al.(2019)Gupta, Garg, Malhotra, Vig, and
-  Shroff]{gupta2019niser}
-Priyanka Gupta, Diksha Garg, Pankaj Malhotra, Lovekesh Vig, and Gautam Shroff.
-\newblock {NISER}: Normalized item and session representations to handle
-  popularity bias, 2019.
+\bibitem[Frederickson(2018)]{benfred2018implicit}
+Ben Frederickson.
+\newblock Implicit: Fast python collaborative filtering for implicit datasets.
+\newblock \url{https://github.com/benfred/implicit}, 2018.
+\newblock URL \url{https://github.com/benfred/implicit}.
 
 \bibitem[Harper and Konstan(2015)]{harper2015movielens}
 F~Maxwell Harper and Joseph~A Konstan.
 \newblock The movielens datasets: History and context.
 \newblock \emph{Acm transactions on interactive intelligent systems (tiis)},
   5\penalty0 (4):\penalty0 1--19, 2015.
+
+\bibitem[Hastie et~al.(2009)Hastie, Tibshirani, Friedman, and
+  Friedman]{hastie2009elements}
+Trevor Hastie, Robert Tibshirani, Jerome Friedman, and JH~Friedman.
+\newblock \emph{The elements of statistical learning: data mining, inference,
+  and prediction}, volume~2.
+\newblock Springer, 2009.
 
 \bibitem[He et~al.(2017)He, Liao, Zhang, Nie, Hu, and Chua]{he2017ncf}
 Xiangnan He, Lizi Liao, Hanwang Zhang, Liqiang Nie, Xia Hu, and Tat-Seng Chua.
@@ -229,6 +251,12 @@ Yifan Hu, Yehuda Koren, and Chris Volinsky.
 \newblock Collaborative filtering for implicit feedback datasets.
 \newblock In \emph{2008 Eighth IEEE International Conference on Data Mining},
   pages 263--272. Ieee, 2008.
+
+\bibitem[Hug(2020)]{hug2020surprise}
+Nicolas Hug.
+\newblock Surprise: A python library for recommender systems.
+\newblock \emph{Journal of Open Source Software}, 5\penalty0 (52):\penalty0
+  2174, 2020.
 
 \bibitem[Jannach et~al.(2015)Jannach, Lerche, Zanker, and
   Ge]{jannach2015balances}
@@ -273,21 +301,32 @@ Dominik Kowald and Emanuel Lacic.
 
 \bibitem[Leonhardt et~al.(2018)Leonhardt, Anand, and
   Khosla]{leonhardt2018userfairness}
-J{\"u}rgen Leonhardt, Ashish Anand, and Megha Khosla.
+Jurek Leonhardt, Avishek Anand, and Megha Khosla.
 \newblock User fairness in recommender systems.
-\newblock In \emph{Companion proceedings of the the web conference 2018}, pages
-  1063--1067, 2018.
+\newblock In \emph{Companion Proceedings of the The Web Conference 2018 (WWW
+  '18)}, pages 101--102, 2018.
+\newblock URL \url{https://arxiv.org/abs/1807.06349}.
 
 \bibitem[Little and Rubin(2002)]{little2002statistical}
-Roderick J.~A. Little and Donald~B. Rubin.
+Roderick J~A Little and Donald~B Rubin.
 \newblock \emph{Statistical Analysis with Missing Data}.
-\newblock John Wiley \& Sons, Hoboken, NJ, 2 edition, 2002.
+\newblock Wiley, 2nd edition, 2002.
+\newblock URL
+  \url{https://content.e-bookshelf.de/media/reading/L-12468270-75fd0fbf69.pdf}.
 
 \bibitem[Lops et~al.(2011)Lops, de~Gemmis, and Semeraro]{lops2011contentbased}
 Pasquale Lops, Marco de~Gemmis, and Giovanni Semeraro.
 \newblock Content-based recommender systems: State of the art and trends.
 \newblock In \emph{Recommender systems handbook}, pages 73--105. Springer,
   2011.
+
+\bibitem[Manning et~al.(2008)Manning, Raghavan, and
+  Sch{\"u}tze]{manning2008introduction}
+Christopher~D Manning, Prabhakar Raghavan, and Hinrich Sch{\"u}tze.
+\newblock \emph{Introduction to Information Retrieval}.
+\newblock Cambridge University Press, 2008.
+\newblock URL
+  \url{https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf}.
 
 \bibitem[Mansoury et~al.(2020)Mansoury, Abdollahpouri, Pechenizkiy, Mobasher,
   and Burke]{mansoury2020feedback}
@@ -313,6 +352,15 @@ Eli Pariser.
 \newblock \emph{The filter bubble: What the Internet is hiding from you}.
 \newblock Penguin UK, 2011.
 
+\bibitem[Pedregosa et~al.(2011)Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, et~al.]{pedregosa2011scikit}
+Fabian Pedregosa, Ga{\"e}l Varoquaux, Alexandre Gramfort, Vincent Michel,
+  Bertrand Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron
+  Weiss, Vincent Dubourg, et~al.
+\newblock Scikit-learn: Machine learning in python.
+\newblock \emph{the Journal of machine Learning research}, 12:\penalty0
+  2825--2830, 2011.
+
 \bibitem[Resnick et~al.(1994)Resnick, Iakovou, Suchak, Bergstrom, and
   Riedl]{resnick1994grouplens}
 Paul Resnick, Neophytos Iakovou, Mitesh Suchak, Peter Bergstrom, and John
@@ -321,6 +369,19 @@ Paul Resnick, Neophytos Iakovou, Mitesh Suchak, Peter Bergstrom, and John
   netnews.
 \newblock In \emph{Proceedings of the 1994 ACM conference on Computer supported
   cooperative work}, pages 175--186, 1994.
+
+\bibitem[Ricci et~al.(2015)Ricci, Rokach, and Shapira]{ricci2015recommender}
+Francesco Ricci, Lior Rokach, and Bracha Shapira.
+\newblock \emph{Recommender systems handbook}.
+\newblock Springer, 2015.
+
+\bibitem[Robinson et~al.(2020)Robinson, Brown, and
+  Schedl]{robinson2020userinsights}
+Kyle Robinson, Dan Brown, and Markus Schedl.
+\newblock User insights on diversity in music recommendation lists.
+\newblock In \emph{Proceedings of the 21st International Society for Music
+  Information Retrieval Conference (ISMIR 2020)}, 2020.
+\newblock URL \url{https://archives.ismir.net/ismir2020/paper/000311.pdf}.
 
 \bibitem[Rubin(1976)]{rubin1976inference}
 Donald~B. Rubin.
@@ -342,6 +403,12 @@ Tobias Schnabel, Adith Swaminathan, Ashudeep Singh, Navin Chandak, and Thorsten
 \newblock In \emph{International conference on machine learning}, pages
   1670--1679. PMLR, 2016.
 
+\bibitem[Singh and Joachims(2018)]{singh2018fairness}
+Ashudeep Singh and Thorsten Joachims.
+\newblock Fairness of exposure in rankings.
+\newblock In \emph{Proceedings of the 24th ACM SIGKDD International Conference
+  on Knowledge Discovery \& Data Mining}, pages 2219--2228, 2018.
+
 \bibitem[Steck(2010)]{steck2010training}
 Harald Steck.
 \newblock Training and testing of recommender systems on data missing not at
@@ -360,6 +427,17 @@ Harald Steck.
 \newblock Calibrated recommendations.
 \newblock In \emph{Proceedings of the 12th ACM conference on recommender
   systems}, pages 154--162, 2018.
+
+\bibitem[Tong et~al.(2006)Tong, Faloutsos, and Pan]{tong2006fast}
+Hanghang Tong, Christos Faloutsos, and Jia-Yu Pan.
+\newblock Fast random walk with restart and its applications.
+\newblock In \emph{Sixth International Conference on Data Mining (ICDM'06)},
+  pages 613--622. IEEE, 2006.
+
+\bibitem[Villani(2008)]{villani2008optimal}
+C{\'e}dric Villani.
+\newblock \emph{Optimal Transport: Old and New}.
+\newblock Springer, Berlin, 2008.
 
 \bibitem[Wang et~al.(2019)Wang, He, Wang, Feng, and Chua]{wang2019ngcf}
 Xiang Wang, Xiangnan He, Meng Wang, Fuli Feng, and Tat-Seng Chua.

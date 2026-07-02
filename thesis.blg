@@ -6,45 +6,45 @@ The style file: plainnat.bst
 Reallocating 'name_of_file' (item size: 1) to 18 items.
 Database file #1: thesis_references.bib
 Warning--can't use both volume and number fields in abdollahpouri2020multistakeholder
-You've used 60 entries,
+You've used 71 entries,
             2773 wiz_defined-function locations,
-            933 strings with 16552 characters,
-and the built_in function-call counts, 33268 in all, are:
-= -- 3010
-> -- 1884
-< -- 55
-+ -- 638
-- -- 576
-* -- 2607
-:= -- 4809
-add.period$ -- 185
-call.type$ -- 60
-change.case$ -- 369
-chr.to.int$ -- 58
-cite$ -- 121
-duplicate$ -- 1587
-empty$ -- 2721
-format.name$ -- 658
-if$ -- 7218
-int.to.chr$ -- 3
+            992 strings with 18878 characters,
+and the built_in function-call counts, 38352 in all, are:
+= -- 3435
+> -- 2203
+< -- 64
++ -- 749
+- -- 675
+* -- 2997
+:= -- 5595
+add.period$ -- 226
+call.type$ -- 71
+change.case$ -- 431
+chr.to.int$ -- 68
+cite$ -- 143
+duplicate$ -- 1837
+empty$ -- 3146
+format.name$ -- 768
+if$ -- 8297
+int.to.chr$ -- 4
 int.to.str$ -- 1
-missing$ -- 63
-newline$ -- 309
-num.names$ -- 240
-pop$ -- 820
+missing$ -- 76
+newline$ -- 371
+num.names$ -- 284
+pop$ -- 978
 preamble$ -- 1
-purify$ -- 312
+purify$ -- 366
 quote$ -- 0
-skip$ -- 1308
+skip$ -- 1493
 stack$ -- 0
-substring$ -- 1522
-swap$ -- 367
-text.length$ -- 32
+substring$ -- 1605
+swap$ -- 405
+text.length$ -- 36
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 635
+type$ -- 736
 warning$ -- 1
-while$ -- 309
+while$ -- 349
 width$ -- 0
-write$ -- 789
+write$ -- 941
 (There was 1 warning)
