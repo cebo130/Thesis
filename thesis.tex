@@ -13,7 +13,7 @@
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \usepackage{graphicx}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,calc}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{longtable}
@@ -198,7 +198,32 @@ Often when a user opens a streaming service, browses an online store, or scrolls
 
 Recommender systems learn to make these decisions by studying historical user behaviour: the records of what users have clicked on, purchased, rated, or watched in the past. The underlying assumption is that patterns in historical behaviour are informative about future preferences that a user who enjoyed certain films in the past will enjoy similar films in the future, or that a user who purchased certain products is likely to need related ones. This assumption is broadly reasonable, and it has enabled the development of powerful systems that genuinely help users navigate large catalogs they could not feasibly explore on their own.
 
-However, this learning process carries a structural flaw that is the central subject of this thesis. Historical engagement data is not a neutral, representative sample of user preferences across the full catalog. It is a heavily skewed sample in which a small fraction of items, typically the popular ones, the ones that have been heavily promoted, or the ones that happen to be surfaced by prior recommendation systems, have accumulated the overwhelming majority of interactions. When a recommendation algorithm learns from this data, it learns not just about user preferences but also about which items have historically been visible. It then encodes this visibility pattern into its predictions, recommending popular items more frequently, which makes those items even more visible, which generates even more interactions, which reinforces the algorithm's confidence in recommending them. The result is a self-reinforcing cycle in which popular items become progressively more dominant and the vast majority of the catalog comprising the ``long tail'' of niche, specialist, and emerging products, becomes progressively less visible.
+However, this learning process carries a structural flaw that is the central subject of this thesis. Historical engagement data is not a neutral, representative sample of user preferences across the full catalog. It is a heavily skewed sample in which a small fraction of items, typically the popular ones, the ones that have been heavily promoted, or the ones that happen to be surfaced by prior recommendation systems, have accumulated the overwhelming majority of interactions. When a recommendation algorithm learns from this data, it learns not just about user preferences but also about which items have historically been visible. It then encodes this visibility pattern into its predictions, recommending popular items more frequently, which makes those items even more visible, which generates even more interactions, which reinforces the algorithm's confidence in recommending them. The result is a self-reinforcing cycle in which popular items become progressively more dominant and the vast majority of the catalog comprising the ``long tail'' of niche, specialist, and emerging products, becomes progressively less visible. Figure~\ref{fig:popularity_feedback_cycle} illustrates this feedback loop schematically.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    cyclebox/.style={rectangle, draw=black!70, rounded corners=2.5pt, thick, align=center, inner sep=8pt, minimum height=1.15cm, text width=2.65cm},
+    edgelab/.style={font=\footnotesize, text=black, fill=white, inner sep=2pt, rounded corners=1.5pt, draw=black!25, thin},
+    arr/.style={-{Latex[length=2.2mm]}, thick}
+  ]
+    \def\noderad{3.85cm}
+    \def\edgeinset{1.15cm}
+    \node[cyclebox] (s1) at ( 90:\noderad) {\textbf{1.} Popular\\items};
+    \node[cyclebox] (s2) at ( 18:\noderad) {\textbf{2.} More\\recommendations};
+    \node[cyclebox] (s3) at (-54:\noderad) {\textbf{3.} More\\interactions};
+    \node[cyclebox] (s4) at (-126:\noderad) {\textbf{4.} Stronger\\training signal};
+    \node[cyclebox] (s5) at (162:\noderad) {\textbf{5.} Increased\\popularity};
+    \draw[arr] ($(s1)!\edgeinset!(s2)$) -- node[midway, edgelab] {surface} ($(s2)!\edgeinset!(s1)$);
+    \draw[arr] ($(s2)!\edgeinset!(s3)$) -- node[midway, edgelab] {generate} ($(s3)!\edgeinset!(s2)$);
+    \draw[arr] ($(s3)!\edgeinset!(s4)$) -- node[midway, edgelab] {reinforce} ($(s4)!\edgeinset!(s3)$);
+    \draw[arr] ($(s4)!\edgeinset!(s5)$) -- node[midway, edgelab] {amplify} ($(s5)!\edgeinset!(s4)$);
+    \draw[arr] ($(s5)!\edgeinset!(s1)$) -- node[midway, edgelab] {compound} ($(s1)!\edgeinset!(s5)$);
+  \end{tikzpicture}
+  \caption{Conceptual feedback cycle of popularity bias (Steps~1--5): already-popular items receive disproportionate recommendation exposure, accumulate additional interactions, and thereby supply stronger training signals that further elevate their predicted scores and visibility in subsequent rounds.}
+  \label{fig:popularity_feedback_cycle}
+\end{figure}
 
 This phenomenon is called \textbf{popularity bias}, and its consequences extend well beyond a technical inconvenience. They are felt by users who receive recommendations that do not reflect their genuine preferences, by producers of niche items who are algorithmically excluded from discovery, and by platforms whose long-term health depends on a diverse and thriving ecosystem of content and products. Understanding, measuring, and ultimately mitigating popularity bias is therefore not merely an academic exercise in algorithmic fairness it is a practical imperative for anyone building or operating a recommender system at scale.
 
@@ -232,9 +257,9 @@ This thesis addresses these questions through a structured empirical investigati
 
 \section{Research Objectives and Questions}
 
-The overarching objective of this thesis is to establish a rigorous empirical baseline that characterises how popularity bias manifests across three distinct scales macro-level item exposure, user-segment fairness, and longitudinal feedback dynamics for multiple algorithmic families and dataset domains, including an ultra-sparse real-world e-commerce environment.
+The overarching objective of this thesis is to establish a rigorous empirical baseline that characterises how popularity bias manifests across three distinct scales such as macro-level item exposure, user-segment fairness, and longitudinal feedback dynamics for multiple algorithmic families and dataset domains, including an ultra-sparse real-world e-commerce environment.
 
-This objective is operationalised through three research questions, each corresponding to one scale of analysis and one experimental chapter:
+This objective is operationalised through three research questions, each corresponding to one scale of analysis and one experimental chapter (see Figure~\ref{fig:research_framework} in Section~\ref{sec:lit_paradigms}):
 
 \begin{itemize}
     \item \textbf{RQ1:} How concentrated are recommendations across items under different algorithmic paradigms, and how does this concentration vary across datasets with different sparsity profiles?
@@ -256,13 +281,13 @@ This objective is operationalised through three research questions, each corresp
 
 This research focuses specifically on \textbf{popularity bias} and \textbf{exposure bias} in recommender systems that learn from both explicit feedback (numerical ratings provided directly by users) and implicit feedback (interaction signals such as clicks, purchases, or play counts inferred from user behaviour). The study examines how these biases manifest at three scales: the macro level (catalog coverage and item exposure distribution), the micro level (recommendation quality across user segments), and the longitudinal level (evolution of diversity metrics over simulated feedback rounds).
 
-A deliberate choice was made to focus on \emph{measuring and characterising} bias in unmitigated baseline systems rather than on proposing and evaluating new mitigation algorithms. This choice reflects a specific gap in the literature: rigorous baseline characterisation across multiple algorithms and domains is a prerequisite for effective mitigation design, yet it is less common in the literature than mitigation proposals. By establishing what the bias landscape looks like before any correction is applied, this thesis provides the empirical foundation that mitigation work requires.
+Mitigating bias in recommender systems is whereby we correct for bias present in recommenderr systems. A deliberate choice was made to focus on \emph{measuring and characterising} bias in unmitigated baseline systems rather than on proposing and evaluating new mitigation algorithms. This choice reflects a specific gap in the literature: rigorous baseline characterisation across multiple algorithms and domains is essential for effective mitigation design, yet it is less common in the literature than mitigation proposals. By establishing what the bias landscape looks like before any correction is applied, this thesis provides the empirical foundation that mitigation work requires.
 
 The research explicitly excludes several related topics. It does not address \textbf{demographic bias} disparities in recommendation quality linked to user attributes such as gender, age, or ethnicity because such analysis requires demographic data that is not available in the datasets used. It does not evaluate \textbf{online A/B testing} in live production environments, because all evaluations are conducted offline using historical datasets and simulations. The longitudinal analysis of Experiment~C uses a stylised simulation rather than real retraining cycles, for the reasons discussed in Section~\ref{sec:method_click}.
 
 \subsection{System Scale and Constraints}
 
-The algorithmic scope of this study is intentionally bounded to well-established, interpretable baseline families. Deep learning architectures such as Neural Collaborative Filtering (NeuMF) \citep{he2017ncf}, Neural Graph Collaborative Filtering (NGCF) \citep{wang2019ngcf}, and LightGCN \citep{he2020lightgcn} are excluded for two reasons. First, their computational requirements make large-scale cross-dataset comparative evaluation impractical without specialised hardware. Second, and more fundamentally, their complexity makes it difficult to attribute observed bias patterns to specific architectural choices: when a deep model exhibits high Gini concentration, it is not straightforward to identify which component of the architecture is responsible. The classical and content-based baselines used in this thesis have transparent, well-understood mechanisms that allow bias patterns to be traced back to specific structural properties of the algorithm a prerequisite for the diagnostic, characterisation-oriented goals of this study.
+The algorithmic scope of this study is intentionally bounded to well-established, interpretable baseline families. Deep learning architectures such as Neural Collaborative Filtering (NeuMF) \citep{he2017ncf}, Neural Graph Collaborative Filtering (NGCF) \citep{wang2019ngcf}, and LightGCN \citep{he2020lightgcn} are excluded for two reasons. First, their computational requirements make large-scale cross-dataset comparative evaluation impractical without specialised hardware. Second, and more fundamentally, their complexity makes it difficult to attribute observed bias patterns to specific architectural choices: when a deep model exhibits high Gini concentration, it is not straightforward to identify which component of the architecture is responsible. The classical and content-based baselines used in this thesis have transparent, well-understood mechanisms that allow bias patterns to be traced back to specific structural properties of the algorithm, this traceability is a prerequisite for the diagnostic, characterisation-oriented goals of this study.
 
 The dataset scope covers five corpora spanning a range of interaction densities: MovieLens~100K, MovieLens~1M, Last.fm~2K, Book-Crossing, and the proprietary Takealot e-commerce dataset. The first four are publicly available academic benchmarks; the fifth is a real-world retail dataset included specifically to stress-test conclusions in an ultra-sparse environment. The generalisability of findings is accordingly bounded: conclusions should be interpreted as applying to systems and environments with sparsity profiles similar to those represented in these five datasets, not as universal claims about all possible recommender system deployments.
 
@@ -272,7 +297,7 @@ Several methodological limitations should be kept in mind when interpreting the 
 
 \textbf{Offline evaluation as a proxy for online performance.} All experiments in this thesis are conducted offline, using historical interaction data. Offline metrics are imperfect proxies for the online user experience: they cannot capture the effects of position bias (users clicking on items simply because they appear high in the list), novelty effects (users being more engaged with items they have not previously encountered), or the complex dynamics of real user decision-making under recommendation. Results should be interpreted as characterising algorithmic behaviour on historical data rather than as predictions of live system performance.
 
-\textbf{Stylised feedback simulation.} The longitudinal feedback simulation in Experiment~C uses a stochastic click model that blends predicted relevance with item popularity to generate synthetic interactions. While this model is grounded in theoretical considerations about how users balance personal relevance against social proof, it is not calibrated to real user behaviour data. The simulation captures qualitative trends whether diversity increases or decreases, whether ARP rises or falls more reliably than it captures quantitative magnitudes.
+\textbf{Stylised feedback simulation.} The longitudinal feedback simulation in Experiment~C uses a stochastic click model that blends predicted relevance with item popularity to generate synthetic interactions. While this model is grounded in theoretical considerations about how users balance personal relevance against social proof, it is not calibrated to real user behaviour data. The simulation captures qualitative trends on whether diversity increases or decreases, whether ARP rises or falls more reliably than it captures quantitative magnitudes.
 
 \textbf{Mean-fallback RMSE for content models.} Content-based models in this study are designed to produce ranked recommendation lists rather than explicit rating predictions. When RMSE is computed for these models to enable direct comparison with collaborative filtering models that do produce rating predictions unpredicted items are assigned the global training mean as a fallback value. This introduces a methodological artefact: the RMSE of content models reflects the accuracy of this mean-fallback approximation rather than a genuine predictive signal, making direct RMSE comparisons between content and collaborative models unreliable. NDCG@10, which measures ranking quality rather than rating prediction accuracy, is the more appropriate comparison metric for content-based models, and results are interpreted accordingly throughout the thesis.
 
@@ -280,7 +305,7 @@ Several methodological limitations should be kept in mind when interpreting the 
 
 This thesis makes four specific contributions to the recommender systems research literature.
 
-\textbf{First, a unified three-phase evaluation framework.} This thesis introduces and applies a single, coherent evaluation protocol that simultaneously measures popularity bias at three scales macro item exposure (Experiment~A), user-segment fairness (Experiment~B), and longitudinal feedback dynamics (Experiment~C) for six algorithmic families across five datasets. The unification of these three measurement scales within a single study, using consistent preprocessing, splitting, and metric definitions, is itself a methodological contribution: it enables the relationships between macro concentration, user-level disparity, and temporal dynamics to be studied directly, rather than inferred by comparing across separate papers with different experimental conditions.
+\textbf{First, a unified three-phase evaluation framework.} This thesis introduces and applies a single, coherent evaluation protocol that simultaneously measures popularity bias at three scales: macro item exposure (Experiment~A), user-segment fairness (Experiment~B), and longitudinal feedback dynamics (Experiment~C) for six algorithmic families across five datasets. The unification of these three measurement scales within a single study, using consistent preprocessing, splitting, and metric definitions, is itself a methodological contribution: it enables the relationships between macro concentration, user-level disparity, and temporal dynamics to be studied directly, rather than inferred by comparing across separate papers with different experimental conditions.
 
 \textbf{Second, a controlled cross-paradigm comparison of bias profiles.} By evaluating memory-based collaborative filtering ($k$-NN), latent-factor collaborative filtering (SVD, ALS), and multiple content-based pipelines (TF--IDF, logistic regression, random forest) under identical conditions, this thesis provides the first systematic empirical characterisation of how algorithmic architecture independently of dataset properties shapes the severity and form of popularity bias. The finding that ALS exhibits near-perfect Gini concentration and catalog starvation while logistic regression on content features maintains coverage orders of magnitude higher is a quantitative, architecture-attributable result that has not previously been documented under controlled cross-paradigm conditions.
 
@@ -304,7 +329,7 @@ The remainder of this document is organised as follows. Each empirical chapter a
   Quantifies catalogue-level concentration and popularity amplification across algorithms and domains, including optional SVD popularity re-ranking on MovieLens~100K and Takealot. Answers whether collaborative latent-factor and implicit models concentrate exposure more strongly than content-based pipelines under matched protocols (H1).
 
   \item[Chapter~\ref{ch:exp_b} (Experiment~B, RQ2)]
-  Segments users into niche, diverse, and mainstream cohorts and reports RMSE and NDCG@10 disparities the ``niche tax.'' Examines whether accuracy and ranking quality diverge across segments and how sparsity (especially on Takealot) shapes those gaps (H2).
+  Segments users into niche, diverse, and mainstream cohorts and reports RMSE and NDCG@10 disparities also known as the ``niche tax.'' Examines whether accuracy and ranking quality diverge across segments and how sparsity (especially on Takealot) shapes those gaps (H2).
 
   \item[Chapter~\ref{ch:exp_c} (Experiment~C, RQ3)]
   Runs five-round feedback simulations for SVD versus TF--IDF with a blended relevance--popularity click model. Tracks aggregate diversity and ARP over iterations to test whether collaborative filtering amplifies popularity while content-based models remain more resilient (H3).
@@ -338,6 +363,48 @@ Recommender systems are generally classified according to two criteria: (1) what
 To understand what an inductive bias is, consider a simple analogy. Suppose you are trying to guess what movie a friend will enjoy next. If you assume ``my friend will like whatever is most popular right now,'' that is an inductive bias. If instead you assume ``my friend will like whatever is most similar to movies they have previously rated highly,'' that is a different inductive bias. In machine learning, an inductive bias is the set of structural assumptions an algorithm encodes assumptions about the shape of the world that allow it to make predictions on data it has never seen before \citep{hastie2009elements}. These assumptions are not neutral: they determine which signals in the training data the model pays attention to and which it ignores. Because recommender systems are trained on historical user behaviour, and because that historical behaviour is already skewed (popular items have far more interactions than niche ones), the inductive biases of an algorithm directly govern how much it will reproduce, reduce, or amplify those skews when making future recommendations \citep{jannach2015balances}.
 
 This section reviews the traditional and contemporary algorithmic paradigms that form the set of baseline models evaluated in this thesis. For each paradigm, we explain both how it works and how its fundamental mathematical structure makes it more or less vulnerable to popularity bias and data sparsity.
+
+Figure~\ref{fig:research_framework} links the three levels of analysis introduced in Chapter~\ref{ch:introduction}---catalogue-level exposure, user-centric fairness, and longitudinal feedback dynamics---to RQ1--RQ3 and the corresponding experimental chapters. Figure~\ref{fig:rs_paradigm_taxonomy} summarises the recommendation paradigms reviewed below; shaded nodes denote the six baseline families empirically evaluated in this thesis.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    font=\small,
+    level/.style={rectangle, draw=black!70, rounded corners=2.5pt, thick, align=center, inner sep=8pt, minimum height=1.15cm, text width=3.35cm},
+    rq/.style={rectangle, draw=black!55, rounded corners=2pt, thick, align=center, inner sep=7pt, minimum height=0.95cm, text width=2.05cm, fill=black!4},
+    exp/.style={rectangle, draw=black!55, rounded corners=2pt, thick, align=center, inner sep=7pt, minimum height=0.95cm, text width=2.05cm, fill=black!4},
+    backbone/.style={font=\footnotesize\itshape, text=black!75, align=center},
+    arr/.style={-{Latex[length=2.2mm]}, thick, shorten >=1pt, shorten <=1pt}
+  ]
+    \node[level] (l1) {Catalogue-level\\exposure};
+    \node[level, below=1.45cm of l1] (l2) {User-centric\\fairness};
+    \node[level, below=1.45cm of l2] (l3) {Longitudinal\\feedback dynamics};
+    \node[rq, right=2.15cm of l1] (rq1) {\textbf{RQ1}};
+    \node[rq, right=2.15cm of l2] (rq2) {\textbf{RQ2}};
+    \node[rq, right=2.15cm of l3] (rq3) {\textbf{RQ3}};
+    \node[exp, right=2.15cm of rq1] (ea) {Experiment~A\\(Ch.~\ref{ch:exp_a})};
+    \node[exp, right=2.15cm of rq2] (eb) {Experiment~B\\(Ch.~\ref{ch:exp_b})};
+    \node[exp, right=2.15cm of rq3] (ec) {Experiment~C\\(Ch.~\ref{ch:exp_c})};
+    \draw[arr] (l1) -- (rq1);
+    \draw[arr] (l2) -- (rq2);
+    \draw[arr] (l3) -- (rq3);
+    \draw[arr] (rq1) -- (ea);
+    \draw[arr] (rq2) -- (eb);
+    \draw[arr] (rq3) -- (ec);
+    \draw[arr] (l1.south) -- node[right, font=\footnotesize, text=black!70, xshift=4pt] {segment impact} (l2.north);
+    \draw[arr] (l2.south) -- node[right, font=\footnotesize, text=black!70, xshift=4pt] {feedback loop} (l3.north);
+    \node[backbone, below=0.55cm of l3] {Three observational scales on one popularity-bias propagation process};
+  \end{tikzpicture}
+  \caption{Research framework linking three levels of analysis to RQ1--RQ3 and Experiments A--C. Macro catalogue exposure, user-segment fairness, and longitudinal feedback dynamics are treated as complementary measurement scales rather than independent bias problems.}
+  \label{fig:research_framework}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/figure-2-2}
+  \caption{Taxonomy of recommender system paradigms discussed in this chapter. Shaded nodes are the six baseline families evaluated under a unified protocol in Experiments A--C; dashed nodes (hybrid and deep/graph architectures) are surveyed for context but excluded from the empirical scope.}
+  \label{fig:rs_paradigm_taxonomy}
+\end{figure}
 
 %                      -
 \subsection{Memory-Based Collaborative Filtering}
