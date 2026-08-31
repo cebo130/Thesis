@@ -1,0 +1,97 @@
+\contentsline {chapter}{Declaration}{1}{chapter*.1}%
+\contentsline {chapter}{Abstract}{2}{chapter*.2}%
+\contentsline {chapter}{Acknowledgements}{3}{chapter*.3}%
+\contentsline {chapter}{List of Abbreviations}{9}{chapter*.7}%
+\contentsline {chapter}{\numberline {1}Introduction}{12}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Context and Motivation}{12}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Technical, Social, and Economic Imperatives}{13}{subsection.1.1.1}%
+\contentsline {section}{\numberline {1.2}Problem Statement}{13}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Research Objectives and Questions}{14}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Scope and Limitations}{15}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Focus Area}{15}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}System Scale and Constraints}{16}{subsection.1.4.2}%
+\contentsline {subsection}{\numberline {1.4.3}Methodological Limitations}{16}{subsection.1.4.3}%
+\contentsline {section}{\numberline {1.5}Key Contributions}{16}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Thesis Outline}{17}{section.1.6}%
+\contentsline {chapter}{\numberline {2}Literature Review}{19}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Recommender Systems Paradigms}{19}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Memory-Based Collaborative Filtering}{20}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Model-Based Collaborative Filtering}{20}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Content-Based and Hybrid Systems}{21}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Summary of the Six Baseline Families}{22}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.5}Scope Boundary: Deep Learning and Graph Models}{23}{subsection.2.1.5}%
+\contentsline {subsection}{\numberline {2.1.6}Identified Research Gap}{23}{subsection.2.1.6}%
+\contentsline {section}{\numberline {2.2}Theoretical Foundations of Bias}{24}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Popularity and Exposure Bias: The Propagation Chain}{26}{section.2.3}%
+\contentsline {section}{\numberline {2.4}User-Centric Fairness and Disparate Impact}{28}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Temporal Dynamics and Feedback Loops}{30}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Mitigation strategies: a methodological survey}{35}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Theoretical framework}{39}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}The Bias Propagation Chain model}{40}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}Constructs and formal definitions}{42}{subsection.2.7.2}%
+\contentsline {subsection}{\numberline {2.7.3}Hypotheses}{44}{subsection.2.7.3}%
+\contentsline {subsection}{\numberline {2.7.4}The Sparsity Amplification Conjecture}{44}{subsection.2.7.4}%
+\contentsline {section}{\numberline {2.8}The research gap}{45}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Methodology and Experimental Framework}{50}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Research Design Overview}{50}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Datasets and Domains}{51}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Data Preprocessing}{52}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Ethics and Data Use}{53}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Algorithmic Baselines and Implementation}{54}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Evaluation Metrics}{56}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Macro-Level Metrics (Distributional Equity)}{56}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Micro-Level Metrics (Ranking Quality and Accuracy)}{57}{subsection.3.6.2}%
+\contentsline {section}{\numberline {3.7}Statistical Testing Framework}{58}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Implementation and Reproducibility}{59}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Longitudinal Feedback Simulator (Experiment C)}{59}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Threats to Validity}{59}{section.3.10}%
+\contentsline {chapter}{\numberline {4}Experiment A: Macro-Level Exposure Bias}{61}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Purpose and Alignment with the Research Design}{61}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Protocol and Computational Details}{61}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Concentration and Catalogue Coverage}{62}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Popularity Amplification and Tail Behaviour}{63}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Average Recommendation Popularity and Accuracy}{65}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Post-Processing Mitigation: Popularity-Aware Re-Ranking}{66}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Discussion and Answer to RQ1}{66}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Experiment B - User-Centric Fairness (The "Niche Tax")}{68}{chapter.5}%
+\contentsline {section}{\numberline {5.1}User Stratification Strategy}{68}{section.5.1}%
+\contentsline {section}{\numberline {5.2}The RMSE Methodological Artifact}{68}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Predictive Disparities}{68}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Ranking Fairness (NDCG@10)}{70}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Discussion and Answer to RQ2}{71}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Experiment C: Longitudinal Feedback Dynamics}{73}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Purpose and Alignment with the Research Design}{73}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Simulation Design}{74}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Initialisation and Round Structure}{74}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Scope Restrictions}{74}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}The Stochastic User Choice Model}{75}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Collaborative ``Popularity Creep''}{76}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Content Model Resilience}{77}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Comparing SVD and TF--IDF Trajectories: A Controlled Attribution}{79}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Connecting to the Bias Propagation Chain}{80}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Limitations of the Longitudinal Simulation}{81}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Summary of Findings and Answer to RQ3}{82}{section.6.9}%
+\contentsline {chapter}{\numberline {7}Discussion}{84}{chapter.7}%
+\contentsline {section}{\numberline {7.1}The Interconnectedness of Biases}{84}{section.7.1}%
+\contentsline {section}{\numberline {7.2}The Domain Extreme: What Takealot Reveals}{86}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Threats to Validity Revisited}{88}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Implications for Practitioners}{89}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Conclusion}{92}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Summary of the Study}{92}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Key Takeaways}{93}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Directions for Future Research}{94}{section.8.3}%
+\contentsline {chapter}{References / Bibliography}{97}{section*.87}%
+\contentsline {chapter}{\numberline {A}Extended tables for macro and micro metrics}{103}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Macro-level (catalog) metrics}{103}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Micro-level (user-centric) metrics}{105}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Longitudinal feedback simulation (full iteration grid)}{106}{section.A.3}%
+\contentsline {chapter}{\numberline {B}Additional visualizations and diagrams}{108}{appendix.B}%
+\contentsline {section}{\numberline {B.1}End-to-end evaluation pipeline}{108}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Stylised feedback loop with explicit simulator knobs}{108}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Cross-dataset figures (same assets as the main text)}{108}{section.B.3}%
+\contentsline {chapter}{\numberline {C}Extended software specifications}{112}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Repository layout}{112}{section.C.1}%
+\contentsline {section}{\numberline {C.2}Language runtime and hardware assumptions}{112}{section.C.2}%
+\contentsline {section}{\numberline {C.3}Core dependency pins}{112}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Pinned versions (\texttt {pip freeze} excerpt)}{112}{section.C.4}%
+\contentsline {section}{\numberline {C.5}Regeneration checklist}{113}{section.C.5}%

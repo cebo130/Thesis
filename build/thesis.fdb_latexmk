@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex thesis"] 1788185438.54437 "thesis.aux" "thesis.bbl" "thesis" 1788192076.08531 0
+["bibtex thesis"] 1788192076.0105 "thesis.aux" "thesis.bbl" "thesis" 1788192080.43934 0
   "./thesis_references.bib" 1788179453.05023 22392 823e27162e6e26306515f6e5274f596b ""
   "/usr/local/Cellar/texlive/20250308_2/share/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1741388039 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "thesis.aux" 1788192075.00462 86426 ea11d4efb51e4583312bfe054e077cf8 "pdflatex"
+  "thesis.aux" 1788192075.00462 86426 ea11d4efb51e4583312bfe054e077cf8 ""
   (generated)
   "thesis.bbl"
   "thesis.blg"
   (rewritten before read)
-["pdflatex"] 1788192070.31298 "/Users/macbook/Documents/Thesis/thesis.tex" "thesis.pdf" "thesis" 1788192076.0861 0
+["pdflatex"] 1788192076.24411 "/Users/macbook/Documents/Thesis/thesis.tex" "build/thesis.pdf" "thesis" 1788192080.43955 0
   "/Users/macbook/Documents/Thesis/thesis.tex" 1788192069.84974 347973 280af180ff291d3180e899f7c1b89133 ""
   "/usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1741388039 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1741388039 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
@@ -248,23 +248,23 @@
   "/usr/local/Cellar/texlive/20250308_2/share/texmf-var/web2c/pdftex/pdflatex.fmt" 1741388039 3346062 5b41f5f1f86715961a7a7134091efb1b ""
   "_appendices_full.tex" 1788179452.95291 9696 e0db95d7017370c84dc423ec0bf2e8f6 ""
   "_appendix_generated_tables.tex" 1788179452.95334 12481 10887d42d74e0d1ecd53541212083124 ""
+  "build/thesis.aux" 1788192079.64856 86426 ea11d4efb51e4583312bfe054e077cf8 "pdflatex"
+  "build/thesis.lof" 1788192079.67212 3638 d00f7f042cb5ab5e1d17223e99e2504f "pdflatex"
+  "build/thesis.lot" 1788192079.67217 3157 efa602f02a61fdccdfc6136d86f3554d "pdflatex"
+  "build/thesis.toc" 1788192079.67193 8984 75372986f64e18c6f4b884aca560445e "pdflatex"
   "outputs/figures/combined_fairness_gap_delta_rmse.png" 1788179452.96494 85140 f178b962d0739e737fbf2ce8f5c25b0d ""
   "outputs/figures/combined_feedback_diversity_decay.png" 1788179452.96601 131909 80f091f85091e603d95ce9c429daaf88 ""
   "outputs/figures/combined_macro_catalog_coverage_heatmap.png" 1788179452.96978 92444 5805c1d158ed1d2a02ea9fb97014382c ""
   "outputs/figures/combined_macro_gini_heatmap.png" 1788179452.97059 95775 ee28d3c918edba74251bd889e360bfbe ""
   "outputs/figures/combined_rmse_niche_vs_mainstream.png" 1788179452.98465 104101 6d27caef6503646f9fde92a069a70e6b ""
-  "thesis.aux" 1788192075.00462 86426 ea11d4efb51e4583312bfe054e077cf8 "pdflatex"
-  "thesis.bbl" 1788185444.63071 22133 a22825d47890107a375f17bce6137696 "bibtex thesis"
-  "thesis.lof" 1788192075.03399 3638 d00f7f042cb5ab5e1d17223e99e2504f "pdflatex"
-  "thesis.lot" 1788192075.03414 3157 efa602f02a61fdccdfc6136d86f3554d "pdflatex"
+  "thesis.bbl" 1788192076.23486 22133 a22825d47890107a375f17bce6137696 "bibtex thesis"
   "thesis.tex" 1788192069.84974 347973 280af180ff291d3180e899f7c1b89133 ""
-  "thesis.toc" 1788192075.03359 8984 75372986f64e18c6f4b884aca560445e "pdflatex"
   "thesis_core_environment.txt" 1788179453.04989 437 7696b612b51959138286dc2501fb35d7 ""
   (generated)
-  "thesis.aux"
-  "thesis.lof"
-  "thesis.log"
-  "thesis.lot"
-  "thesis.pdf"
-  "thesis.toc"
+  "build/thesis.aux"
+  "build/thesis.lof"
+  "build/thesis.log"
+  "build/thesis.lot"
+  "build/thesis.pdf"
+  "build/thesis.toc"
   (rewritten before read)
