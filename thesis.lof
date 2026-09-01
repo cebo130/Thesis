@@ -1,29 +1,29 @@
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Conceptual feedback cycle of popularity bias (Steps~1--5): already-popular items receive disproportionate recommendation exposure, accumulate additional interactions, and thereby supply stronger training signals that further elevate their predicted scores and visibility in subsequent rounds.}}{14}{figure.caption.8}%
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Conceptual feedback cycle of popularity bias (Steps~1--5): already-popular items receive disproportionate recommendation exposure, accumulate additional interactions, and thereby supply stronger training signals that further elevate their predicted scores and visibility in subsequent rounds.}}{15}{figure.caption.8}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Research framework linking three levels of analysis to RQ1--RQ3 and Experiments A--C. Macro catalogue exposure, user-segment fairness, and longitudinal feedback dynamics are treated as complementary measurement scales rather than independent bias problems.}}{22}{figure.caption.9}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Taxonomy of recommender system paradigms discussed in this chapter. Shaded nodes are the six baseline families evaluated under a unified protocol in Experiments A--C; dashed nodes (hybrid and deep/graph architectures) are surveyed for context but excluded from the empirical scope.}}{23}{figure.caption.10}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces The \emph {Bias Propagation Chain}: MNAR training data and exposure-coupled objectives produce macro-level concentration, uneven segment-level service, and feedback-generated logs that re-enter training. Macro diagnostics, user-centric tests, and longitudinal simulation (Experiments A--C) interrogate successive links of the same loop.}}{44}{figure.caption.42}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Relations among constructs used in this thesis: training-side popularity skew and exposure-coupled missingness shape segment-level disparities; feedback and retraining link user-level outcomes to longitudinal diversity loss, with catalog starvation as the extreme macro outcome.}}{46}{figure.caption.43}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Research framework linking three levels of analysis to RQ1--RQ3 and Experiments A--C. Macro catalogue exposure, user-segment fairness, and longitudinal feedback dynamics are treated as complementary measurement scales rather than independent bias problems.}}{23}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Taxonomy of recommender system paradigms discussed in this chapter. Shaded nodes are the six baseline families evaluated under a unified protocol in Experiments A--C; dashed nodes (hybrid and deep/graph architectures) are surveyed for context but excluded from the empirical scope.}}{24}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces The \emph {Bias Propagation Chain}: MNAR training data and exposure-coupled objectives produce macro-level concentration, uneven segment-level service, and feedback-generated logs that re-enter training. Macro diagnostics, user-centric tests, and longitudinal simulation (Experiments A-C) interrogate successive links of the same loop.}}{47}{figure.caption.44}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Relations among constructs used in this thesis: training-side popularity skew and exposure-coupled missingness shape segment-level disparities; feedback and retraining link user-level outcomes to longitudinal diversity loss, with catalog starvation as the extreme macro outcome.}}{49}{figure.caption.45}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces The three-phase experimental pipeline. Each phase addresses a dimension of popularity bias that the preceding phase cannot capture in isolation.}}{54}{figure.caption.45}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces The three-phase experimental pipeline. Each phase addresses a dimension of popularity bias that the preceding phase cannot capture in isolation.}}{56}{figure.caption.47}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Macro-level exposure inequality (left) and catalogue coverage (right) across all six algorithm families and five datasets. Heatmaps are generated from \texttt {combined\_macro\_bias\_metrics.csv} produced by the unified evaluation pipeline.}}{65}{figure.caption.61}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Macro-level exposure inequality (left) and catalogue coverage (right) across all six algorithm families and five datasets. Heatmaps are generated from \texttt {combined\_macro\_bias\_metrics.csv} produced by the unified evaluation pipeline.}}{67}{figure.caption.63}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Fairness gap $\Delta \mathrm {RMSE} = \mathrm {RMSE}_{\text {niche}} - \mathrm {RMSE}_{\text {mainstream}}$ by dataset and model. Positive values indicate higher error for niche users. Note that content models that fall back to a global mean for rating prediction can show flat $\Delta \mathrm {RMSE}$; segment NDCG should be read alongside this chart.}}{72}{figure.caption.68}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces RMSE by user segment (Niche vs.\ Mainstream) across datasets and models.}}{72}{figure.caption.69}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Fairness gap $\Delta \mathrm {RMSE} = \mathrm {RMSE}_{\text {niche}} - \mathrm {RMSE}_{\text {mainstream}}$ by dataset and model. Positive values indicate higher error for niche users. Note that content models that fall back to a global mean for rating prediction can show flat $\Delta \mathrm {RMSE}$; segment NDCG should be read alongside this chart.}}{74}{figure.caption.70}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces RMSE by user segment (Niche vs.\ Mainstream) across datasets and models.}}{74}{figure.caption.71}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Feedback simulation: aggregate diversity (count of unique recommended items across all test users) and ARP over five iterations for SVD and TF--IDF, by dataset. Each data point represents one full recommend-observe-retrain cycle. SVD trajectories show consistent popularity creep; TF--IDF trajectories are flat or increasing.}}{79}{figure.caption.70}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Feedback simulation: aggregate diversity (count of unique recommended items across all test users) and ARP over five iterations for SVD and TF--IDF, by dataset. Each data point represents one full recommend-observe-retrain cycle. SVD trajectories show consistent popularity creep; TF--IDF trajectories are flat or increasing.}}{81}{figure.caption.72}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {B.1}{\ignorespaces Unified pipeline: shared preprocessing and model training feed three evaluation tracks (Chapters~\ref {ch:exp_a}--\ref {ch:exp_c}).}}{112}{figure.caption.92}%
-\contentsline {figure}{\numberline {B.2}{\ignorespaces Longitudinal simulator: logs evolve from recommendations and stochastic clicks, then re-enter training.}}{112}{figure.caption.93}%
-\contentsline {figure}{\numberline {B.3}{\ignorespaces Appendix: Gini heatmap}}{112}{figure.caption.94}%
-\contentsline {figure}{\numberline {B.4}{\ignorespaces Appendix: catalog coverage heatmap}}{113}{figure.caption.95}%
-\contentsline {figure}{\numberline {B.5}{\ignorespaces Appendix: niche RMSE gap}}{113}{figure.caption.96}%
-\contentsline {figure}{\numberline {B.6}{\ignorespaces Appendix: RMSE by segment}}{114}{figure.caption.97}%
-\contentsline {figure}{\numberline {B.7}{\ignorespaces Appendix: feedback diversity}}{114}{figure.caption.98}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {C.1}{\ignorespaces Code and artefact layout relative to the research repository root.}}{115}{figure.caption.99}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {B.1}{\ignorespaces Unified pipeline: shared preprocessing and model training feed three evaluation tracks (Chapters~\ref {ch:exp_a}--\ref {ch:exp_c}).}}{114}{figure.caption.94}%
+\contentsline {figure}{\numberline {B.2}{\ignorespaces Longitudinal simulator: logs evolve from recommendations and stochastic clicks, then re-enter training.}}{114}{figure.caption.95}%
+\contentsline {figure}{\numberline {B.3}{\ignorespaces Appendix: Gini heatmap}}{114}{figure.caption.96}%
+\contentsline {figure}{\numberline {B.4}{\ignorespaces Appendix: catalog coverage heatmap}}{115}{figure.caption.97}%
+\contentsline {figure}{\numberline {B.5}{\ignorespaces Appendix: niche RMSE gap}}{115}{figure.caption.98}%
+\contentsline {figure}{\numberline {B.6}{\ignorespaces Appendix: RMSE by segment}}{116}{figure.caption.99}%
+\contentsline {figure}{\numberline {B.7}{\ignorespaces Appendix: feedback diversity}}{116}{figure.caption.100}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {C.1}{\ignorespaces Code and artefact layout relative to the research repository root.}}{117}{figure.caption.101}%
