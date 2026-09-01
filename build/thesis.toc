@@ -67,7 +67,7 @@
 \contentsline {section}{\numberline {6.3}The Stochastic User Choice Model}{75}{section.6.3}%
 \contentsline {section}{\numberline {6.4}Collaborative ``Popularity Creep''}{76}{section.6.4}%
 \contentsline {section}{\numberline {6.5}Content Model Resilience}{77}{section.6.5}%
-\contentsline {section}{\numberline {6.6}Comparing SVD and TF--IDF Trajectories: A Controlled Attribution}{79}{section.6.6}%
+\contentsline {section}{\numberline {6.6}Comparing SVD and TF-IDF Trajectories: A Controlled Attribution}{79}{section.6.6}%
 \contentsline {section}{\numberline {6.7}Connecting to the Bias Propagation Chain}{80}{section.6.7}%
 \contentsline {section}{\numberline {6.8}Limitations of the Longitudinal Simulation}{81}{section.6.8}%
 \contentsline {section}{\numberline {6.9}Summary of Findings and Answer to RQ3}{82}{section.6.9}%

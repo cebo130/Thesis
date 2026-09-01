@@ -23,8 +23,8 @@ Figure~\ref{fig:app-pipeline} situates Experiments~A--C as three measurement sta
     arr/.style={-{Latex[length=2.2mm]}, thick}
   ]
     \node[box, fill=gray!12] (data) {Datasets\\\textit{ML-100K, ML-1M, Last.fm, Book-Crossing, Takealot}};
-    \node[box, below=0.9cm of data] (prep) {Preprocess\\\textit{$k$-core, TF--IDF text, Surprise CF}};
-    \node[box, below=0.9cm of prep] (train) {Train baselines\\\textit{ALS, SVD, $k$-NN, TF--IDF, RF, LogReg}};
+    \node[box, below=0.9cm of data] (prep) {Preprocess\\\textit{$k$-core, TF-IDF text, Surprise CF}};
+    \node[box, below=0.9cm of prep] (train) {Train baselines\\\textit{ALS, SVD, $k$-NN, TF-IDF, RF, LogReg}};
     \node[box, below left=1.1cm and 0.2cm of train] (a) {\textbf{Exp.~A}\\Macro bias\\Gini, ARP, coverage};
     \node[box, below=1.1cm of train] (b) {\textbf{Exp.~B}\\Micro fairness\\RMSE / NDCG segments};
     \node[box, below right=1.1cm and 0.2cm of train] (c) {\textbf{Exp.~C}\\Feedback loop\\5 iterations};
@@ -92,7 +92,7 @@ For convenience, the heatmaps and segment plots used in Chapters~\ref{ch:exp_a}-
 \begin{figure}[p]
   \centering
   \includegraphics[width=0.92\textwidth]{combined_feedback_diversity_decay.png}
-  \caption[Appendix: feedback diversity]{Aggregate diversity and ARP across five feedback iterations (SVD versus TF--IDF).}
+  \caption[Appendix: feedback diversity]{Aggregate diversity and ARP across five feedback iterations (SVD versus TF-IDF).}
 \end{figure}
 
 \chapter{Extended software specifications}
@@ -137,7 +137,7 @@ Table~\ref{tab:app-deps} lists the libraries that materially affect numerical re
     \texttt{numpy} & Arrays, linear algebra & Pinned below 2.x for \texttt{implicit} compatibility. \\
     \texttt{pandas} & CSV aggregation & Used for all combined result tables. \\
     \texttt{scipy} & Statistics & Welch/Mann--Whitney helpers in \texttt{statistical\_tests.py}. \\
-    \texttt{scikit-learn} & TF--IDF, RF, LogReg, metrics & Pipelines mirror standard sklearn idioms. \\
+    \texttt{scikit-learn} & TF-IDF, RF, LogReg, metrics & Pipelines mirror standard sklearn idioms. \\
     \texttt{scikit-surprise} & SVD, $k$-NN, ALS & Optional import guarded when wheels are unavailable. \\
     \texttt{implicit} & ALS (implicit feedback path) & Used where the benchmark supports implicit-style training. \\
     \texttt{matplotlib}, \texttt{seaborn} & Plots & Heatmaps and line charts exported to PNG. \\

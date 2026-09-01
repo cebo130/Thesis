@@ -12,27 +12,27 @@ For each user $u$, mainstreaminess is
 where $H_u$ is the set of items $u$ consumed in training and $p_i$ is item $i$'s global training interaction count. Users are partitioned into \textbf{Niche} (lowest tertile of $M_u$), \textbf{Diverse} (middle tertile), and \textbf{Mainstream} (highest tertile), following \citet{abdollahpouri2021usercentered}. Segment-specific RMSE and NDCG@10 are means of \emph{per-user} scores on the test fold; $\Delta\mathrm{RMSE} = \mathrm{RMSE}_{\text{niche}} - \mathrm{RMSE}_{\text{mainstream}}$ summarises the directional niche tax on error. Diverse-tertile statistics are reported in the CSVs for completeness; the narrative foregrounds the niche versus mainstream contrast required by RQ2.
 
 \section{$\Delta$RMSE, segment RMSE, and the mean-fallback artefact}
-Chapter~\ref{ch:methodology} records a critical implementation constraint: \textbf{ALS, TF--IDF, and per-user logistic regression} do not supply rating-scale predictions in the user-centric path; RMSE is computed with a \textbf{global training mean} fallback on all test rows. Consequently, for those three families, $\mathrm{RMSE}_{\text{niche}} = \mathrm{RMSE}_{\text{diverse}} = \mathrm{RMSE}_{\text{mainstream}}$ on each dataset and $\Delta\mathrm{RMSE}$ is \emph{identical} across them it measures the artefact, not segment-specific misprediction. \textbf{User-based $k$-NN, SVD, and the random forest} produce genuine per-segment RMSE; $\Delta\mathrm{RMSE}$ is interpretable only for these rows in Table~\ref{tab:uc-delta-rmse}.
+Chapter~\ref{ch:methodology} records a critical implementation constraint: \textbf{ALS, TF-IDF, and per-user logistic regression} do not supply rating-scale predictions in the user-centric path; RMSE is computed with a \textbf{global training mean} fallback on all test rows. Consequently, for those three families, $\mathrm{RMSE}_{\text{niche}} = \mathrm{RMSE}_{\text{diverse}} = \mathrm{RMSE}_{\text{mainstream}}$ on each dataset and $\Delta\mathrm{RMSE}$ is \emph{identical} across them it measures the artefact, not segment-specific misprediction. \textbf{User-based $k$-NN, SVD, and the random forest} produce genuine per-segment RMSE; $\Delta\mathrm{RMSE}$ is interpretable only for these rows in Table~\ref{tab:uc-delta-rmse}.
 
 Figure~\ref{fig:fairness-gap} visualises $\Delta\mathrm{RMSE}$ across models and datasets; Figure~\ref{fig:rmse-segment} contrasts niche versus mainstream RMSE directly.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.92\textwidth]{combined_fairness_gap_delta_rmse.png}
-  \caption{$\Delta\mathrm{RMSE} = \mathrm{RMSE}_{\text{niche}} - \mathrm{RMSE}_{\text{mainstream}}$ (model $\times$ dataset). Positive values indicate higher error for niche users. Flat bars at identical heights for ALS / TF--IDF / LogReg reflect the shared global-mean fallback rather than equal algorithmic service.}
+  \caption{$\Delta\mathrm{RMSE} = \mathrm{RMSE}_{\text{niche}} - \mathrm{RMSE}_{\text{mainstream}}$ (model $\times$ dataset). Positive values indicate higher error for niche users. Flat bars at identical heights for ALS / TF-IDF / LogReg reflect the shared global-mean fallback rather than equal algorithmic service.}
   \label{fig:fairness-gap}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.92\textwidth]{combined_rmse_niche_vs_mainstream.png}
-  \caption{Mean RMSE for niche and mainstream tertiles. For ALS, TF--IDF, and LogReg the two bars coincide by construction (mean fallback).}
+  \caption{Mean RMSE for niche and mainstream tertiles. For ALS, TF-IDF, and LogReg the two bars coincide by construction (mean fallback).}
   \label{fig:rmse-segment}
 \end{figure}
 
 \begin{table}[htbp]
   \centering
-  \caption{$\Delta\mathrm{RMSE}$ (niche minus mainstream). Values are merged from \texttt{combined\_user\_centric\_metrics.csv} and the Takealot export. Identical rows for ALS / TF--IDF / LogReg confirm the fallback pattern.}
+  \caption{$\Delta\mathrm{RMSE}$ (niche minus mainstream). Values are merged from \texttt{combined\_user\_centric\_metrics.csv} and the Takealot export. Identical rows for ALS / TF-IDF / LogReg confirm the fallback pattern.}
   \label{tab:uc-delta-rmse}
   \begin{tabular}{@{}l rrrrr@{}}
     \toprule
@@ -41,7 +41,7 @@ Figure~\ref{fig:fairness-gap} visualises $\Delta\mathrm{RMSE}$ across models and
     $k$-NN      & 0.048 & 0.048 & 0.030 & 0.113 & 0.068 \\
     SVD         & 0.005 & $-0.003$ & $-0.114$ & $-0.032$ & 0.060 \\
     ALS         & 0.063 & 0.072 & $-0.025$ & 0.013 & 0.077 \\
-    TF--IDF     & 0.063 & 0.072 & $-0.025$ & 0.013 & 0.077 \\
+    TF-IDF     & 0.063 & 0.072 & $-0.025$ & 0.013 & 0.077 \\
     LogReg      & 0.063 & 0.072 & $-0.025$ & 0.013 & 0.077 \\
     RandomForest& 0.024 & 0.052 & $-0.069$ & $-0.053$ & 0.082 \\
     \bottomrule
@@ -67,7 +67,7 @@ Because top-$K$ lists are produced natively for every model, \textbf{NDCG@10} is
     $k$-NN       & 0.151 & 0.042 & 0.079 & 0.023 & 0.000 & 0.0001 & 0.001 & 0.003 & 0.001 & 0.000 \\
     SVD          & 0.147 & 0.044 & 0.127 & 0.057 & 0.016 & 0.091 & 0.002 & 0.010 & 0.000 & 0.002 \\
     ALS          & 0.171 & 0.073 & 0.140 & 0.051 & 0.021 & 0.025 & 0.012 & 0.012 & 0.000 & 0.002 \\
-    TF--IDF      & 0.066 & 0.023 & 0.070 & 0.033 & 0.151 & 0.256 & 0.112 & 0.074 & 0.012 & 0.017 \\
+    TF-IDF      & 0.066 & 0.023 & 0.070 & 0.033 & 0.151 & 0.256 & 0.112 & 0.074 & 0.012 & 0.017 \\
     LogReg       & 0.065 & 0.015 & 0.040 & 0.012 & 0.031 & 0.074 & 0.059 & 0.041 & 0.004 & 0.004 \\
     RandomForest & 0.104 & 0.036 & 0.060 & 0.025 & 0.013 & 0.064 & 0.009 & 0.009 & 0.000 & 0.000 \\
     \bottomrule
@@ -75,7 +75,7 @@ Because top-$K$ lists are produced natively for every model, \textbf{NDCG@10} is
   }
 \end{table}
 
-On MovieLens~100K, TF--IDF and LogReg achieve \emph{smaller} absolute gaps between niche and mainstream NDCG than $k$-NN (e.g.\ LogReg $0.065$ vs.\ $0.015$ for mainstream compared to $k$-NN $0.151$ vs.\ $0.042$), supporting H2's content-side prediction on dense text-rich metadata. Last.fm is heterogeneous: TF--IDF delivers the highest absolute NDCG for both segments but mainstream users still see higher scores ($0.256$ vs.\ $0.151$), so the ``tax'' manifests as a ranking gap rather than through RMSE. On Takealot, NDCG collapses toward zero for every model the extreme catalogue and sparsity dominate but TF--IDF preserves the largest niche NDCG ($\approx 0.012$) versus collaborative baselines, echoing Experiment~A's finding that lexical features retain some discriminative power when interaction graphs are thin.
+On MovieLens~100K, TF-IDF and LogReg achieve \emph{smaller} absolute gaps between niche and mainstream NDCG than $k$-NN (e.g.\ LogReg $0.065$ vs.\ $0.015$ for mainstream compared to $k$-NN $0.151$ vs.\ $0.042$), supporting H2's content-side prediction on dense text-rich metadata. Last.fm is heterogeneous: TF-IDF delivers the highest absolute NDCG for both segments but mainstream users still see higher scores ($0.256$ vs.\ $0.151$), so the ``tax'' manifests as a ranking gap rather than through RMSE. On Takealot, NDCG collapses toward zero for every model the extreme catalogue and sparsity dominate but TF-IDF preserves the largest niche NDCG ($\approx 0.012$) versus collaborative baselines, echoing Experiment~A's finding that lexical features retain some discriminative power when interaction graphs are thin.
 
 \section{Inferential checks}
 Per-user Niche and mainstream score vectors are compared with two-sided Mann--Whitney $U$ tests and Welch $t$-tests (Section~\ref{sec:method_stats}). Table~\ref{tab:uc-ml100k-tests} summarises MovieLens~100K, where per-user sample sizes are approximately balanced ($\approx 310$ users per extreme tertile in the pinned run underlying the table). RMSE differences for SVD are not significant at $\alpha=0.05$ despite a positive point estimate for $\Delta\mathrm{RMSE}$, whereas NDCG differences remain highly significant for every model highlighting that ranking-based unfairness can coexist with statistically ambiguous RMSE gaps.
@@ -91,7 +91,7 @@ Per-user Niche and mainstream score vectors are compared with two-sided Mann--Wh
     $k$-NN       & 0.0013 & yes & $<10^{-16}$ & yes \\
     SVD          & 0.1270 & no  & $<10^{-16}$ & yes \\
     ALS          & 0.0036 & yes & $<10^{-16}$ & yes \\
-    TF--IDF      & 0.0036 & yes & $<10^{-13}$ & yes \\
+    TF-IDF      & 0.0036 & yes & $<10^{-13}$ & yes \\
     LogReg       & 0.0036 & yes & $<10^{-15}$ & yes \\
     RandomForest & 0.0043 & yes & $<10^{-14}$ & yes \\
     \bottomrule
@@ -101,4 +101,4 @@ Per-user Niche and mainstream score vectors are compared with two-sided Mann--Wh
 \noindent As in Chapter~\ref{ch:methodology}, no global multiple-testing correction is applied across the full model $\times$ dataset grid; $p$-values should be read together with effect sizes in Table~\ref{tab:uc-ndcg}.
 
 \section{Discussion and answer to RQ2}
-\textbf{RQ2 segment disparities:} Collaborative models frequently impose a measurable niche tax on RMSE ($k$-NN, random forest) and on NDCG@10 relative gaps on MovieLens, while content models trade absolute RMSE comparability for more equitable \emph{ranking} outcomes when metadata are informative. Mean-fallback RMSE for ALS, TF--IDF, and LogReg precludes using $\Delta\mathrm{RMSE}$ alone to judge those families; NDCG@10 is the defensible primary metric for them. Last.fm and Book-Crossing show that segment effects can invert or amplify depending on domain skew and on whether implicit play counts were binned into ordinal ratings. Takealot compresses all NDCG values toward numerical noise; fairness conclusions there lean on Experiment~A's macro evidence and on Chapter~\ref{ch:exp_c}'s dynamics rather than on small NDCG differences alone.
+\textbf{RQ2 segment disparities:} Collaborative models frequently impose a measurable niche tax on RMSE ($k$-NN, random forest) and on NDCG@10 relative gaps on MovieLens, while content models trade absolute RMSE comparability for more equitable \emph{ranking} outcomes when metadata are informative. Mean-fallback RMSE for ALS, TF-IDF, and LogReg precludes using $\Delta\mathrm{RMSE}$ alone to judge those families; NDCG@10 is the defensible primary metric for them. Last.fm and Book-Crossing show that segment effects can invert or amplify depending on domain skew and on whether implicit play counts were binned into ordinal ratings. Takealot compresses all NDCG values toward numerical noise; fairness conclusions there lean on Experiment~A's macro evidence and on Chapter~\ref{ch:exp_c}'s dynamics rather than on small NDCG differences alone.

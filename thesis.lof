@@ -1,5 +1,5 @@
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Conceptual feedback cycle of popularity bias (Steps~1--5): already-popular items receive disproportionate recommendation exposure, accumulate additional interactions, and thereby supply stronger training signals that further elevate their predicted scores and visibility in subsequent rounds.}}{15}{figure.caption.8}%
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Conceptual feedback cycle of popularity bias (Steps~1-5): already-popular items receive disproportionate recommendation exposure, accumulate additional interactions, and thereby supply stronger training signals that further elevate their predicted scores and visibility in subsequent rounds.}}{15}{figure.caption.8}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Research framework linking three levels of analysis to RQ1--RQ3 and Experiments A--C. Macro catalogue exposure, user-segment fairness, and longitudinal feedback dynamics are treated as complementary measurement scales rather than independent bias problems.}}{23}{figure.caption.9}%
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Taxonomy of recommender system paradigms discussed in this chapter. Shaded nodes are the six baseline families evaluated under a unified protocol in Experiments A--C; dashed nodes (hybrid and deep/graph architectures) are surveyed for context but excluded from the empirical scope.}}{24}{figure.caption.10}%
@@ -13,7 +13,7 @@
 \contentsline {figure}{\numberline {5.1}{\ignorespaces Fairness gap $\Delta \mathrm {RMSE} = \mathrm {RMSE}_{\text {niche}} - \mathrm {RMSE}_{\text {mainstream}}$ by dataset and model. Positive values indicate higher error for niche users. Note that content models that fall back to a global mean for rating prediction can show flat $\Delta \mathrm {RMSE}$; segment NDCG should be read alongside this chart.}}{74}{figure.caption.70}%
 \contentsline {figure}{\numberline {5.2}{\ignorespaces RMSE by user segment (Niche vs.\ Mainstream) across datasets and models.}}{74}{figure.caption.71}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Feedback simulation: aggregate diversity (count of unique recommended items across all test users) and ARP over five iterations for SVD and TF--IDF, by dataset. Each data point represents one full recommend-observe-retrain cycle. SVD trajectories show consistent popularity creep; TF--IDF trajectories are flat or increasing.}}{81}{figure.caption.72}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Feedback simulation: aggregate diversity (count of unique recommended items across all test users) and ARP over five iterations for SVD and TF-IDF, by dataset. Each data point represents one full recommend-observe-retrain cycle. SVD trajectories show consistent popularity creep; TF-IDF trajectories are flat or increasing.}}{81}{figure.caption.72}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

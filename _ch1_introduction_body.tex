@@ -36,10 +36,10 @@ The study is organised around three quantitative questions:
 
 \section{Scope and limitations}
 \subsection{Focus area}
-The thesis studies \textbf{popularity bias} and \textbf{exposure bias} in offline recommender evaluation with explicit and implicit-style signals (including binned implicit feedback for Last.fm). It reports macro diagnostics (Chapter~\ref{ch:exp_a}), user-centric tertile analysis (Chapter~\ref{ch:exp_b}), and a five-round feedback simulation for SVD versus TF--IDF (Chapter~\ref{ch:exp_c}). It does \textbf{not} address demographic parity on protected attributes, producer-side revenue sharing, or live A/B tests.
+The thesis studies \textbf{popularity bias} and \textbf{exposure bias} in offline recommender evaluation with explicit and implicit-style signals (including binned implicit feedback for Last.fm). It reports macro diagnostics (Chapter~\ref{ch:exp_a}), user-centric tertile analysis (Chapter~\ref{ch:exp_b}), and a five-round feedback simulation for SVD versus TF-IDF (Chapter~\ref{ch:exp_c}). It does \textbf{not} address demographic parity on protected attributes, producer-side revenue sharing, or live A/B tests.
 
 \subsection{Algorithms and data}
-Six interpretable baselines ($k$-NN, SVD, ALS, TF--IDF profiles, per-user logistic regression on text, random forest on identifiers) are compared on MovieLens~100K, MovieLens~1M, Last.fm~2K, Book-Crossing, and a proprietary Takealot reviews-derived corpus. Deep neural recommenders are out of scope so that failures can be traced to identifiable components \citep{ferrari2019progress, he2020lightgcn}.
+Six interpretable baselines ($k$-NN, SVD, ALS, TF-IDF profiles, per-user logistic regression on text, random forest on identifiers) are compared on MovieLens~100K, MovieLens~1M, Last.fm~2K, Book-Crossing, and a proprietary Takealot reviews-derived corpus. Deep neural recommenders are out of scope so that failures can be traced to identifiable components \citep{ferrari2019progress, he2020lightgcn}.
 
 \subsection{Methodological boundaries}
 Offline metrics approximate, but do not replace, deployed behaviour. The feedback simulator uses a fixed Bernoulli click blend (Chapter~\ref{ch:methodology}); it is a laboratory model, not a calibrated digital twin. RMSE for several content pipelines uses a global mean fallback, which limits cross-model segment RMSE comparisons; NDCG@10 is the primary ranking-fairness metric for those models. These constraints are documented upfront because reproducibility and honest construct validity are part of the contribution \citep{ferrari2019progress}.
@@ -59,7 +59,7 @@ This thesis makes four main contributions:
   \item \textbf{Chapter~\ref{ch:methodology}} states the positivist empirical design, datasets, preprocessing ($k$-core, splits), the six baselines, metric definitions mapped to RQ1--RQ3, the stochastic click model, statistical testing, threats to validity, and reproducibility commitments.
   \item \textbf{Chapter~\ref{ch:exp_a}} answers RQ1 with Gini, coverage, ARP, Spearman diagnostics, and Takealot contrasts, including an SVD re-ranking intervention.
   \item \textbf{Chapter~\ref{ch:exp_b}} answers RQ2 with mainstreaminess tertiles, $\Delta$RMSE (where valid), NDCG@10, and illustrative significance checks.
-  \item \textbf{Chapter~\ref{ch:exp_c}} answers RQ3 with five-round SVD versus TF--IDF trajectories in aggregate diversity and ARP.
+  \item \textbf{Chapter~\ref{ch:exp_c}} answers RQ3 with five-round SVD versus TF-IDF trajectories in aggregate diversity and ARP.
   \item \textbf{Chapter~\ref{ch:discussion}} synthesises cross-experiment findings, domain implications, and validity lessons.
   \item \textbf{Chapter~\ref{ch:conclusion_final}} summarises contributions, restates answers to RQ1--RQ3, and outlines future work.
 \end{itemize}

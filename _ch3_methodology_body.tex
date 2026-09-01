@@ -82,7 +82,7 @@ retaining only edges between $\mathcal{U}_{t+1}$ and $\mathcal{I}_{t+1}$ to form
 Public datasets are partitioned with an \textbf{80/20 pseudo-random split} (\texttt{train\_test\_split} in scikit-learn, \texttt{random\_state=42}) applied at the level of interaction rows after filtering. A time-based split would better mimic deployment for logs with reliable timestamps, but timestamps are incomplete or unused across all corpora in a uniform way, and the comparative goal is to hold the evaluation protocol fixed while varying models. Protocol consistency is itself a methodological safeguard against metric artefacts that arise when each paper uses a different splitting convention \citep{bellogin2017statistical, ferrari2019progress}.
 
 \paragraph{Content features.}
-For every dataset, items expose a single string field \texttt{metadata\_text} used by TF--IDF and logistic regression. MovieLens joins genre tags; Last.fm joins artist names and tags; Book-Crossing joins author and publisher; Takealot concatenates \textbf{product title, brand, and category} because richer structured attributes were unavailable in the release. Bag-of-words TF--IDF is appropriate when metadata are short textual fields and the goal is a transparent lexical baseline decoupled from interaction frequency.
+For every dataset, items expose a single string field \texttt{metadata\_text} used by TF-IDF and logistic regression. MovieLens joins genre tags; Last.fm joins artist names and tags; Book-Crossing joins author and publisher; Takealot concatenates \textbf{product title, brand, and category} because richer structured attributes were unavailable in the release. Bag-of-words TF-IDF is appropriate when metadata are short textual fields and the goal is a transparent lexical baseline decoupled from interaction frequency.
 
 \section{Algorithmic Baselines and Constraints}
 \label{sec:method_baselines}
@@ -100,7 +100,7 @@ The six models are not an exhaustive inventory of recommender research; they are
     User-based $k$-NN & Collaborative & Memory / neighbourhood \\
     SVD (biased PMF) & Collaborative & Latent factor \\
     ALS (implicit) & Collaborative & Latent factor (implicit confidence) \\
-    TF--IDF profile & Content & Lexical similarity \\
+    TF-IDF profile & Content & Lexical similarity \\
     Per-user logistic regression & Content & Discriminative classifier \\
     Random forest on IDs & Hybrid memorisation & Ensemble on categorical IDs \\
     \bottomrule
@@ -116,11 +116,11 @@ $k$-nearest neighbours in user space instantiate collaborative filtering in its 
 \paragraph{ALS (implicit feedback).}
 Alternating least squares fits a confidence-weighted implicit matrix \citep{hu2008collaborative}. Confidence grows with interaction frequency, so popularity enters both through support and through weighting; on ultra-sparse graphs the weight concentrates on a tiny item set, which is why ALS is expected to struggle most on Takealot.
 
-\paragraph{TF--IDF profile model.}
-Items are represented by L2-normalised TF--IDF vectors; user profiles are the mean vector of consumed items; scores are cosine similarities. Because the pipeline never feeds interaction counts into the scorer, popularity bias from the training distribution cannot be amplified through latent factors only through textual association with popular brands or categories.
+\paragraph{TF-IDF profile model.}
+Items are represented by L2-normalised TF-IDF vectors; user profiles are the mean vector of consumed items; scores are cosine similarities. Because the pipeline never feeds interaction counts into the scorer, popularity bias from the training distribution cannot be amplified through latent factors only through textual association with popular brands or categories.
 
 \paragraph{Per-user logistic regression.}
-Each user contributes training rows labelled $1$ if $r_{ui}$ is at or above that user's median rating and $0$ otherwise; a TF--IDF pipeline feeds a linear classifier. Per-user thresholds adapt to heterogeneous rating scales, which distinguishes this baseline from global TF--IDF similarity.
+Each user contributes training rows labelled $1$ if $r_{ui}$ is at or above that user's median rating and $0$ otherwise; a TF-IDF pipeline feeds a linear classifier. Per-user thresholds adapt to heterogeneous rating scales, which distinguishes this baseline from global TF-IDF similarity.
 
 \paragraph{Random forest on identifiers.}
 User and item identifiers are label-encoded and fed to \texttt{RandomForestRegressor} without text. The model can only learn smooth functions of memorised co-occurrence structure; it acts as a \textbf{non-linear popularity memoriser}. Contrasting it with SVD/ALS isolates whether harmful concentration arises from low-rank factor geometry or from brute-force pattern storage.
@@ -169,7 +169,7 @@ For test pairs $\mathcal{T}_g$ in group $g$,
 \begin{equation}
   \text{RMSE}_g = \sqrt{\frac{1}{|\mathcal{T}_g|}\sum_{(u,i)\in\mathcal{T}_g}(\hat r_{ui}-r_{ui})^2}.
 \end{equation}
-\textbf{Critical limitation:} ALS, TF--IDF, and logistic regression do not expose consistent rating-scale predictors in the pipeline; RMSE for these models is computed with a \textbf{global training mean} fallback on test rows. Segment RMSE values are therefore \emph{identical} across niche, diverse, and mainstream buckets for each such model and measure the fallback artefact rather than true predictive disparity. \textbf{Only user-based $k$-NN, SVD, and the random forest} produce differentiated segment RMSE comparable in interpretation across groups. For content models, \textbf{NDCG@10} is the primary fairness metric.
+\textbf{Critical limitation:} ALS, TF-IDF, and logistic regression do not expose consistent rating-scale predictors in the pipeline; RMSE for these models is computed with a \textbf{global training mean} fallback on test rows. Segment RMSE values are therefore \emph{identical} across niche, diverse, and mainstream buckets for each such model and measure the fallback artefact rather than true predictive disparity. \textbf{Only user-based $k$-NN, SVD, and the random forest} produce differentiated segment RMSE comparable in interpretation across groups. For content models, \textbf{NDCG@10} is the primary fairness metric.
 
 \paragraph{$\Delta$RMSE (niche tax).}
 Define $\Delta\text{RMSE} = \text{RMSE}_{\text{niche}} - \text{RMSE}_{\text{mainstream}}$ on the subset of models where segment RMSE is meaningful. Positive values indicate higher error for niche users \citep{abdollahpouri2020multistakeholder}.
@@ -220,7 +220,7 @@ Confounds include \textbf{hyperparameter sensitivity}: factors, iterations, and 
 Findings are bounded to movie, music, book, and one e-commerce domain; they do not automatically transfer to social feeds or search ads. The click model is stylised and not calibrated to live Takealot traffic. Offline metrics may diverge from online outcomes.
 
 \paragraph{Construct validity.}
-Mean-fallback RMSE for ALS, TF--IDF, and logistic regression does not measure the niche tax for those models; NDCG@10 and $\Delta$GAP carry the interpretive burden instead.
+Mean-fallback RMSE for ALS, TF-IDF, and logistic regression does not measure the niche tax for those models; NDCG@10 and $\Delta$GAP carry the interpretive burden instead.
 
 \paragraph{Statistical conclusion validity.}
 Sparse segments imply wide sampling variability for per-user scores; niche cohorts on Takealot can contain users with very few test events, widening confidence intervals even when Mann--Whitney $p$-values are small.

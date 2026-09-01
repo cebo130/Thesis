@@ -10,7 +10,7 @@
 \contentsline {figure}{\numberline {5.1}{\ignorespaces Fairness gap $\Delta \mathrm {RMSE} = \mathrm {RMSE}_{\text {niche}} - \mathrm {RMSE}_{\text {mainstream}}$ by dataset and model. Positive values indicate higher error for niche users. Note that content models that fall back to a global mean for rating prediction can show flat $\Delta \mathrm {RMSE}$; segment NDCG should be read alongside this chart.}}{69}{figure.caption.65}%
 \contentsline {figure}{\numberline {5.2}{\ignorespaces RMSE by user segment (Niche vs.\ Mainstream) across datasets and models.}}{69}{figure.caption.66}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Feedback simulation: aggregate diversity (count of unique recommended items across all test users) and ARP over five iterations for SVD and TF--IDF, by dataset. Each data point represents one full recommend-observe-retrain cycle. SVD trajectories show consistent popularity creep; TF--IDF trajectories are flat or increasing.}}{76}{figure.caption.67}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Feedback simulation: aggregate diversity (count of unique recommended items across all test users) and ARP over five iterations for SVD and TF-IDF, by dataset. Each data point represents one full recommend-observe-retrain cycle. SVD trajectories show consistent popularity creep; TF-IDF trajectories are flat or increasing.}}{76}{figure.caption.67}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
