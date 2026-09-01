@@ -1093,34 +1093,86 @@ This chapter presents the complete methodological blueprint of the thesis. It de
 \section{Research Design Overview}
 \label{sec:method_design}
 
-The central empirical goal of this thesis is to produce a rigorous, comparative quantification of popularity bias across six algorithmically distinct recommendation architectures and five datasets that span a wide spectrum of interaction density from the dense, well-curated MovieLens benchmarks to an extremely sparse proprietary e-commerce catalog. To achieve this goal in a way that is both internally valid and practically interpretable, the study adopts a three-phase experimental pipeline, illustrated in Figure~\ref{fig:pipeline}.
+The central empirical goal of this thesis is to compare the manifestation of popularity bias across six baseline recommendation methods drawn from the collaborative filtering and content-based paradigms and five datasets that span a wide spectrum of interaction density from the dense, well-curated MovieLens benchmarks to an extremely sparse proprietary e-commerce catalog. To achieve this goal in a way that is both internally valid and practically interpretable, the study adopts a three-phase experimental pipeline, illustrated in Figure~\ref{fig:pipeline}.
 
 The three experiments are not independent modules; they are a deliberately ordered sequence in which each phase addresses a dimension of bias that the previous phase cannot capture alone.
 
 \begin{enumerate}
     \item \textbf{Experiment A   Macro-Level Exposure Bias:} The first phase characterises the distributional properties of each algorithm's recommendation output at the catalog level. It asks: how unequally are items exposed across the full recommendation surface? How much of the available catalog does each algorithm actually utilise? What is the average popularity of recommended items? These questions are answered using Gini coefficients, catalog coverage, average recommendation popularity (ARP), and exposure entropy, computed across all users. Experiment A establishes the baseline bias fingerprint of each algorithm before any user-level or temporal analysis is introduced.
 
-    \item \textbf{Experiment B   User-Centric Fairness:} The second phase disaggregates the macro-level picture by partitioning users into segments according to their mainstreaminess the degree to which their historical preferences overlap with globally popular items. It asks: does popularity bias fall equally on all users, or do users with niche preferences bear a disproportionate accuracy penalty? Group Average Popularity (GAP), $\Delta$GAP, and segment-level NDCG and RMSE are computed separately for mainstream, diverse, and niche user groups, and the distributions are compared using non-parametric statistical tests. Experiment B reveals the consumer-side fairness consequences of the macro-level biases documented in Experiment A.
+    \item \textbf{Experiment B   User-Centric Fairness:} The second phase disaggregates the macro-level picture by partitioning users into segments according to their mainstreaminess i.e. the degree to which their historical preferences overlap with globally popular items. It asks: does popularity bias fall equally on all users, or do users with niche preferences bear a disproportionate accuracy penalty? Group Average Popularity (GAP), $\Delta$GAP, and segment-level NDCG and RMSE are computed separately for mainstream, diverse, and niche user groups, and the distributions are compared using non-parametric statistical tests. Experiment B reveals the consumer-side fairness consequences of the macro-level biases documented in Experiment A.
 
     \item \textbf{Experiment C   Longitudinal Feedback Dynamics:} The third phase introduces the temporal dimension. Using a synthetic click simulator, it subjects each algorithm to multiple rounds of the recommend-observe-retrain cycle and tracks how the distributional metrics from Experiment A and the segment disparities from Experiment B evolve over time. It asks: does popularity bias compound through feedback, and do different algorithmic architectures amplify or resist this compounding at different rates? Without this phase, the static bias measurements from Experiments A and B could not be interpreted in the context of real-world deployment, where models are continuously retrained on interaction data that is itself shaped by prior recommendations.
 \end{enumerate}
 
-This three-phase structure ensures that the thesis measures bias at three distinct levels of analysis catalog-wide, user-segment-level, and longitudinal using a consistent set of metrics and the same six algorithm families throughout, enabling direct cross-experiment comparison.
+This three-phase structure ensures that the thesis measures bias at three distinct levels of analysis: catalog-wide, at user-segment-level, and longitudinally using a consistent set of metrics and the same six algorithm families throughout thus enabling direct cross-experiment comparison.
 
 \begin{figure}[htbp]
   \centering
+  \footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \renewcommand{\arraystretch}{1.35}
   \begin{tikzpicture}[
-      node distance=0.6cm and 1.0cm,
-      box/.style={rectangle, draw, rounded corners=2pt, minimum width=3.4cm, minimum height=1.15cm, align=center, font=\small},
-      arr/.style={-{Stealth[length=2.2mm]}, thick},
+      font=\footnotesize,
+      sharedbox/.style={rectangle, draw=black!55, rounded corners=2.5pt, thick, align=center, inner sep=10pt, fill=black!4},
+      panel/.style={rectangle, draw=black!65, rounded corners=2.5pt, thick, inner sep=10pt, fill=white},
+      arr/.style={-{Latex[length=2.4mm]}, line width=0.9pt, draw=black!70},
+      edgelab/.style={font=\footnotesize, text=black, align=center, fill=white, inner sep=4pt, rounded corners=2pt, draw=black!35, thin, text width=3.6cm},
     ]
-    \node[box] (a) {Experiment A\\Macro-level exposure};
-    \node[box, right=of a] (b) {Experiment B\\User-centric fairness};
-    \node[box, right=of b] (c) {Experiment C\\Feedback simulation};
-    \draw[arr] (a) -- (b);
-    \draw[arr] (b) -- (c);
+    \node[sharedbox, text width=0.94\linewidth] (base) {%
+      \textbf{Shared foundation (Experiments A--C):}
+      five datasets (MovieLens~100K/1M, Last.fm~2K, Book-Crossing, Takealot);
+      six baselines ($k$-NN, SVD, ALS, TF-IDF, LogReg, RandomForest);
+      unified preprocessing, 80/20 train--test split, top-$K$ recommendation lists};
+
+    \node[panel, text width=0.94\linewidth, below=0.85cm of base] (a) {%
+      \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.94\linewidth}@{}}
+        {\small\bfseries Experiment~A (RQ1)} \hfill {\small\itshape Macro-level exposure} \\[6pt]
+        \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.32\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}@{}}
+          \textbf{Input} & \textbf{Process} & \textbf{Metrics} & \textbf{Output} \\[2pt]
+          Trained models; held-out test users; unseen-item pool &
+          Top-10 lists per user; pooled exposure histogram &
+          Gini, coverage, ARP, entropy, GAP; Spearman pop.--exposure; long-tail share; aggregate diversity; RMSE ($k$-NN, SVD, RF) &
+          Macro bias fingerprint per model--dataset pair \\
+        \end{tabular}
+      \end{tabular}};
+
+    \node[edgelab] (labab) at ($(a.south)+(0,-0.72)$) {Macro skew precedes segment costs};
+    \node[panel, text width=0.94\linewidth, below=0.72cm of labab] (b) {%
+      \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.94\linewidth}@{}}
+        {\small\bfseries Experiment~B (RQ2)} \hfill {\small\itshape User-centric fairness} \\[6pt]
+        \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.32\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}@{}}
+          \textbf{Input} & \textbf{Process} & \textbf{Metrics} & \textbf{Output} \\[2pt]
+          Same lists and models; user mainstreaminess $M_u$ (training tertiles) &
+          Stratify users (Niche / Diverse / Mainstream); segment evaluation &
+          GAP, $\Delta$GAP; NDCG@10 and RMSE by segment; Mann--Whitney U ($p$, rank-biserial $r$) &
+          Segment disparity profiles (niche tax) \\
+        \end{tabular}
+      \end{tabular}};
+
+    \node[edgelab] (labcb) at ($(b.south)+(0,-0.72)$) {Static disparities precede longitudinal dynamics};
+    \node[panel, text width=0.94\linewidth, below=0.72cm of labcb] (c) {%
+      \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.94\linewidth}@{}}
+        {\small\bfseries Experiment~C (RQ3)} \hfill {\small\itshape Longitudinal feedback} \\[6pt]
+        \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.32\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}@{}}
+          \textbf{Input} & \textbf{Process} & \textbf{Metrics} & \textbf{Output} \\[2pt]
+          Initial log $\mathcal{D}_0$; fixed eval set; SVD \& TF-IDF; click model ($0.7\,s_{ui}+0.3\,\tilde{p}_i$) &
+          Five rounds: train $\rightarrow$ top-5 rec $\rightarrow$ simulate clicks $\rightarrow$ augment log &
+          Round-wise Gini, coverage, ARP, aggregate diversity, segment NDCG@10 &
+          Longitudinal trajectories (popularity creep vs.\ resilience) \\
+        \end{tabular}
+      \end{tabular}};
+
+    \draw[arr] (a.south) -- (labab.north);
+    \draw[arr] (labab.south) -- (b.north);
+
+    \draw[arr] (b.south) -- (labcb.north);
+    \draw[arr] (labcb.south) -- (c.north);
+
+    \draw[arr, dashed, draw=black!55] ([xshift=-0.35cm]c.south west) -- ++(0,-0.75) -| ([xshift=-0.35cm]a.south west);
+    \node[edgelab, anchor=north west, text width=3.8cm] at ([xshift=-0.35cm,yshift=-0.78cm]c.south west) {Experiment~C recomputes macro- and segment-level metrics from A \& B at each feedback round};
   \end{tikzpicture}
-  \caption{The three-phase experimental pipeline. Each phase addresses a dimension of popularity bias that the preceding phase cannot capture in isolation.}
+  \caption{Three-phase experimental pipeline showing shared inputs, phase-specific processes, evaluation metrics, and outputs for Experiments~A--C. Vertical arrows reflect the logical ordering of analysis scales (catalogue $\rightarrow$ user segment $\rightarrow$ time); the dashed return path indicates that Experiment~C tracks the evolution of metrics defined in Experiments~A and~B under synthetic feedback.}
   \label{fig:pipeline}
 \end{figure}
 

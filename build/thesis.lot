@@ -1,23 +1,25 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Illustrative coverage of key dimensions in selected prior work (Y\,=\,addressed; (\,Y\,)\,=\,partial; empty\,=\,not central). The final row sketches this thesis.}}{46}{table.caption.41}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Comparison of the six baseline recommender families evaluated in this thesis.}}{27}{table.caption.17}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Stakeholder perspectives and fairness lenses in recommender systems. Provider-side fairness is also called producer-side or item-side equity in the literature; platform-level fairness captures aggregate ecosystem outcomes that may look acceptable in a single snapshot but deteriorate under feedback.}}{34}{table.caption.28}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Illustrative coverage of key dimensions in selected prior work (Y\,=\,addressed; (\,Y\,)\,=\,partial; empty\,=\,not central). The final row sketches this thesis.}}{51}{table.caption.46}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Summary statistics for all five datasets after $k$-core filtering (thresholds $k_U = k_I = 10$). Density is computed as $|\mathcal {D}| / (|\mathcal {U}| \times |\mathcal {I}|)$.}}{53}{table.caption.45}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Summary statistics for all five datasets after $k$-core filtering (thresholds $k_U = k_I = 10$). Density is computed as $|\mathcal {D}| / (|\mathcal {U}| \times |\mathcal {I}|)$.}}{58}{table.caption.50}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Spearman rank correlation $\rho $ between item training-set popularity and recommendation-slot frequency across all test users. Larger positive values indicate stronger popularity alignment; values near zero indicate decoupling from the popularity hierarchy; negative values indicate an inverted relationship.}}{64}{table.caption.61}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Aggregate diversity (count of unique items recommended across all test users) and long-tail share LT$_{20}$ (fraction of recommendation slots drawn from the least popular 20\% of training items). Higher aggregate diversity and higher LT$_{20}$ both indicate less popularity concentration.}}{64}{table.caption.62}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Test RMSE for models that expose calibrated scalar rating predictions. Empty cells indicate models for which RMSE is not computed in this export (ALS, TF-IDF, and Logistic Regression use mean-fallback predictions; see Section~\ref {sec:method_rmse_caveat}).}}{65}{table.caption.64}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Comparison of SVD and TF-IDF feedback trajectories at round zero (baseline) and round five (final). ARP is the average recommendation popularity. ``Agg. diversity'' is the count of distinct items recommended across all test users. $\Delta $NDCG is the NDCG@10 gap between mainstream and niche user cohorts (positive = mainstream advantaged). All values are rounded to the nearest integer for ARP and diversity counts.}}{80}{table.caption.75}%
-\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Spearman rank correlation $\rho $ between item training-set popularity and recommendation-slot frequency across all test users. Larger positive values indicate stronger popularity alignment; values near zero indicate decoupling from the popularity hierarchy; negative values indicate an inverted relationship.}}{70}{table.caption.66}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Aggregate diversity (count of unique items recommended across all test users) and long-tail share LT$_{20}$ (fraction of recommendation slots drawn from the least popular 20\% of training items). Higher aggregate diversity and higher LT$_{20}$ both indicate less popularity concentration.}}{70}{table.caption.67}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Test RMSE for models that expose calibrated scalar rating predictions. Empty cells indicate models for which RMSE is not computed in this export (ALS, TF-IDF, and Logistic Regression use mean-fallback predictions; see Section~\ref {sec:method_rmse_caveat}).}}{71}{table.caption.69}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {A.1}{\ignorespaces Macro metrics (part I): concentration and popularity alignment.}}{103}{table.A.1}%
-\contentsline {table}{\numberline {A.2}{\ignorespaces Macro metrics (part II): tail mass, diversity, metadata entropy, RMSE.}}{104}{table.A.2}%
-\contentsline {table}{\numberline {A.3}{\ignorespaces Micro metrics (part I): RMSE by taste segment and $\Delta $RMSE.}}{105}{table.A.3}%
-\contentsline {table}{\numberline {A.4}{\ignorespaces Micro metrics (part II): NDCG@10 by taste segment.}}{105}{table.A.4}%
-\contentsline {table}{\numberline {A.5}{\ignorespaces Feedback simulation: aggregate diversity and ARP at every iteration (SVD vs.\ TF-IDF).}}{106}{table.A.5}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Comparison of SVD and TF-IDF feedback trajectories at round zero (baseline) and round five (final). ARP is the average recommendation popularity. ``Agg. diversity'' is the count of distinct items recommended across all test users. $\Delta $NDCG is the NDCG@10 gap between mainstream and niche user cohorts (positive = mainstream advantaged). All values are rounded to the nearest integer for ARP and diversity counts.}}{86}{table.caption.80}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {C.1}{\ignorespaces Scientific stack directly exercised by \texttt {run\_all.py}.}}{113}{table.caption.97}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Macro metrics (part I): concentration and popularity alignment.}}{109}{table.A.1}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Macro metrics (part II): tail mass, diversity, metadata entropy, RMSE.}}{110}{table.A.2}%
+\contentsline {table}{\numberline {A.3}{\ignorespaces Micro metrics (part I): RMSE by taste segment and $\Delta $RMSE.}}{111}{table.A.3}%
+\contentsline {table}{\numberline {A.4}{\ignorespaces Micro metrics (part II): NDCG@10 by taste segment.}}{111}{table.A.4}%
+\contentsline {table}{\numberline {A.5}{\ignorespaces Feedback simulation: aggregate diversity and ARP at every iteration (SVD vs.\ TF-IDF).}}{112}{table.A.5}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {C.1}{\ignorespaces Scientific stack directly exercised by \texttt {run\_all.py}.}}{119}{table.caption.102}%

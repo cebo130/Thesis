@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.30)  1 SEP 2026 05:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.30)  1 SEP 2026 06:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1169,7 +1169,7 @@ Overfull \hbox (12.552pt too wide) in paragraph at lines 401--402
  [][] 
  []
 
-<figures/figure-2-2.png, id=625, 571.63562pt x 252.44313pt>
+<figures/figure-2-2.png, id=628, 571.63562pt x 252.44313pt>
 File: figures/figure-2-2.png Graphic file (type png)
 <use figures/figure-2-2.png>
 Package pdftex.def Info: figures/figure-2-2.png  used on input line 408.
@@ -1203,102 +1203,122 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 Chapter 3.
 [55
 
-] [56] [57] [58{C:/Users/29915759/AppData/Local/Programs/MiKTeX/fonts/enc/dvips
-/lm/lm-mathex.enc}]
+]
+Overfull \hbox (5.87175pt too wide) in paragraph at lines 1131--1138
+[]|[]|  
+ []
+
+
+Overfull \hbox (5.87175pt too wide) in paragraph at lines 1144--1151
+[]|[]|  
+ []
+
+
+Overfull \hbox (5.87175pt too wide) in paragraph at lines 1157--1164
+[]|[]|  
+ []
+
+
+Overfull \hbox (6.00581pt too wide) in paragraph at lines 1174--1175
+ [][] 
+ []
+
+[56] [57] [58] [59{C:/Users/29915759/AppData/Local/Programs/MiKTeX/fonts/enc/dv
+ips/lm/lm-mathex.enc}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 1201.
- [59] [60]
-Overfull \hbox (46.79204pt too wide) in paragraph at lines 1253--1254
+(Font)              <12> on input line 1262.
+ [60]
+Overfull \hbox (46.79204pt too wide) in paragraph at lines 1314--1315
 \T1/lmr/m/n/10.95 (-20) by mem-o-rised pat-terns in the train-ing data. Im-ple-
 mented via \T1/lmtt/m/n/10.95 sklearn.ensemble.RandomForestRegressor
  []
 
-[61] [62] [63] [64] [65]
+[61] [62] [63] [64] [65] [66]
 Chapter 4.
-[66
+[67
 
 ]
-<outputs/figures/combined_macro_gini_heatmap.png, id=1168, 660.4675pt x 350.509
+<outputs/figures/combined_macro_gini_heatmap.png, id=1186, 660.4675pt x 350.509
 5pt>
 File: outputs/figures/combined_macro_gini_heatmap.png Graphic file (type png)
 <use outputs/figures/combined_macro_gini_heatmap.png>
 Package pdftex.def Info: outputs/figures/combined_macro_gini_heatmap.png  used 
-on input line 1430.
+on input line 1491.
 (pdftex.def)             Requested size: 218.51521pt x 115.968pt.
-<outputs/figures/combined_macro_catalog_coverage_heatmap.png, id=1169, 660.4675
+<outputs/figures/combined_macro_catalog_coverage_heatmap.png, id=1187, 660.4675
 pt x 350.5095pt>
 File: outputs/figures/combined_macro_catalog_coverage_heatmap.png Graphic file 
 (type png)
 <use outputs/figures/combined_macro_catalog_coverage_heatmap.png>
 Package pdftex.def Info: outputs/figures/combined_macro_catalog_coverage_heatma
-p.png  used on input line 1436.
+p.png  used on input line 1497.
 (pdftex.def)             Requested size: 218.51521pt x 115.968pt.
 
-Underfull \hbox (badness 4441) in paragraph at lines 1440--1440
+Underfull \hbox (badness 4441) in paragraph at lines 1501--1501
 []\T1/lmr/m/n/10.95 (+20) Figure 4.1: |Macro-level ex-po-sure in-equal-ity (lef
 t) and cat-a-logue cov-er-age (right)
  []
 
 
-Underfull \hbox (badness 1953) in paragraph at lines 1440--1440
+Underfull \hbox (badness 1953) in paragraph at lines 1501--1501
 \T1/lmr/m/n/10.95 (+20) across all six al-go-rithm fam-i-lies and five datasets
 . Heatmaps are gen-er-ated from
  []
 
-[67 <./outputs/figures/combined_macro_gini_heatmap.png> <./outputs/figures/comb
-ined_macro_catalog_coverage_heatmap.png>] [68] [69] [70] [71] [72]
+[68 <./outputs/figures/combined_macro_gini_heatmap.png> <./outputs/figures/comb
+ined_macro_catalog_coverage_heatmap.png>] [69] [70] [71] [72] [73]
 Chapter 5.
-<outputs/figures/combined_fairness_gap_delta_rmse.png, id=1223, 855.5965pt x 42
+<outputs/figures/combined_fairness_gap_delta_rmse.png, id=1241, 855.5965pt x 42
 2.7795pt>
 File: outputs/figures/combined_fairness_gap_delta_rmse.png Graphic file (type p
 ng)
 <use outputs/figures/combined_fairness_gap_delta_rmse.png>
 Package pdftex.def Info: outputs/figures/combined_fairness_gap_delta_rmse.png  
-used on input line 1604.
+used on input line 1665.
 (pdftex.def)             Requested size: 418.82375pt x 206.95087pt.
-<outputs/figures/combined_rmse_niche_vs_mainstream.png, id=1224, 844.756pt x 59
+<outputs/figures/combined_rmse_niche_vs_mainstream.png, id=1242, 844.756pt x 59
 1.811pt>
 File: outputs/figures/combined_rmse_niche_vs_mainstream.png Graphic file (type 
 png)
 <use outputs/figures/combined_rmse_niche_vs_mainstream.png>
 Package pdftex.def Info: outputs/figures/combined_rmse_niche_vs_mainstream.png 
- used on input line 1611.
+ used on input line 1672.
 (pdftex.def)             Requested size: 418.82375pt x 293.41241pt.
-[73
+[74
 
-] [74 <./outputs/figures/combined_fairness_gap_delta_rmse.png> <./outputs/figur
-es/combined_rmse_niche_vs_mainstream.png>] [75] [76] [77]
+] [75 <./outputs/figures/combined_fairness_gap_delta_rmse.png> <./outputs/figur
+es/combined_rmse_niche_vs_mainstream.png>] [76] [77] [78]
 Chapter 6.
-[78
+[79
 
-] [79] [80]
-<outputs/figures/combined_feedback_diversity_decay.png, id=1294, 855.5965pt x 4
+] [80] [81]
+<outputs/figures/combined_feedback_diversity_decay.png, id=1312, 855.5965pt x 4
 22.7795pt>
 File: outputs/figures/combined_feedback_diversity_decay.png Graphic file (type 
 png)
 <use outputs/figures/combined_feedback_diversity_decay.png>
 Package pdftex.def Info: outputs/figures/combined_feedback_diversity_decay.png 
- used on input line 1721.
+ used on input line 1782.
 (pdftex.def)             Requested size: 418.82375pt x 206.95087pt.
- [81 <./outputs/figures/combined_feedback_diversity_decay.png>]
-[82] [83] [84] [85] [86] [87] [88]
+ [82 <./outputs/figures/combined_feedback_diversity_decay.png>]
+[83] [84] [85] [86] [87] [88] [89]
 Chapter 7.
-[89
+[90
 
-] [90] [91] [92] [93] [94] [95] [96]
+] [91] [92] [93] [94] [95] [96] [97]
 Chapter 8.
-[97
+[98
 
-] [98] [99]
-Overfull \hbox (4.26015pt too wide) in paragraph at lines 2066--2080
+] [99] [100]
+Overfull \hbox (4.26015pt too wide) in paragraph at lines 2127--2141
 []\T1/lmr/m/n/10.95 (-20) One prin-ci-pled ap-proach to this chal-lenge is to i
 n-cor-po-rate \T1/lmr/bx/n/10.95 (-20) degree-normalised or popularity-
  []
 
-[100] [101] (thesis.bbl [102] [103
+[101] [102] (thesis.bbl [103] [104
 
-] [104] [105] [106]) (_appendices_full.tex
-[107]
+] [105] [106] [107]) (_appendices_full.tex
+[108]
 Appendix A.
 (_appendix_generated_tables.tex
 Overfull \hbox (3.90573pt too wide) in paragraph at lines 4--5
@@ -1307,7 +1327,7 @@ Overfull \hbox (3.90573pt too wide) in paragraph at lines 4--5
 ed as a \T1/lmtt/m/n/10.95 take-a-lot \T1/lmr/m/n/10.95 (-20) row). RMSE
  []
 
-ignored error: Infinite glue shrinkage found in box being split [108
+ignored error: Infinite glue shrinkage found in box being split [109
 
 ]
 Overfull \hbox (14.30878pt too wide) in alignment at lines 55--60
@@ -1334,9 +1354,9 @@ Overfull \hbox (14.30878pt too wide) in alignment at lines 70--101
  [] [] [] [] [] [] [] 
  []
 
-[109]
-ignored error: Infinite glue shrinkage found in box being split [110]
-ignored error: Infinite glue shrinkage found in box being split [111]) [112]
+[110]
+ignored error: Infinite glue shrinkage found in box being split [111]
+ignored error: Infinite glue shrinkage found in box being split [112]) [113]
 Appendix B.
 File: outputs/figures/combined_macro_gini_heatmap.png Graphic file (type png)
 <use outputs/figures/combined_macro_gini_heatmap.png>
@@ -1367,9 +1387,9 @@ png)
 Package pdftex.def Info: outputs/figures/combined_feedback_diversity_decay.png 
  used on input line 94.
 (pdftex.def)             Requested size: 418.82375pt x 206.95087pt.
-[113
+[114
 
-] [114] [115] [116]
+] [115] [116] [117]
 Appendix C.
 
 Underfull \hbox (badness 10000) in paragraph at lines 139--140
@@ -1380,26 +1400,30 @@ LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 151.
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 155.
-(thesis_core_environment.txt [117
+(thesis_core_environment.txt [118
 
 ]))
 
 Package natbib Warning: There were undefined citations.
 
-[118] (thesis.aux)
+[119] (thesis.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 29675 strings out of 467871
- 539832 string characters out of 5416924
- 1015185 words of memory out of 5000000
- 57102 multiletter control sequences out of 15000+600000
+ 29710 strings out of 467871
+ 540431 string characters out of 5416924
+ 1015696 words of memory out of 5000000
+ 57136 multiletter control sequences out of 15000+600000
  777781 words of font info for 370 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,11n,104p,2454b,2025s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,25n,104p,2454b,2025s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/29915759/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10
 .pfb><C:/Users/29915759/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmb
 x12.pfb><C:/Users/29915759/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/
@@ -1423,13 +1447,14 @@ ms/MiKTeX/fonts/type1/public/lm/lmri9.pfb><C:/Users/29915759/AppData/Local/Prog
 rams/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/29915759/AppData/Local/P
 rograms/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/29915759/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/29915759/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Users/29915759/AppData/
-Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/29915759/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb><C:/Users/29915759/App
-Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (119 pages, 1676913 bytes).
+al/Programs/MiKTeX/fonts/type1/public/lm/lmsy9.pfb><C:/Users/29915759/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Users/29915759/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/29915759/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb><C:/Users/29915759/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on thesis.pdf (120 pages, 1694553 bytes).
 PDF statistics:
- 2104 PDF objects out of 2487 (max. 8388607)
- 476 named destinations out of 1000 (max. 500000)
+ 2126 PDF objects out of 2487 (max. 8388607)
+ 477 named destinations out of 1000 (max. 500000)
  78648 words of extra memory for PDF output out of 89155 (max. 10000000)
 
